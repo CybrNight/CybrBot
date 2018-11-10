@@ -1,0 +1,94 @@
+{
+  "commands":[
+    {
+      "name":"diceroll",
+      "desc":"Rolls a die",
+      "usage":"diceroll",
+      "aliases":[{"id":"rolldie"},{"id":"rolladie"}]
+    },
+    {
+      "name":"clear",
+      "desc":"Clears # of messages from screen. (Default 5)",
+      "usage": "clear <number> e.g clear 20",
+      "aliases":[{"id":"None"}]
+    },
+    {
+      "name":"coinflip",
+      "desc":"Flips a coin",
+      "usage":"coinflip",
+      "aliases":[{"id":"flipcoin"}, {"id":"flipacoin"}]
+    },
+    {
+      "name":"gelbooru",
+      "desc":"Scrapes gelbooru.com for images",
+      "usage":"gelbooru <search-query>  e.g gelbooru bee_movie",
+      "aliases":[{"id":"gb"}, {"id":"gbooru"}]
+    },
+    {
+      "name":"help",
+      "desc":"Displays list of commands.",
+      "usage":"help <command>",
+      "aliases":[{"id":"None"}]
+    },
+    {
+      "name":"hentaihaven",
+      "desc":"Scrapes HentaiHaven.org for videos based on categories.",
+      "usage": "hentaihaven <category> e.g hh milf ugly-bastard",
+      "aliases":[{"id":"hh"},{"id":"hentai"}]
+    },
+    {
+      "name":"lolicon",
+      "desc":"Exposes a user as lolicon and sends them an informational video.",
+      "usage": "lolicon <user>",
+      "aliases":[{"id":"loli"}]
+    },
+    {
+      "name":"pat",
+      "desc":"Pats a user on the head.",
+      "usage": "pat <user>",
+      "aliases":[{"id":"pet"},{"id":"pats"},{"id":"pets"}]
+    },
+    {
+      "name":"ping",
+      "desc":"Pings a user on the server.",
+      "usage": "ping <user>",
+      "aliases":[{"id":"None"}]
+    },
+    {
+      "name":"police",
+      "desc":"Calls the police on a user.",
+      "usage": "police <user>",
+      "aliases":[{"id":"lolice"},{"id":"911"},{"id":"swat"}]
+    },
+    {
+      "name":"pornhub",
+      "desc":"Scrapes PornHub.com for videos based on keywords.",
+      "usage": "pornhub <keywords>",
+      "aliases":[{"id":"ph"},{"id":"porn"}]
+    },
+    {
+      "name":"prefix",
+      "desc":"Sets command prefix.",
+      "usage": "prefix <prefix>",
+      "aliases":[{"id":"None"}]
+    },
+    {
+      "name":"purge",
+      "desc":"deletes the previous few messages",
+      "usage":"purge",
+      "aliases":[{"id":"PURGE"}]
+    },
+    {
+      "name":"rule34",
+      "desc":"Scrapes rule34 for lewd images.",
+      "usage": "rule34 <search-query>  e.g rule34 bee_movie",
+      "aliases":[{"id":"r34"}]
+    },
+    {
+      "name":"spank",
+      "desc":"Spanks a user on the server.",
+      "usage":"spank <user>",
+      "aliases":[{"id":"None"}]
+    }
+  ]
+}
