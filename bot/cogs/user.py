@@ -11,26 +11,39 @@ class User:
     def __init__(self, bot):
         self.bot = bot
 
-        self.list_a = self.list_b = self.list_c = []
+        self.shake_a = self.shake_b = self.shake_c = []
+        self.haikuLines = []
 
-        list_a = list_b = list_c = []
         with open(os.getcwd()+"/resources/insults.csv", mode='r') as file:
             for line in file:
                 words = line.split(",")
-                self.list_a.append(words[0])
-                self.list_b.append(words[1])
-                self.list_c.append(words[2].strip())
+                self.shake_a.append(words[0])
+                self.shake_b.append(words[1])
+                self.shake_c.append(words[2].strip())
+            file.close()
+
+        with open(os.getcwd()+"/resources/haiku.csv", mode='r') as file:
+            for line in file:
+                self.haikuLines.append(line)
+            file.close()
 
         with open("commands.json", "r") as cmds:
             self.data = json.load(cmds)
+
+    # Haiku Generator
+    @commands.command(name="haiku", pass_context=True)
+    async def haiku(self,ctx):
+        haiku = random.choice(self.haikuLines[0].split(",")).strip() + " " + random.choice(self.haikuLines[1].split(",")).strip()+"\n"
+        haiku += random.choice(self.haikuLines[2].split(",")).strip() + " " + random.choice(self.haikuLines[3].split(",")).strip()+" "+random.choice(self.haikuLines[4].split(",")).strip()+"\n"
+        haiku += random.choice(self.haikuLines[5].split(",")).strip() + " " + random.choice(self.haikuLines[6].split(",")).strip()+"\n"
+
+        await self.bot.say(haiku)
+
 
     # Help Command
     @commands.command(name="help", pass_context=True)
     async def help(self, ctx, *args):
         # Open commands.json for reading
-        with open("commands.json", "r") as cmds:
-            data = json.load(cmds)
-
         if args.__len__() == 0:
             # Send message to channel where message was sent
             await self.bot.say("{0} I DM'd you the command list".format(ctx.message.author.mention))
@@ -56,7 +69,7 @@ class User:
             for arg in args:
                 aliases = []
 
-                for index, item in enumerate(data["commands"]):
+                for index, item in enumerate(self.data["commands"]):
 
                     for index, item in enumerate(self.data["commands"]):
 
@@ -88,16 +101,15 @@ class User:
     @commands.command(name="insult", pass_context=True)
     async def insult(self, ctx, user=None):
         if user is None:
-            self.bot.say("```Thy did not specify whom I shall insult```")
+            await self.bot.say("```Thy did not specify whom I shall insult```")
             return
 
-        word_a = random.choice(self.list_a)
-        word_b = random.choice(self.list_b)
-        word_c = random.choice(self.list_c)
+        word_a = random.choice(self.shake_a)
+        word_b = random.choice(self.shake_b)
+        word_c = random.choice(self.shake_c)
 
         insult = "Thou" + word_a+" "+word_b+word_c
-        print(insult)
-        self.bot.send_message(ctx.message.channel, user+" "+insult)
+        await self.bot.say(user+" "+insult)
 
     @commands.command(name='lolicon', aliases=['loli'], pass_context=True)
     async def lolicon(self, ctx, *args):
