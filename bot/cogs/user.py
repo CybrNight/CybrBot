@@ -39,7 +39,6 @@ class User:
 
         await self.bot.say(haiku)
 
-
     # Help Command
     @commands.command(name="help", pass_context=True)
     async def help(self, ctx, *args):

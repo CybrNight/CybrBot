@@ -25,9 +25,27 @@
       "aliases":[{"id":"gb"}, {"id":"gbooru"}]
     },
     {
+      "name":"haiku",
+      "desc":"Generates a random haiku.",
+      "usage":"haiku",
+      "aliases":[{"id":"None"}]
+    },
+    {
       "name":"help",
       "desc":"Displays list of commands.",
       "usage":"help <command>",
+      "aliases":[{"id":"None"}]
+    },
+    {
+      "name":"info",
+      "desc":"Displays bot info.",
+      "usage":"info",
+      "aliases":[{"id":"status"}]
+    },
+    {
+      "name":"insult",
+      "desc":"Insults a user with a random shakespearian insult.",
+      "usage":"insult <user>",
       "aliases":[{"id":"None"}]
     },
     {
