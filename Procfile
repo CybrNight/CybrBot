@@ -1,1 +1,1 @@
-worker: cd bot && python botmain.py
+worker: heroku labs:enable runtime-dyno-metadata -a cybersaucebot cd bot && python botmain.py
