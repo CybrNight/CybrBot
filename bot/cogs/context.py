@@ -7,14 +7,10 @@ from PIL import Image, ImageEnhance
 
 from bot import reference as ref
 
-<<<<<<< HEAD
 try:
     from cStringIO import StringIO as BytesIO
 except ImportError:
     from io import BytesIO
-
-=======
->>>>>>> master
 
 class Context:
     def __init__(self, bot):

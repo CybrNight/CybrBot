@@ -2,58 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="067039cc-be23-4343-b362-624a0c36c555" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/SauceBot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SauceBot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/cogs/context.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/cogs/context.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/cogs/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/cogs/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/DESCRIPTION.rst" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/DESCRIPTION.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/INSTALLER" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/INSTALLER" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/METADATA" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/METADATA" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/WHEEL" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/WHEEL" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/top_level.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/top_level.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/base_events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/base_events.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/base_subprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/base_subprocess.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/coroutines.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/coroutines.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/events.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/futures.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/locks.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/locks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/log.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/log.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/proactor_events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/proactor_events.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/protocols.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/protocols.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/queues.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/queues.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/selector_events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/selector_events.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/selectors.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/selectors.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/sslproto.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/sslproto.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/streams.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/streams.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/subprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/subprocess.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/tasks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/test_support.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/test_support.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/test_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/test_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/transports.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/transports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/unix_events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/unix_events.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/windows_events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/windows_events.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/windows_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/windows_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/logging.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/logging.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/SOURCES.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/dependency_links.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/dependency_links.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/not-zip-safe" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/not-zip-safe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/requires.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/requires.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/top_level.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/top_level.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/DESCRIPTION.rst" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/DESCRIPTION.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/INSTALLER" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/INSTALLER" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/METADATA" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/METADATA" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/WHEEL" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/WHEEL" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/top_level.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/top_level.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/tcl8.6/init.tcl" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/tcl8.6/init.tcl" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -67,8 +16,8 @@
       <file leaf-file-name="context.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bot/cogs/context.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+            <state relative-caret-position="184">
+              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -121,8 +70,8 @@
       <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bot/cogs/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1909">
-              <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
+            <state relative-caret-position="3197">
+              <caret line="164" lean-forward="true" selection-start-line="164" selection-end-line="164" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -158,7 +107,7 @@
         <entry file="file://$PROJECT_DIR$/bot/reference.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="161">
-              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -312,6 +261,17 @@
             <path>
               <item name="SauceBot" type="b2602c69:ProjectViewProjectNode" />
               <item name="CyberSauceBot" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SauceBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CyberSauceBot" type="462c0819:PsiDirectoryNode" />
+              <item name="bot" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SauceBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CyberSauceBot" type="462c0819:PsiDirectoryNode" />
+              <item name="bot" type="462c0819:PsiDirectoryNode" />
+              <item name="cogs" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -595,7 +555,7 @@
     <entry file="file://$PROJECT_DIR$/bot/reference.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -651,8 +611,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bot/cogs/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1909">
-          <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
+        <state relative-caret-position="3197">
+          <caret line="164" lean-forward="true" selection-start-line="164" selection-end-line="164" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -661,8 +621,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bot/cogs/context.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+        <state relative-caret-position="184">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
