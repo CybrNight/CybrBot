@@ -101,7 +101,7 @@ class User:
     @commands.command(name="insult", pass_context=True)
     async def insult(self, ctx, user=None):
         if user is None:
-            await self.bot.say("```Thy did not specify whom I shall insult```")
+            await self.bot.say("```Thy did not specify whom I shall insult!```")
             return
 
         word_a = random.choice(self.shake_a)
