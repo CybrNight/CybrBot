@@ -1,7 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="067039cc-be23-4343-b362-624a0c36c555" name="Default" comment="" />
+    <list default="true" id="067039cc-be23-4343-b362-624a0c36c555" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/SauceBot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SauceBot.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/cogs/context.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/cogs/context.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/cogs/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/cogs/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/DESCRIPTION.rst" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/DESCRIPTION.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/INSTALLER" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/INSTALLER" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/METADATA" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/METADATA" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/WHEEL" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/WHEEL" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/top_level.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio-3.4.3.dist-info/top_level.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/base_events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/base_events.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/base_subprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/base_subprocess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/coroutines.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/coroutines.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/events.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/futures.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/futures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/locks.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/locks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/log.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/log.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/proactor_events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/proactor_events.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/protocols.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/protocols.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/queues.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/queues.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/selector_events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/selector_events.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/selectors.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/selectors.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/sslproto.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/sslproto.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/streams.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/streams.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/subprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/subprocess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/tasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/test_support.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/test_support.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/test_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/test_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/transports.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/transports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/unix_events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/unix_events.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/windows_events.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/windows_events.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/windows_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/asyncio/windows_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/logging.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/logging.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/chalk/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/SOURCES.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/dependency_links.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/dependency_links.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/not-zip-safe" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/not-zip-safe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/requires.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/requires.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/top_level.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pychalk-2.0.0-py3.7.egg-info/top_level.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/DESCRIPTION.rst" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/DESCRIPTION.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/INSTALLER" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/INSTALLER" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/METADATA" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/METADATA" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/WHEEL" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/WHEEL" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/top_level.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six-1.11.0.dist-info/top_level.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/six.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/six.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Lib/tcl8.6/init.tcl" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/tcl8.6/init.tcl" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,11 +64,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="context.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="context.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bot/cogs/context.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+            <state relative-caret-position="253">
+              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -26,8 +79,8 @@
       <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bot/cogs/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="46" column="15" lean-forward="true" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+            <state relative-caret-position="920">
+              <caret line="46" column="15" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -39,6 +92,39 @@
               <caret line="19" column="33" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
               <folding>
                 <element signature="e#13#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rng.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bot/cogs/rng.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="529">
+              <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="botmain.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bot/botmain.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="552">
+              <caret line="30" column="59" selection-start-line="30" selection-start-column="59" selection-end-line="30" selection-end-column="59" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bot/cogs/user.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1909">
+              <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -68,23 +154,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="botmain.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bot/botmain.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="30" column="59" selection-start-line="30" selection-start-column="59" selection-end-line="30" selection-end-column="59" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reference.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="reference.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bot/reference.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="161">
-              <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -99,29 +173,6 @@
               <caret line="33" column="47" selection-start-line="33" selection-start-column="47" selection-end-line="33" selection-end-column="47" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rule34.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bot/mediascraper/rule34.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="966">
-              <caret line="45" column="45" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bot/mediascraper/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#30#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -164,6 +215,7 @@
       <find>name</find>
       <find>BeautifulSoup</find>
       <find>temp.jpeg</find>
+      <find>BytesIO</find>
     </findStrings>
     <replaceStrings>
       <replace>link.__contains__</replace>
@@ -227,7 +279,6 @@
         <option value="$PROJECT_DIR$/bot/cogs/rng.py" />
         <option value="$PROJECT_DIR$/bot/cogs/morejpeg.py" />
         <option value="$PROJECT_DIR$/bot/mediascraper/morejpeg.py" />
-        <option value="$PROJECT_DIR$/bot/cogs/user.py" />
         <option value="$PROJECT_DIR$/bot/commands.json" />
         <option value="$PROJECT_DIR$/bot/botmain.py" />
         <option value="$PROJECT_DIR$/bot/config.json" />
@@ -237,14 +288,15 @@
         <option value="$PROJECT_DIR$/bot/mediascraper/pornhub.py" />
         <option value="$PROJECT_DIR$/bot/mediascraper/rule34.py" />
         <option value="$PROJECT_DIR$/bot/mediascraper/gelbooru.py" />
-        <option value="$PROJECT_DIR$/bot/cogs/context.py" />
         <option value="$PROJECT_DIR$/bot/reference.py" />
+        <option value="$PROJECT_DIR$/bot/cogs/user.py" />
+        <option value="$PROJECT_DIR$/bot/cogs/context.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="179" />
-    <option name="y" value="-14" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="2335" />
+    <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
@@ -259,24 +311,7 @@
           <expand>
             <path>
               <item name="SauceBot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SauceBot" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SauceBot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SauceBot" type="462c0819:PsiDirectoryNode" />
-              <item name="bot" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SauceBot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SauceBot" type="462c0819:PsiDirectoryNode" />
-              <item name="bot" type="462c0819:PsiDirectoryNode" />
-              <item name="cogs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SauceBot" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SauceBot" type="462c0819:PsiDirectoryNode" />
-              <item name="bot" type="462c0819:PsiDirectoryNode" />
-              <item name="mediascraper" type="462c0819:PsiDirectoryNode" />
+              <item name="CyberSauceBot" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -285,23 +320,24 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\bot\mediascraper" />
-      <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\bot" />
-      <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot" />
-      <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\cogs" />
-      <recent name="C:\Users\naest_000\PycharmProjects\DiscordLewdBot" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\bot\imgs" />
       <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\bot\cogs" />
       <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\bot\mediascraper" />
       <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\commands" />
       <recent name="C:\Users\naest_000\PycharmProjects\DiscordLewdBot\commands" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\bot\resources" />
+      <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\bot\mediascraper" />
+      <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\bot" />
+      <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot" />
+      <recent name="C:\Users\naest_000\Documents\GitHub\SauceBot\cogs" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -438,21 +474,21 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.100520834" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="R Packages" order="4" />
       <window_info anchor="right" id="R Graphics" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.26171875" side_tool="true" visible="true" weight="0.21274298" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.2625" side_tool="true" visible="true" weight="0.22030237" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7375" weight="0.22030237" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Python Console" order="8" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.73828125" weight="0.22083981" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3993135" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -472,7 +508,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pornscraper/muchohentai.py" />
     <entry file="file://$PROJECT_DIR$/../untitled/venv/Lib/site-packages/discord/client.py" />
     <entry file="file://$PROJECT_DIR$/commands/spam.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Temp1_DiscordLewdBot.zip/DiscordLewdBot/bot.py" />
@@ -524,56 +559,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bot/cogs/rng.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bot/cogs/user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="667">
-          <caret line="33" column="68" selection-start-line="33" selection-start-column="68" selection-end-line="33" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bot/botmain.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="30" column="59" selection-start-line="30" selection-start-column="59" selection-end-line="30" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bot/cogs/media.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="19" column="33" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
-          <folding>
-            <element signature="e#13#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bot/mediascraper/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/bot/mediascraper/rule34.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="966">
           <caret line="45" column="45" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -597,6 +589,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Downloads/InputSystem-develop/testrunner.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bot/reference.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bot/resources/insults.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bot/botmain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="30" column="59" selection-start-line="30" selection-start-column="59" selection-end-line="30" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bot/mediascraper/gelbooru.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="874">
@@ -607,32 +625,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/InputSystem-develop/testrunner.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bot/cogs/context.py">
+    <entry file="file://$PROJECT_DIR$/bot/cogs/rng.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+        <state relative-caret-position="529">
+          <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bot/cogs/media.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="19" column="33" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#13#45#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bot/cogs/util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="46" column="15" lean-forward="true" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+        <state relative-caret-position="920">
+          <caret line="46" column="15" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bot/reference.py">
+    <entry file="file://$PROJECT_DIR$/bot/cogs/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+        <state relative-caret-position="1909">
+          <caret line="90" column="21" selection-start-line="90" selection-start-column="21" selection-end-line="90" selection-end-column="21" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bot/cogs/context.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
