@@ -41,7 +41,7 @@ class Util:
         await self.bot.say("```{0} v2.0"
                            "\n(C) Nathan Estrada 2018"
                            "\nServer time: {1}"
-                           "\nServer date: {2}```".format(self.bot.user.display_name, time, date))
+                           " Server date: {2}```".format(self.bot.user.display_name, time, date))
 
 
 def setup(bot):

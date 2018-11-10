@@ -7,6 +7,7 @@ from bot import reference as ref
 import random
 import os
 
+
 class User:
     def __init__(self, bot):
         self.bot = bot
