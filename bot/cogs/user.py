@@ -97,7 +97,7 @@ class User:
 
         insult = "Thou" + word_a+" "+word_b+word_c
         print(insult)
-        self.bot.say(user+" "+insult)
+        self.bot.send_message(ctx.channel, user+" "+insult)
 
     @commands.command(name='lolicon', aliases=['loli'], pass_context=True)
     async def lolicon(self, ctx, *args):
