@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="067039cc-be23-4343-b362-624a0c36c555" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/bot/cogs/context.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/cogs/context.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/cogs/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/cogs/user.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="context.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="context.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bot/cogs/context.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="-2058">
+              <caret line="46" column="54" lean-forward="true" selection-start-line="46" selection-start-column="54" selection-end-line="46" selection-end-column="54" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -67,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="user.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bot/cogs/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3197">
-              <caret line="164" lean-forward="true" selection-start-line="164" selection-end-line="164" />
+            <state relative-caret-position="518">
+              <caret line="90" column="40" selection-start-line="90" selection-start-column="40" selection-end-line="90" selection-end-column="40" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -238,8 +238,8 @@
         <option value="$PROJECT_DIR$/bot/mediascraper/rule34.py" />
         <option value="$PROJECT_DIR$/bot/mediascraper/gelbooru.py" />
         <option value="$PROJECT_DIR$/bot/reference.py" />
-        <option value="$PROJECT_DIR$/bot/cogs/user.py" />
         <option value="$PROJECT_DIR$/bot/cogs/context.py" />
+        <option value="$PROJECT_DIR$/bot/cogs/user.py" />
       </list>
     </option>
   </component>
@@ -609,22 +609,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bot/cogs/user.py">
+    <entry file="file://$PROJECT_DIR$/bot/cogs/context.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3197">
-          <caret line="164" lean-forward="true" selection-start-line="164" selection-end-line="164" />
+        <state relative-caret-position="-2058">
+          <caret line="46" column="54" lean-forward="true" selection-start-line="46" selection-start-column="54" selection-end-line="46" selection-end-column="54" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bot/cogs/context.py">
+    <entry file="file://$PROJECT_DIR$/bot/cogs/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        <state relative-caret-position="518">
+          <caret line="90" column="40" selection-start-line="90" selection-start-column="40" selection-end-line="90" selection-end-column="40" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
