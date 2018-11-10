@@ -38,10 +38,10 @@ class Util:
         current_datetime = datetime.datetime.now()
         time = current_datetime.time()
         date = current_datetime.date()
-        await self.bot.say("```{0} v2.0"
+        await self.bot.say("```{0} {3}"
                            "\n(C) Nathan Estrada 2018"
                            "\nServer time: {1}"
-                           " Server date: {2}```".format(self.bot.user.display_name, time, date))
+                           " Server date: {2}```".format(self.bot.user.display_name, time, date, ref.RELEASE_VERSION))
 
 
 def setup(bot):
