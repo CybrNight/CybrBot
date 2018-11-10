@@ -61,8 +61,8 @@ class Context:
             await self.bot.send_message(channel, embed=self.embed_image("https://i.imgur.com/9hZyYly.jpg"))
 
         # Sends lewd gif
-        if content.startswith("lewd"):
-            await self.bot.send_file(channel,os.getcwd()+"/resources/lewd.gif")
+        if content.__contains__("lewd"):
+            await self.bot.send_file(channel, os.getcwd()+"/resources/lewd.gif")
 
         # Sends nyanpasu picture
         if content.startswith("nyanpasu"):
