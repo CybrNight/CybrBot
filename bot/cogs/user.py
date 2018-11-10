@@ -4,17 +4,41 @@ from discord.ext import commands
 
 from bot import reference as ref
 
+<<<<<<< HEAD
+=======
+import random
+import os
+>>>>>>> master
 
 class User:
     def __init__(self, bot):
         self.bot = bot
 
+<<<<<<< HEAD
+=======
+        self.list_a = self.list_b = self.list_c = []
+
+        list_a = list_b = list_c = []
+        with open(os.getcwd()+"/resources/insults.csv", mode='r') as file:
+            for line in file:
+                words = line.split(",")
+                self.list_a.append(words[0])
+                self.list_b.append(words[1])
+                self.list_c.append(words[2].strip())
+
+        with open("commands.json", "r") as cmds:
+            self.data = json.load(cmds)
+
+>>>>>>> master
     # Help Command
     @commands.command(name="help", pass_context=True)
     async def help(self, ctx, *args):
         # Open commands.json for reading
+<<<<<<< HEAD
         with open("commands.json", "r") as cmds:
             data = json.load(cmds)
+=======
+>>>>>>> master
 
         if args.__len__() == 0:
             # Send message to channel where message was sent
@@ -22,7 +46,11 @@ class User:
             help_message = "Here's the command list for ya! The current command prefix is " + "'" + ref.BOT_PREFIX + "'"
 
             # Iterate through json file and add all commands to help string
+<<<<<<< HEAD
             for index, item in enumerate(data["commands"]):
+=======
+            for index, item in enumerate(self.data["commands"]):
+>>>>>>> master
                 aliases = []
                 for index2, alias in enumerate(item["aliases"]):
                     aliases.append(alias["id"])
@@ -38,7 +66,11 @@ class User:
             # Check if commands exist
             for arg in args:
                 aliases = []
+<<<<<<< HEAD
                 for index, item in enumerate(data["commands"]):
+=======
+                for index, item in enumerate(self.data["commands"]):
+>>>>>>> master
                     if item["name"] == arg:
                         for index2, alias in enumerate(item["aliases"]):
                             aliases.append(alias["id"])
@@ -63,6 +95,24 @@ class User:
             # Send help info for inputed commands to channel
             await self.bot.send_message(ctx.message.channel, "```html\n" + help_message + "```")
 
+<<<<<<< HEAD
+=======
+    # Shakespeare Insults
+    @commands.command(name="insult", pass_context=True)
+    async def insult(self, ctx, user=None):
+        if user is None:
+            self.bot.say("```Thy did not specify whom I shall insult```")
+            return
+
+        word_a = random.choice(self.list_a)
+        word_b = random.choice(self.list_b)
+        word_c = random.choice(self.list_c)
+
+        insult = "Thou" + word_a+" "+word_b+word_c
+        print(insult)
+        self.bot.say(user+" "+insult)
+
+>>>>>>> master
     @commands.command(name='lolicon', aliases=['loli'], pass_context=True)
     async def lolicon(self, ctx, *args):
         if args.__len__() == 0:
@@ -72,6 +122,10 @@ class User:
             await self.bot.send_message(ctx.message.channel, str(" ").join(args) + " " +
                                         "https://www.youtube.com/watch?v=-mzR1jcZ_OI")
 
+<<<<<<< HEAD
+=======
+    # Pat user command
+>>>>>>> master
     @commands.command(name='pat', aliases=['pats', 'pets', 'pet'], pass_context=True)
     async def pat(self, ctx, *args):
         if args.__len__() == 0:
