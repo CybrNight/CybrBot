@@ -2,6 +2,8 @@
 
 A simple Discord bot that can pull "Sauce" from various websites
 
-See $help
+# Usage
+To use the bot you can either run it locally from something like PyCharm or whatever else. You may also run it from something like Heroku
+Running locally will require replacing os.environ.get in reference.py with either your direct bot token or defining a local environment variable
 
-The bot is written to run on Heroku, but can be modified to be run on anything. Editing of the Procfile might be neccessary
+See $help
