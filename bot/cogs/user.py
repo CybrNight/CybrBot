@@ -3,6 +3,7 @@ import json
 from discord.ext import commands
 
 from bot import reference as ref
+from asyncio import sleep as sleepasync
 
 import random
 import os
@@ -33,7 +34,7 @@ class User:
 
     # Haiku Generator
     @commands.command(name="haiku", pass_context=True)
-    async def haiku(self,ctx):
+    async def haiku(self, ctx):
         haiku = random.choice(self.haikuLines[0].split(",")).strip() + " " + random.choice(self.haikuLines[1].split(",")).strip()+"\n"
         haiku += random.choice(self.haikuLines[2].split(",")).strip() + " " + random.choice(self.haikuLines[3].split(",")).strip()+" "+random.choice(self.haikuLines[4].split(",")).strip()+"\n"
         haiku += random.choice(self.haikuLines[5].split(",")).strip() + " " + random.choice(self.haikuLines[6].split(",")).strip()+"\n"
@@ -46,7 +47,7 @@ class User:
         # Open commands.json for reading
         if args.__len__() == 0:
             # Send message to channel where message was sent
-            await self.bot.say("{0} I DM'd you the command list".format(ctx.message.author.mention))
+            bot_message = await self.bot.say("{0} I DM'd you the command list".format(ctx.message.author.mention))
             help_message = "Here's the command list for ya! The current command prefix is " + "'" + ref.BOT_PREFIX + "'"
 
             # Iterate through json file and add all commands to help string
@@ -62,6 +63,10 @@ class User:
                                                                                                 str(", ").join(aliases))
             # Send author help text in direct message
             await self.bot.send_message(ctx.message.author, "```html\n" + help_message + "```")
+
+            await sleepasync(1.5)
+            await self.bot.delete_message(bot_message)
+            await self.bot.delete_message(ctx.message)
         else:
             help_message = ""
 
@@ -71,31 +76,33 @@ class User:
 
                 for index, item in enumerate(self.data["commands"]):
 
-                    for index, item in enumerate(self.data["commands"]):
+                    if item["name"] == arg:
+                        for index2, alias in enumerate(item["aliases"]):
+                            aliases.append(alias["id"])
 
-                        if item["name"] == arg:
-                            for index2, alias in enumerate(item["aliases"]):
-                                aliases.append(alias["id"])
-
-                            alias_str = str(" ").join(aliases)
-                            help_message += "\n{0}\n-Description: {1}\n-Usage: {2}\n-Aliases: {3}\n".format(item["name"],
+                        alias_str = str(" ").join(aliases)
+                        help_message += "\n{0}\n-Description: {1}\n-Usage: {2}\n-Aliases: {3}\n".format(item["name"],
                                                                                                             item["desc"],
                                                                                                             item["usage"],
                                                                                                             alias_str)
-                            continue
+                        continue
 
-                        aliases = []
-                        # Check if aliases exist
-                        for index2, alias in enumerate(item["aliases"]):
-                            if alias["id"] == arg:
-                                alias_str = str(" ").join(aliases)
-                                help_message += "\n{0}\n-Description: {1}\n-Usage: {2}\n-Aliases: {3}\n".format(
-                                    item["name"],
-                                    item["desc"],
-                                    item["usage"],
-                                    alias_str)
+                    aliases = []
+                    # Check if aliases exist
+                    for index2, alias in enumerate(item["aliases"]):
+                        if alias["id"] == arg:
+                            alias_str = str(" ").join(aliases)
+                            help_message += "\n{0}\n-Description: {1}\n-Usage: {2}\n-Aliases: {3}\n".format(
+                                item["name"],
+                                item["desc"],
+                                item["usage"],
+                                alias_str)
             # Send help info for inputed commands to channel
-            await self.bot.send_message(ctx.message.channel, "```html\n" + help_message + "```")
+            bot_message = await self.bot.send_message(ctx.message.channel, "```html\n" + help_message + "```")
+
+            await sleepasync(5)
+            await self.bot.delete_message(bot_message)
+            await self.bot.delete_message(ctx.message)
 
     # Shakespeare Insults
     @commands.command(name="insult", pass_context=True)
@@ -149,7 +156,7 @@ class User:
             mgs.append(x)
         await self.bot.delete_messages(mgs)
 
-    # Pats user
+    # Spanks User
     @commands.command(pass_context=True)
     async def spank(self, ctx, *args):
         if args.__len__() == 0:

@@ -37,15 +37,17 @@ class Context:
 
         # Autism picture command
         if content.startswith("autism"):
-            msg = content.split()
-            if len(msg) >= 1:
+            msg = content.split(" ")
+            print(msg)
+            if len(msg) > 1:
+                msg.pop(0)
                 await self.bot.send_message(channel, ">literally " + str(" ").join(msg),
                                             embed=self.embed_image("http://i.imgur.com/g9O5snh.png"))
                 await self.bot.delete_message(message)
 
         if content.startswith("mechanized autism"):
             await self.bot.send_message(channel,
-                                        "Mechanzied Autism",embed=self.embed_image("https://i.imgur.com/HlvFNXW.gif"))
+                                        "Mechanzied Autism", embed=self.embed_image("https://i.imgur.com/HlvFNXW.gif"))
 
         # Sends current prefix to chat
         if content.startswith("prefix?"):
@@ -100,7 +102,13 @@ class Context:
                     os.remove("morejpeg.jpeg")
             except Exception as e:
                 print(e)
-                await self.bot.send_message(channel, "```Found no image :(```")
+
+                if img.split(".")[1] == "gif":
+                    error = "Gif files are not supported"
+                else:
+                    error = "No image found in previous message"
+
+                await self.bot.send_message(channel, "```"+error+"```")
 
         # Deep fry previous image
         if content.lower().startswith("deepfry") or content.lower().startswith("deep fry"):
@@ -153,6 +161,7 @@ class Context:
             except Exception as e:
                 print(e)
                 await self.bot.send_message(channel, "```Found no image```")
+
 
 def setup(bot):
     bot.add_cog(Context(bot))
