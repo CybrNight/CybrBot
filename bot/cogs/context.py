@@ -38,11 +38,7 @@ class Context:
         # Autism picture command
         if content.startswith("autism"):
             msg = content.split()
-            if len(msg) <= 1:
-                await self.bot.send_message(channel, ">literally(You)",
-                                            embed=self.embed_image("http://i.imgur.com/g9O5snh.png"))
-                await self.bot.delete_message(message)
-            else:
+            if len(msg) >= 1:
                 await self.bot.send_message(channel, ">literally " + str(" ").join(msg),
                                             embed=self.embed_image("http://i.imgur.com/g9O5snh.png"))
                 await self.bot.delete_message(message)
