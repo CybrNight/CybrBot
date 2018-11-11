@@ -1,6 +1,6 @@
 import asyncio
-import json
 import datetime
+import json
 
 from discord.ext import commands
 
@@ -37,17 +37,18 @@ class Util:
         await self.bot.say("Command Prefix is now {0}".format(prefix))
         self.bot.command_prefix = prefix
 
-    @commands.command(name="info",pass_context=True, alias=['status'])
+    @commands.command(name="info", pass_context=True, alias=['status'])
     async def info(self, ctx):
         current_datetime = datetime.datetime.now()
         time = current_datetime.time()
         date = current_datetime.date()
         info = await self.bot.say("```{0} {3}\n(C) Nathan Estrada 2018"
-                                  "\nServer time: {1} Server date: {2}```".format(
-                                  self.bot.user.display_name, time, date, ref.RELEASE_VERSION))
+                                  "\nServer time: {1} Server date: {2}```".format(self.bot.user.display_name,
+                                                                                  time, date, ref.RELEASE_VERSION))
+
         await asyncio.sleep(5)
-        await self.bot.delete_message(info)
-        await self.bot.delete_message(ctx.message)
+        await self.bot.delete_message([info, ctx.message])
+
 
 def setup(bot):
     bot.add_cog(Util(bot))

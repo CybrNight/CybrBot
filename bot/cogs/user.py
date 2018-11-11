@@ -65,8 +65,7 @@ class User:
             await self.bot.send_message(ctx.message.author, "```html\n" + help_message + "```")
 
             await sleepasync(1.5)
-            await self.bot.delete_message(bot_message)
-            await self.bot.delete_message(ctx.message)
+            await self.bot.delete_messages([bot_message, ctx.message])
         else:
             help_message = ""
 
@@ -101,8 +100,7 @@ class User:
             bot_message = await self.bot.send_message(ctx.message.channel, "```html\n" + help_message + "```")
 
             await sleepasync(5)
-            await self.bot.delete_message(bot_message)
-            await self.bot.delete_message(ctx.message)
+            await self.bot.delete_messages([bot_message, ctx.message])
 
     # Shakespeare Insults
     @commands.command(name="insult", pass_context=True)
