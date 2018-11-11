@@ -43,6 +43,10 @@ class Context:
                                             embed=self.embed_image("http://i.imgur.com/g9O5snh.png"))
                 await self.bot.delete_message(message)
 
+        if content.startswith("mechanized autism"):
+            await self.bot.send_message(channel,
+                                        "Mechanzied Autism",embed=self.embed_image("https://i.imgur.com/HlvFNXW.gif"))
+
         # Sends current prefix to chat
         if content.startswith("prefix?"):
             await self.bot.send_message(channel, "```The current prefix is " + "'" + ref.BOT_PREFIX + "'```")
@@ -54,7 +58,7 @@ class Context:
 
         # Sends lewd gif
         if content.__contains__("lewd"):
-            await self.bot.send_file(channel, os.getcwd()+"/resources/lewd.gif")
+            await self.bot.send_message(channel, embed=self.embed_image("[img]https://i.imgur.com/3geE8aq.gif"))
 
         # Sends nyanpasu picture
         if content.startswith("nyanpasu"):
