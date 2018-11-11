@@ -153,8 +153,6 @@ class Context:
             except Exception as e:
                 print(e)
                 await self.bot.send_message(channel, "```Found no image```")
-        await self.bot.process_commands(message)
-
 
 def setup(bot):
     bot.add_cog(Context(bot))
