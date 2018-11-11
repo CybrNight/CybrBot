@@ -45,7 +45,7 @@ class Util:
         info = await self.bot.say("```{0} {3}\n(C) Nathan Estrada 2018"
                                   "\nServer time: {1} Server date: {2}```".format(
                                   self.bot.user.display_name, time, date, ref.RELEASE_VERSION))
-        asyncio.sleep(5)
+        await asyncio.sleep(5)
         await self.bot.delete_message(info)
         await self.bot.delete_message(ctx.message)
 
