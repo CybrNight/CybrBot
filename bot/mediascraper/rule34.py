@@ -45,5 +45,6 @@ class Rule34:
                             img = "https:" + img
                         return img
             return "```No Results Found :(```"
-        except ValueError:
+        except Exception as e:
+            print(e)
             return "```No Results Found :(```"
