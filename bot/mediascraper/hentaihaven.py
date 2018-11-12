@@ -34,8 +34,10 @@ class HentaiHaven:
                 if lnk.__contains__("episode"):
                     pages.append(lnk)
         try:
-            if pages.__len__() > 0: page = pages[random.randint(0, pages.__len__() - 1)]
-            else: page = "```No Results Found :(```"
+            if pages.__len__() > 0:
+                page = random.choice(pages)
+            else:
+                page = "```No Results Found :(```"
             return page
         except Exception as e:
             print(e)
@@ -53,7 +55,9 @@ class HentaiHaven:
                 if lnk.__contains__("episode"):
                     videos.append(lnk)
 
-        if videos.__len__() > 0: video = videos[random.randint(0, videos.__len__() - 1)]
-        else: video = "```No Results Found :(```"
+        if videos.__len__() > 0:
+            video = random.choice(videos)
+        else:
+            video = "```No Results Found :(```"
 
         return video

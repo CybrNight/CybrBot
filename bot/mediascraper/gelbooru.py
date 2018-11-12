@@ -26,9 +26,9 @@ class Gelbooru:
             if link.has_attr('href'):
                 lnk = link.attrs['href']
                 if str(lnk).__contains__(self.POST) and not str(lnk).__contains__(self.AVATAR):
-                    posts.append("https:" + lnk)
+                    posts.append(self.URL + lnk)
         try:
-            post = posts[random.randint(0, posts.__len__() - 1)]
+            post = random.choice(posts)
             async with aiohttp.ClientSession() as session:
                 async with session.get(post) as resp:
                     text = await resp.text()

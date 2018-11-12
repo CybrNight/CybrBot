@@ -25,6 +25,8 @@ class PornHub:
                             if not str(lnk).__contains__("https://www.pornhub.com"):
                                 lnk = "https://www.pornhub.com"+lnk
                             videos.append(lnk)
-                if videos.__len__() > 0: video = videos[random.randint(0, videos.__len__() - 1)]
-                else: video = "```No Results Found :(```"
+                if videos.__len__() > 0:
+                    video = random.choice(videos)
+                else:
+                    video = "```No Results Found :(```"
                 return video
