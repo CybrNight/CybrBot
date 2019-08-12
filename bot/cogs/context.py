@@ -38,7 +38,6 @@ class Context(commands.Cog):
         # Autism picture command
         if content.startswith("autism"):
             msg = content.split(" ")
-            print(msg)
             if len(msg) > 1:
                 msg.pop(0)
                 await channel.send(">literally " + str(" ").join(msg),
@@ -79,8 +78,6 @@ class Context(commands.Cog):
                         img = x.attachments[0]["url"]
                     else:
                         img = x.content
-
-            print(img)
 
             # Download image locally to server
             try:

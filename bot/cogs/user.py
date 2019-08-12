@@ -64,6 +64,7 @@ class User(commands.Cog):
             # Send author help text in direct message
             await ctx.message.author.send("```html\n" + help_message + "```")
 
+            await sleepasync(5)
             await ctx.message.delete()
             await bot_message.delete()
         else:

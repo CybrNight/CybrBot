@@ -26,13 +26,13 @@ class Util(commands.Cog):
 
     @commands.command(pass_context=True, name="prefix")
     async def prefix(self, ctx, prefix):
-        with open("config.json", "r") as config:
+        with open("json/config.json", "r") as config:
             data = json.load(config)
 
         data["prefix"] = prefix
         ref.BOT_PREFIX = prefix
 
-        with open("config.json", "w") as config:
+        with open("conjfig.json", "w") as config:
             json.dump(data, config)
         await ctx.message.channel("Command Prefix is now {0}".format(prefix))
         self.bot.command_prefix = prefix
