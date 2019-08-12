@@ -1,0 +1,416 @@
+{
+  "presence": [
+    {
+      "name": "Imouto Paradise! 2",
+      "status_type": "watching"
+    },
+    {
+      "name": "Imouto Paradise! 2",
+      "status_type": "playing"
+    },
+    {
+      "name": "euphoria",
+      "status_type": "playing"
+    },
+    {
+      "name": "Imouto Paradise!",
+      "status_type": "playing"
+    },
+    {
+      "name": "Imouto Parasdise! 3",
+      "status_type": "playing"
+    },
+    {
+      "name": "ISLAND",
+      "status_type": "playing"
+    },
+    {
+      "name": "Dies Irae ~Amantes Amentes~",
+      "status_type": "playing"
+    },
+    {
+      "name": "G-Senjou no Maou",
+      "status_type": "playing"
+    },
+    {
+      "name": "Gun Katana Non-Human Killer",
+      "status_type": "playing"
+    },
+    {
+      "name": "Gore Screaming Show",
+      "status_type": "playing"
+    },
+    {
+      "name": "Sharin no Kuni, Himawari no Shoujo",
+      "status_type": "playing"
+    },
+    {
+      "name": "The Walking Dead",
+      "status_type": "playing"
+    },
+    {
+      "name": "Danganronpa 2: Goodbye Despair",
+      "status_type": "playing"
+    },
+    {
+      "name": "Danganronpa: Trigger Happy Havoc",
+      "status_type": "playing"
+    },
+    {
+      "name": "Little Busters!",
+      "status_type": "playing"
+    },
+    {
+      "name": "CROSS†CHANNEL",
+      "status_type": "playing"
+    },
+    {
+      "name": "CLANNAD",
+      "status_type": "playing"
+    },
+    {
+      "name": "NekoPara Vol. 1",
+      "status_type": "playing"
+    },
+    {
+      "name": "NekoPara Vol. 2",
+      "status_type": "playing"
+    },
+    {
+      "name": "NekoPara Vol. 3",
+      "status_type": "playing"
+    },
+    {
+      "name": "NekoPara Vol. 4",
+      "status_type": "playing"
+    },
+    {
+      "name": "NekoPara Vol. 0",
+      "status_type": "playing"
+    },
+    {
+      "name": "NekoPara Extra",
+      "status_type": "playing"
+    },
+    {
+      "name": "Dies Irae ~Acta est Fabula~",
+      "status_type": "playing"
+    },
+    {
+      "name": "Fate/Stay Night",
+      "status_type": "playing"
+    },
+    {
+      "name": "Sextra Credit",
+      "status_type": "watching"
+    },
+    {
+      "name": "Karakai no Jouzu Takagi-san",
+      "status_type": "watching"
+    },
+    {
+      "name": "Black Clover",
+      "status_type": "watching"
+    },
+    {
+      "name": "Naruto",
+      "status_type": "watching"
+    },
+    {
+      "name": "Demon Slayer",
+      "status_type": "watching"
+    },
+    {
+      "name": "Nichijou",
+      "status_type": "watching"
+    },
+    {
+      "name": "Miss Kobayashi's Dragon Maid",
+      "status_type": "watching"
+    },
+    {
+      "name": "Dr. Stone",
+      "status_type": "watching"
+    },
+    {
+      "name": "Doki Doki Little Oyaasan",
+      "status_type": "watching"
+    },
+    {
+      "name": "Naruto: Shippuden",
+      "status_type": "watching"
+    },
+    {
+      "name": "Ero-manga Sensei",
+      "status_type": "watching"
+    },
+    {
+      "name": "My Hero Academia",
+      "status_type": "watching"
+    },
+    {
+      "name": "Apple Music",
+      "status_type": "listening"
+    },
+    {
+      "name": "Spotify",
+      "status_type": "listening"
+    },
+    {
+      "name": "Megadeth",
+      "status_type": "listening"
+    },
+    {
+      "name": "R.E.M",
+      "status_type": "listening"
+    },
+    {
+      "name": "The Rolling Stones",
+      "status_type": "listening"
+    },
+    {
+      "name": "Simon & Garfunkel",
+      "status_type": "listening"
+    },
+    {
+      "name": "3 Doors Down",
+      "status_type": "listening"
+    },
+    {
+      "name": "The White Stripes",
+      "status_type": "listening"
+    },
+    {
+      "name": "Witchfinder General",
+      "status_type": "listening"
+    },
+    {
+      "name": "Weird Al Yankovic",
+      "status_type": "listening"
+    },
+    {
+      "name": "Weezer",
+      "status_type": "listening"
+    },
+    {
+      "name": "Sting and The Police",
+      "status_type": "listening"
+    },
+    {
+      "name": "U2",
+      "status_type": "listening"
+    },
+    {
+      "name": "Johnny Cash",
+      "status_type": "listening"
+    },
+    {
+      "name": "Neil Young",
+      "status_type": "listening"
+    },
+    {
+      "name": "Trivinium",
+      "status_type": "listening"
+    },
+    {
+      "name": "They Might Be Giants",
+      "status_type": "listening"
+    },
+    {
+      "name": "Toto",
+      "status_type": "listening"
+    },
+    {
+      "name": "Smash Mouth",
+      "status_type": "listening"
+    },
+    {
+      "name": "Tool",
+      "status_type": "listening"
+    },
+    {
+      "name": "Splitknot",
+      "status_type": "listening"
+    },
+    {
+      "name": "Simple Minds",
+      "status_type": "listening"
+    },
+    {
+      "name": "Red Hot Chili Peppers",
+      "status_type": "listening"
+    },
+    {
+      "name": "Rammstein",
+      "status_type": "listening"
+    },
+    {
+      "name": "Sabbaton",
+      "status_type": "listening"
+    },
+    {
+      "name": "Radiohead",
+      "status_type": "listening"
+    },
+    {
+      "name": "Periphery",
+      "status_type": "listening"
+    },
+    {
+      "name": "The Doors",
+      "status_type": "listening"
+    },
+    {
+      "name": "Nirvana",
+      "status_type": "listening"
+    },
+    {
+      "name": "Pantera",
+      "status_type": "listening"
+    },
+    {
+      "name": "Ozzy Osbourne",
+      "status_type": "listening"
+    },
+    {
+      "name": "The Offspring",
+      "status_type": "listening"
+    },
+    {
+      "name": "Motörhead",
+      "status_type": "listening"
+    },
+    {
+      "name": "Lynyrd Skynyrd",
+      "status_type": "listening"
+    },
+    {
+      "name": "初音ミク",
+      "status_type": "listening"
+    },
+    {
+      "name": "Kizunz Ai",
+      "status_type": "listening"
+    },
+    {
+      "name": "KANA-BOON",
+      "status_type": "listening"
+    },
+    {
+      "name": "DragonForce",
+      "status_type": "listening"
+    },
+    {
+      "name": "Def Leppard",
+      "status_type": "listening"
+    },
+    {
+      "name": "Kenny Logins",
+      "status_type": "listening"
+    },
+    {
+      "name": "ZZ Top",
+      "status_type": "listening"
+    },
+    {
+      "name": "Boston",
+      "status_type": "listening"
+    },
+    {
+      "name": "Blue Öyster Cult",
+      "status_type": "listening"
+    },
+    {
+      "name": "The Beatles",
+      "status_type": "listening"
+    },
+    {
+      "name": "The Beach Boys",
+      "status_type": "listening"
+    },
+    {
+      "name": "Avenged Sevenfold",
+      "status_type": "listening"
+    },
+    {
+      "name": "AC/DC",
+      "status_type": "listening"
+    },
+    {
+      "name": "Rush",
+      "status_type": "listening"
+    },
+    {
+      "name": "Judas Priest",
+      "status_type": "listening"
+    },
+    {
+      "name": "Led Zeppelin",
+      "status_type": "listening"
+    },
+    {
+      "name": "Dark Moor",
+      "status_type": "listening"
+    },
+    {
+      "name": "Porno Graffiti",
+      "status_type": "listening"
+    },
+    {
+      "name": "Denkishiki Karen Ongaku Shuudan",
+      "status_type": "listening"
+    },
+    {
+      "name": "Flow",
+      "status_type": "listening"
+    },
+    {
+      "name": "NICO Touches the Walls",
+      "status_type": "listening"
+    },
+    {
+      "name": "MUSE",
+      "status_type": "listening"
+    },
+    {
+      "name": "Born of Osiris",
+      "status_type": "listening"
+    },
+    {
+      "name": "Animals as Leaders",
+      "status_type": "listening"
+    },
+    {
+      "name": "Dio",
+      "status_type": "listening"
+    },
+    {
+      "name": "Slayer",
+      "status_type": "listening"
+    },
+    {
+      "name": "The Black Dahlia Murder",
+      "status_type": "listening"
+    },
+    {
+      "name": "Metallica",
+      "status_type": "listening"
+    },
+    {
+      "name": "Veil of Maya",
+      "status_type": "listening"
+    },
+    {
+      "name": "Black Sabbath",
+      "status_type": "listening"
+    },
+    {
+      "name": "YouTube",
+      "status_type": "watching"
+    },
+    {
+      "name": "Netflix",
+      "status_type": "watching"
+    }
+  ]
+}
