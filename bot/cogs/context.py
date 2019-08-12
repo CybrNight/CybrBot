@@ -6,12 +6,10 @@ from PIL import Image, ImageEnhance
 
 from bot import reference as ref
 from discord.ext import commands
-from .system import Reference
 
 class Context(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.reference = Reference()
 
     @staticmethod
     def embed_json(data, key="message"):

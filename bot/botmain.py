@@ -1,9 +1,7 @@
 import json
-import os
+import os, sys
 
-from discord import Game
 from discord.ext.commands import Bot
-
 from bot import reference as ref
 
 with open("config.json", "r") as config:
@@ -12,13 +10,12 @@ with open("config.json", "r") as config:
 bot = Bot(command_prefix=data["prefix"])
 bot.remove_command("help")
 cogs_dir = "cogs"
-
+print("Running "+sys.version)
 
 @bot.event
 async def on_ready():
     #await bot.change_presence(game=Game(name="with fellow humans"))
     print("Logged in as " + bot.user.name)
-
 
 cogs = os.listdir("cogs")
 
