@@ -1,16 +1,17 @@
 import os
 
-import aiofiles
-import aiohttp
+import aiofiles, aiohttp
 import discord
 from PIL import Image, ImageEnhance
 
 from bot import reference as ref
+from discord.ext import commands
+from .system import Reference
 
-
-class Context:
+class Context(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.reference = Reference()
 
     @staticmethod
     def embed_json(data, key="message"):
@@ -24,6 +25,7 @@ class Context:
         em.set_image(url=img)
         return em
 
+    @commands.Cog.listener()
     async def on_message(self, message):
         # we do not want the self.bot to reply to itself
         if message.author == self.bot.user:
@@ -41,32 +43,29 @@ class Context:
             print(msg)
             if len(msg) > 1:
                 msg.pop(0)
-                await self.bot.send_message(channel, ">literally " + str(" ").join(msg),
-                                            embed=self.embed_image("http://i.imgur.com/g9O5snh.png"))
-                await self.bot.delete_message(message)
+                await channel.send(">literally " + str(" ").join(msg),
+                                    embed=self.embed_image("http://i.imgur.com/g9O5snh.png"))
 
         if content.startswith("mechanized autism"):
-            await self.bot.send_message(channel,
-                                        "Mechanzied Autism", embed=self.embed_image("https://i.imgur.com/HlvFNXW.gif"))
+            await channel.send("Mechanzied Autism", embed=self.embed_image("https://i.imgur.com/HlvFNXW.gif"))
 
         # Sends current prefix to chat
         if content.startswith("prefix?"):
-            await self.bot.send_message(channel, "```The current prefix is " + "'" + ref.BOT_PREFIX + "'```")
-            await self.bot.delete_message(message)
+            await channel.send("```The current prefix is " + "'" + ref.BOT_PREFIX + "'```")
+            await message.delete()
 
         # Sends eye=patch picture to chat
         if content.__contains__("fuck you"):
-            await self.bot.send_message(channel, embed=self.embed_image("https://i.imgur.com/9hZyYly.jpg"))
+            await channel.send(embed=self.embed_image("https://i.imgur.com/9hZyYly.jpg"))
 
         # Sends lewd gif
         if content.__contains__("lewd"):
-            await self.bot.send_message(channel, embed=self.embed_image("[img]https://i.imgur.com/3geE8aq.gif"))
+            await channel.send(embed=self.embed_image("[img]https://i.imgur.com/3geE8aq.gif"))
 
         # Sends nyanpasu picture
         if content.startswith("nyanpasu"):
-            await self.bot.send_message(channel, "@everyone",
-                                        embed=self.embed_image("https://i.imgur.com/Ca6EuUP.png"))
-            await self.bot.delete_message(message)
+            await channel.send("@everyone", embed=self.embed_image("https://i.imgur.com/Ca6EuUP.png"))
+            await message.delete()
 
         # Takes previous image in chat and compresses it
         if content.lower().startswith("needsmorejpeg") or content.lower().startswith("needs more jpeg") \
@@ -75,13 +74,15 @@ class Context:
             img = ""
 
             # Get link to previous image in chat
-            async for x in self.bot.logs_from(channel, limit=number):
+            async for x in channel.history(limit=number):
                 if x.content != "needsmorejpeg" or x.content != "needs more jpeg" or x.content != "morejpeg" \
                         or x.content != "more jpeg":
                     if x.content == "":
                         img = x.attachments[0]["url"]
                     else:
                         img = x.content
+
+            print(img)
 
             # Download image locally to server
             try:
@@ -96,7 +97,7 @@ class Context:
                             im = Image.open("morejpeg.jpeg")
                             im = im.convert("RGB")
                             im.save("morejpeg.jpeg", format="jpeg", quality=1)
-                            await self.bot.send_file(channel, "morejpeg.jpeg")
+                            await channel.send(file=discord.File("morejpeg.jpeg"))
 
                     # Delete off server
                     os.remove("morejpeg.jpeg")
@@ -108,7 +109,7 @@ class Context:
                 else:
                     error = "No image found in previous message"
 
-                await self.bot.send_message(channel, "```"+error+"```")
+                await channel.send("```"+error+"```")
 
         # Deep fry previous image
         if content.lower().startswith("deepfry") or content.lower().startswith("deep fry"):
@@ -116,7 +117,7 @@ class Context:
             img = ""
 
             # et previous image in chat
-            async for x in self.bot.logs_from(channel, limit=number):
+            async for x in channel.history(limit=number):
                 if x.content != "deep fry" or x.content != "deep fry":
                     if x.content == "":
                         img = x.attachments[0]["url"]
@@ -154,13 +155,13 @@ class Context:
                             final = ImageEnhance.Sharpness(contrast).enhance(sharpness_val)
 
                             final.save("deepfried.png", format="png")
-                            await self.bot.send_file(channel, "deepfried.png")
+                            await channel.send("Fresh from the fryer!",file=discord.File("deepfried.png"))
 
                     # Delete temp picture file
                     os.remove("deepfried.png")
             except Exception as e:
                 print(e)
-                await self.bot.send_message(channel, "```Found no image```")
+                await channel.send("```Found no image```")
 
 
 def setup(bot):

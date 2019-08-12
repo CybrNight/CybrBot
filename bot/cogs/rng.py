@@ -4,7 +4,7 @@ import random
 from discord.ext import commands
 
 
-class RNG:
+class RNG(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -22,23 +22,23 @@ class RNG:
             'It is quite possible',
             'Definitely',
         ]
-        await self.bot.say(random.choice(possible_responses) + ", " + ctx.message.author.mention)
+        await ctx.channel.send(random.choice(possible_responses) + ", " + ctx.message.author.mention)
 
     # Coin Flip Command
     @commands.command(name="coinflip", aliases=['flipacoin', 'flipcoin'], pass_context=True)
-    async def coin_flip(self):
-        await self.bot.say("Flipping coin...")
+    async def coin_flip(self, ctx):
+        await ctx.channel.send("Flipping coin...")
         await asyncio.sleep(0.5)
         possible_outcomes = ['Heads', 'Tails']
-        await self.bot.say("It's " + random.choice(possible_outcomes))
+        await ctx.channel.send("It's " + random.choice(possible_outcomes))
 
     # Dice Roll Command
     @commands.command(name="diceroll", aliases=['rolldie', 'rolladie'], pass_context=True)
-    async def dice_roll(self):
-        await self.bot.say(":game_die: Rolling die...")
+    async def dice_roll(self, ctx):
+        await ctx.channel.send(":game_die: Rolling die...")
         await asyncio.sleep(0.5)
         number = random.randint(1, 6)
-        await self.bot.say("It's " + str(number))
+        await ctx.channel.send("It's " + str(number))
 
 
 def setup(bot):

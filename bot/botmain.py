@@ -16,7 +16,7 @@ cogs_dir = "cogs"
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(game=Game(name="with fellow humans"))
+    #await bot.change_presence(game=Game(name="with fellow humans"))
     print("Logged in as " + bot.user.name)
 
 

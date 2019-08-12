@@ -9,7 +9,7 @@ import random
 import os
 
 
-class User:
+class User(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -39,7 +39,7 @@ class User:
         haiku += random.choice(self.haikuLines[2].split(",")).strip() + " " + random.choice(self.haikuLines[3].split(",")).strip()+" "+random.choice(self.haikuLines[4].split(",")).strip()+"\n"
         haiku += random.choice(self.haikuLines[5].split(",")).strip() + " " + random.choice(self.haikuLines[6].split(",")).strip()+"\n"
 
-        await self.bot.say(haiku)
+        await ctx.message.channel.send(haiku)
 
     # Help Command
     @commands.command(name="help", pass_context=True)
@@ -47,7 +47,7 @@ class User:
         # Open commands.json for reading
         if args.__len__() == 0:
             # Send message to channel where message was sent
-            bot_message = await self.bot.say("{0} I DM'd you the command list".format(ctx.message.author.mention))
+            bot_message = await ctx.message.channel.send("{0} I DM'd you the command list".format(ctx.message.author.mention))
             help_message = "Here's the command list for ya! The current command prefix is " + "'" + ref.BOT_PREFIX + "'"
 
             # Iterate through json file and add all commands to help string
@@ -62,10 +62,10 @@ class User:
                                                                                                 item["usage"],
                                                                                                 str(", ").join(aliases))
             # Send author help text in direct message
-            await self.bot.send_message(ctx.message.author, "```html\n" + help_message + "```")
+            await ctx.message.author.send("```html\n" + help_message + "```")
 
-            await sleepasync(1.5)
-            await self.bot.delete_messages([bot_message, ctx.message])
+            await ctx.message.delete()
+            await bot_message.delete()
         else:
             help_message = ""
 
@@ -97,16 +97,17 @@ class User:
                                 item["usage"],
                                 alias_str)
             # Send help info for inputed commands to channel
-            bot_message = await self.bot.send_message(ctx.message.channel, "```html\n" + help_message + "```")
+            bot_message = await ctx.message.channel.send("```html\n" + help_message + "```")
 
             await sleepasync(5)
-            await self.bot.delete_messages([bot_message, ctx.message])
+            await bot_message.delete()
+            await ctx.message.delete()
 
     # Shakespeare Insults
     @commands.command(name="insult", pass_context=True)
     async def insult(self, ctx, user=None):
         if user is None:
-            await self.bot.say("```Thy did not specify whom I shall insult!```")
+            await ctx.message.channel.send("```Thy did not specify whom I shall insult!```")
             return
 
         word_a = random.choice(self.shake_a)
@@ -114,53 +115,52 @@ class User:
         word_c = random.choice(self.shake_c)
 
         insult = "Thou" + word_a+" "+word_b+word_c
-        await self.bot.say(user+" "+insult)
+        await ctx.message.channel.send(user+" "+insult)
 
     @commands.command(name='lolicon', aliases=['loli'], pass_context=True)
     async def lolicon(self, ctx, *args):
         if args.__len__() == 0:
-            await self.bot.send_message(ctx.message.channel, ctx.message.author.mention + " " +
+            await ctx.message.channel.send(ctx.message.author.mention + " " +
                                         "https://www.youtube.com/watch?v=-mzR1jcZ_OI")
         else:
-            await self.bot.send_message(ctx.message.channel, str(" ").join(args) + " " +
+            await ctx.message.channel.send(ctx.message.channel, str(" ").join(args) + " " +
                                         "https://www.youtube.com/watch?v=-mzR1jcZ_OI")
 
     # Pat user command
     @commands.command(name='pat', aliases=['pats', 'pets', 'pet'], pass_context=True)
     async def pat(self, ctx, *args):
         if args.__len__() == 0:
-            await self.bot.say(ctx.message.author.mention + " \*pats* themselves")
+            await ctx.message.channel.send(ctx.message.author.mention + " \*pats* themselves")
         else:
-            await self.bot.say(ctx.message.author.mention + " \*pats* " + str(" ").join(args))
+            await ctx.message.channel.send(ctx.message.author.mention + " \*pats* " + str(" ").join(args))
 
     @commands.command(name='ping', pass_context=True)
     async def ping(self, ctx, *args):
-        await self.bot.say(":ping_pong: Ping! " + str(" ").join(args))
+        await ctx.message.channel.send(":ping_pong: Pong! " + str(" ").join(args))
 
     @commands.command(name='police', aliases=['lolice', '911', 'swat'], pass_context=True)
     async def police(self, ctx, *args):
-        await self.bot.send_message(ctx.message.channel, str(" ").join(args) + " " + "https://i.imgur.com/xAQw8pK.gif"
+        await ctx.message.channel.send(str(" ").join(args) + " " + "https://i.imgur.com/xAQw8pK.gif"
                                                                                      "https://i.imgur.com/q2pN9g3.jpg"
                                                                                      "https://imgur.com/PlJT8v1")
 
     @commands.command(name="purge", aliases=["PURGE"], pass_context=True)
     async def purge(self, ctx, number=2):
-        mgs = []  # Empty list to put all the messages in the log
+        msg = []  # Empty list to put all the messages in the log
         number = int(number)  # Converting the amount of messages to delete to an integer
         if number <= 1:
             number = 2
 
-        async for x in self.bot.logs_from(ctx.message.channel, limit=number):
-            mgs.append(x)
-        await self.bot.delete_messages(mgs)
+        async for x in ctx.message.channel.history(limit=number):
+            await x.delete()
 
     # Spanks User
     @commands.command(pass_context=True)
     async def spank(self, ctx, *args):
         if args.__len__() == 0:
-            await self.bot.say(ctx.message.author.mention + " \*spanks* themselves")
+            await ctx.message.channel.send(ctx.message.author.mention + " \*spanks* themselves")
         else:
-            await self.bot.say(ctx.message.author.mention + " \*spanks* " + str(" ").join(args))
+            await ctx.message.channel.send(ctx.message.author.mention + " \*spanks* " + str(" ").join(args))
 
 
 def setup(bot):
