@@ -17,7 +17,7 @@ async def on_ready():
     #await bot.change_presence(game=Game(name="with fellow humans"))
     print("Logged in as " + bot.user.name)
 
-cogs = os.listdir("cogs")
+cogs = os.listdir(cogs_dir)
 
 if __name__ == "__main__":
     for extension in [f.replace('.py', '') for f in os.listdir(cogs_dir) if os.path.isfile(os.path.join(cogs_dir, f))]:
