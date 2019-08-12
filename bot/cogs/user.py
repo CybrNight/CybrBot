@@ -29,7 +29,7 @@ class User(commands.Cog):
                 self.haikuLines.append(line)
             file.close()
 
-        with open("commands.json", "r") as cmds:
+        with open(os.getcwd()+"/resources/commands.json", "r") as cmds:
             self.data = json.load(cmds)
 
     # Haiku Generator

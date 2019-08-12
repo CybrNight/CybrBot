@@ -4,7 +4,7 @@ import os, sys
 from discord.ext.commands import Bot
 from bot import reference as ref
 
-with open("config.json", "r") as config:
+with open(os.getcwd()+"/resources/config.json", "r") as config:
     data = json.load(config)
 
 bot = Bot(command_prefix=data["prefix"])

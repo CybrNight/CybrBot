@@ -1,6 +1,7 @@
 import asyncio
 import datetime
 import json
+import os
 
 from discord.ext import commands
 
@@ -26,7 +27,7 @@ class Util(commands.Cog):
 
     @commands.command(pass_context=True, name="prefix")
     async def prefix(self, ctx, prefix):
-        with open("json/config.json", "r") as config:
+        with open(os.getcwd()+"/resources/config.json", "r") as config:
             data = json.load(config)
 
         data["prefix"] = prefix
