@@ -6,6 +6,7 @@ import os, shutil
 from os import listdir
 from os.path import isfile, join
 import imageio
+import asyncio
 
 class JPEG(commands.Cog):
 
@@ -33,38 +34,37 @@ class JPEG(commands.Cog):
                     else:
                         img = x.content
 
-            # Download image locally to server
-            try:
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(img) as resp:
-                        if resp.status == 200:
-                            file = await aiofiles.open("morejpeg.gif", mode="wb")
-                            await file.write(await resp.read())
-                            await file.close()
+            async with aiohttp.ClientSession() as session:
+                async with session.get(img) as resp:
+                    if resp.status == 200:
+                        file = await aiofiles.open("morejpeg.gif", mode="wb")
+                        await file.write(await resp.read())
+                        await file.close()
 
-                            await channel.send(file=await self.assemble_gif("morejpeg.gif",os.getcwd()+"/download/gif"))
+                        os.mkdir(os.getcwd() + "/download/gif/")
+                        await self.assemble_gif("morejpeg.gif", os.getcwd() + "/download/gif/")
 
-                            # Save as JPEG in lowest quality and send it
+                        await channel.send(file=discord.File("jpeg.gif"))
+                        os.remove("jpeg.gif")
+                        os.remove("morejpeg.gif")
 
-                            '''
-                            im = Image.open("morejpeg.jpeg")
-                            im = im.convert("RGB")
-                            im.save("morejpeg.jpeg", format="jpeg", quality=1)
-                            await channel.send(file=discord.File("morejpeg.jpeg"))'''
 
-            except Exception as e:
-                print(e)
+                        # Save as JPEG in lowest quality and send it
 
-                if img.split(".")[1] == "gif":
-                    error = "Gif files are not supported"
-                else:
-                    error = "No image found in previous message"
+                        '''
+                        im = Image.open("morejpeg.jpeg")
+                        im = im.convert("RGB")
+                        im.save("morejpeg.jpeg", format="jpeg", quality=1)
+                        await channel.send(file=discord.File("morejpeg.jpeg"))'''
+
 
     async def assemble_gif(self, inGif, outFolder):
+        print(outFolder)
         frame = Image.open(inGif)
         nframes = 0
+        frame.save("test.png")
         while frame:
-            frame.save( '%s/%s-%s.gif' % (outFolder, os.path.basename(inGif), nframes ) , 'GIF', quality=1)
+            frame.save( '%s/%s-%s.png' % (outFolder, os.path.basename(inGif), nframes ))
             nframes += 1
             try:
                 frame.seek( nframes )
@@ -73,10 +73,21 @@ class JPEG(commands.Cog):
         files = [f for f in listdir(outFolder) if isfile(join(outFolder, f))]
         images = []
 
-        for file in files:
-            images.append(imageio.imread(file))
-        imageio.mimsave('jpeg.gif', images)
+        print(files)
 
+        for file in files:
+            if file == "morejpeg.gif-0.png":
+                img = Image.open(outFolder+file)
+                palette = img.palette
+                img.close()
+            else:
+                img = Image.open(outFolder+file)
+                img = img.convert(palette=palette)
+                img.save(outFolder+file)
+
+            images.append(imageio.imread(outFolder+file))
+        imageio.mimsave('jpeg.gif', images)
+        # shutil.rmtree(outFolder)
         return "jpeg.gif"
 
 
