@@ -11,6 +11,7 @@ class BotPresence(commands.Cog):
         self.bot = bot
         self.bot.loop.create_task(self.update_presence())
         self.data = ""
+        self.presences = []
 
         with open(os.getcwd() + "/resources/presence.json", "r", encoding="utf8", errors="ignore") as config:
             self.data = json.load(config)
@@ -23,7 +24,7 @@ class BotPresence(commands.Cog):
             presence = random.choice(self.data["presence"])
             status = presence["status_type"]
             name = presence["name"]
-            activity = discord.Activity(name="Snoozing",type=discord.ActivityType.unknown)
+            activity = discord.Activity(name="N/A",type=discord.ActivityType.unknown)
 
             print(f"{status} {name}")
 
