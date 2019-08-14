@@ -11,6 +11,7 @@ class JPEG(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.download_dir = os.getcwd() + "/download/gif"
 
     @commands.Cog.listener()
     async def on_message(self,message):
@@ -28,36 +29,82 @@ class JPEG(commands.Cog):
                 if x.content != "needsmorejpeg" or x.content != "needs more jpeg" or x.content != "morejpeg" \
                         or x.content != "more jpeg":
                     if x.content == "":
-                        img = x.attachments[0]["url"]
+                        img = x.attachments[0].url
                     else:
                         img = x.content
 
             # Download image locally to server
-            try:
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(img) as resp:
-                        if resp.status == 200:
-                            file = await aiofiles.open("morejpeg.jpeg", mode="wb")
-                            await file.write(await resp.read())
-                            await file.close()
 
-                            # Save as JPEG in lowest quality and send it
-                            im = Image.open("morejpeg.jpeg")
-                            im = im.convert("RGB")
-                            im.save("morejpeg.jpeg", format="jpeg", quality=1)
-                            await channel.send(file=discord.File("morejpeg.jpeg"))
+            ext = os.path.splitext(img)[1]
 
+            if ext != ".gif":
+                try:
+                    async with aiohttp.ClientSession() as session:
+                        async with session.get(img) as resp:
+                            if resp.status == 200:
+                                file = await aiofiles.open("morejpeg.jpeg", mode="wb")
+                                await file.write(await resp.read())
+                                await file.close()
+
+                                # Save as JPEG in lowest quality and send it
+                                im = Image.open("morejpeg.jpeg")
+                                im = im.convert("RGB")
+                                im.save("morejpeg.jpeg", format="jpeg", quality=1)
+                                await channel.send(file=discord.File("morejpeg.jpeg"))
+
+                        # Delete off server
+                        os.remove("morejpeg.jpeg")
+                except Exception as e:
+                    print(e)
+
+                    error = "No image found in message"
+
+                    await channel.send("```" + error + "```")
+            else:
+                try:
+                    async with aiohttp.ClientSession() as session:
+                        async with session.get(img) as resp:
+                            if resp.status == 200:
+                                file = await aiofiles.open("morejpeg.gif", mode="wb")
+                                await file.write(await resp.read())
+                                await file.close()
+
+                    if not os.path.isdir(self.download_dir): os.mkdir(self.download_dir)
+                    await channel.send(file=discord.File(
+                        await self.assemble_gif("morejpeg.gif", self.download_dir)))
                     # Delete off server
-                    os.remove("morejpeg.jpeg")
-            except Exception as e:
-                print(e)
+                    shutil.rmtree(os.getcwd()+"/download/gif")
+                    os.remove("jpeg.gif")
+                    os.remove("morejpeg.gif")
+                except Exception as e:
+                    print(e)
 
-                if img.split(".")[1] == "gif":
-                    error = "Gif files are not supported"
-                else:
-                    error = "No image found in previous message"
+                    error = "No image found in message"
 
-                await channel.send("```" + error + "```")
+                    await channel.send("```" + error + "```")
+
+    async def assemble_gif(self, inGif, outFolder):
+        frame = Image.open(inGif)
+        nframes = 0
+        while frame:
+            frame.save( '%s/%s-%s.gif' % (outFolder, os.path.basename(inGif), nframes ) , 'GIF', quality=1)
+            nframes += 1
+            try:
+                frame.seek(nframes)
+            except EOFError:
+                break
+        files = [f for f in listdir(outFolder) if isfile(join(outFolder, f))]
+        images = []
+
+        for file in files:
+            img = os.getcwd()+"/download/gif/"+file
+            im = Image.open(img)
+            im = im.convert("RGB")
+            im.save(img+".jpeg", format="jpeg", quality=1)
+            images.append(imageio.imread(os.getcwd()+"/download/gif/"+file+".jpeg"))
+        imageio.mimsave('jpeg.gif', images)
+
+        return "jpeg.gif"
 
 
 def setup(bot):
