@@ -1,6 +1,3 @@
-# Media Cog
-
-from discord.ext import commands
 import discord
 
 from bot.mediascraper import *

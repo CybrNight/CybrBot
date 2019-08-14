@@ -10,8 +10,6 @@ class RNG(commands.Cog):
 
     # Magic 8-Ball Command
     @commands.command(name='8ball',
-                      description="Answers a yes/no question.",
-                      brief="Answers from the beyond.",
                       aliases=['eight_ball', 'eightball', '8-ball'],
                       pass_context=True)
     async def eight_ball(self, ctx):

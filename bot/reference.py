@@ -2,7 +2,16 @@ import json
 import os
 
 
-with open(os.getcwd()+"/resources/config.json", "r") as config:
+INSULT_CSV = os.getcwd()+"/resources/csv/insults.csv"
+HAIKU_CSV = os.getcwd()+"/resources/csv/haiku.csv"
+JPEG_DIRECTORY = os.getcwd()+"/download/jpeg"
+FRY_DIRECTORY = os.getcwd()+"/download/deepfry"
+DOWNLOAD_DIRECTORY = os.getcwd()+"/download"
+CONFIG_JSON = os.getcwd()+"/resources/json/config.json"
+PRESENCE_JSON = os.getcwd()+"/resources/json/presence.json"
+COMMAND_JSON = os.getcwd()+"/resources/json/commands.json"
+
+with open(CONFIG_JSON, "r") as config:
     data = json.load(config)
 
 RELEASE_VERSION = "3.0"

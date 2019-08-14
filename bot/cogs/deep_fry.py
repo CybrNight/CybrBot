@@ -1,29 +1,33 @@
-import discord
-from discord.ext import commands
-import aiofiles, aiohttp
-from PIL import Image, ImageEnhance
-import os, shutil
+import shutil
 from os import listdir
 from os.path import isfile, join
+
+import aiofiles
+import aiohttp
+import discord
 import imageio
+from PIL import Image, ImageEnhance
+from discord.ext import commands
+
+from bot.reference import *
+
 
 class DeepFry(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.download_dir = os.getcwd()+"/download/deepfry"
 
     @commands.Cog.listener()
-    async def on_message(self,message):
+    async def on_message(self, message):
         channel = message.channel
         content = str(message.content).lower()
 
-        # Deep fry previous image
-        if content.lower().startswith("deepfry") or content.lower().startswith("deep fry"):
+        # Check if message is deep fry or deepfry
+        if content == "deepfry" or content == "deep fry":
             number = 2
             img = ""
 
-            # et previous image in chat
+            # Get previous image in chat
             async for x in channel.history(limit=number):
                 if x.content != "deepfry" or x.content != "deep fry":
                     if x.content == "":
@@ -38,7 +42,7 @@ class DeepFry(commands.Cog):
                     async with session.get(img) as resp:
                         if resp.status == 200:
 
-                            # Get values for deep fry
+                            # Get deep fry values
                             try:
                                 saturation_val = int(os.environ.get("FRY_SAT"))
                                 brightness_val = int(os.environ.get("FRY_BRIGHT"))
@@ -51,80 +55,88 @@ class DeepFry(commands.Cog):
                                 contrast_val = 20
                                 sharpness_val = 300
 
-                            file = await aiofiles.open("deepfried.png", mode="wb")
+                            img_path = f"{DOWNLOAD_DIRECTORY}/deepfried." + ext
+                            file = await aiofiles.open(img, mode="wb")
                             await file.write(await resp.read())
                             await file.close()
 
-                            # Open with PIL and "enhance" it
-                            im = Image.open("deepfried.png")
-                            saturated = ImageEnhance.Color(im).enhance(saturation_val)
-                            brightness = ImageEnhance.Brightness(saturated).enhance(brightness_val)
-                            contrast = ImageEnhance.Contrast(brightness).enhance(contrast_val)
-                            final = ImageEnhance.Sharpness(contrast).enhance(sharpness_val)
+                # Open with PIL and "enhance" it
+                img = Image.open(img_path)
+                saturated = ImageEnhance.Color(img).enhance(saturation_val)
+                brightness = ImageEnhance.Brightness(saturated).enhance(brightness_val)
+                contrast = ImageEnhance.Contrast(brightness).enhance(contrast_val)
+                final = ImageEnhance.Sharpness(contrast).enhance(sharpness_val)
 
-                            final.save("deepfried.png", format="png")
-                            await channel.send("Fresh from the fryer!", file=discord.File("deepfried.png"))
+                # Write editrd picture to disk
+                final.save(img_path, format="png")
+                await channel.send("Fresh from the fryer!", file=discord.File(img_path))
 
-                    # Delete temp picture file
-                    os.remove("deepfried.png")
-                # Download image from URL
+                # Delete temp picture file
+                os.remove(img_path)
             else:
+                # Download GIF
                 async with aiohttp.ClientSession() as session:
                     async with session.get(img) as resp:
                         if resp.status == 200:
 
-                            file = await aiofiles.open("deepfry.gif", mode="wb")
+                            img_path = f"{DOWNLOAD_DIRECTORY}/deepfry." + ext
+                            file = await aiofiles.open(img_path, mode="wb")
                             await file.write(await resp.read())
                             await file.close()
 
-                if not os.path.isdir(os.getcwd() + "/download/deepfry"): os.mkdir(os.getcwd() + "/download/deepfry")
+                # Create exraction directory
+                if not os.path.isdir(FRY_DIRECTORY):
+                    os.mkdir(FRY_DIRECTORY)
+
                 await channel.send("Fresh from the fryer!", file=discord.File(
-                await self.assemble_gif("deepfry.gif", self.download_dir)))
+                    await self.assemble_gif(img_path, FRY_DIRECTORY)))
                 # Delete off server
-                shutil.rmtree(self.download_dir)
-                os.remove("deepfry.gif")
-                os.remove("deepfried.gif")
+                shutil.rmtree(FRY_DIRECTORY)
+                os.remove(img_path)
+                os.remove(f"{DOWNLOAD_DIRECTORY}/deepfried.gif")
 
-    async def assemble_gif(self, inGif, outFolder):
-            frame = Image.open(inGif)
-            nframes = 0
-            while frame:
-                frame.save('%s/%s-%s.gif' % (outFolder, os.path.basename(inGif), nframes), 'GIF', quality=1)
-                nframes += 1
-                try:
-                    frame.seek(nframes)
-                except EOFError:
-                    break
-
-            # Get values for deep fry
+    @staticmethod
+    async def assemble_gif(in_gif, out_folder):
+        frame = Image.open(in_gif)
+        nframes = 0
+        while frame:
+            frame.save('%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), nframes), 'GIF', quality=1)
+            nframes += 1
             try:
-                saturation_val = int(os.environ.get("FRY_SAT"))
-                brightness_val = int(os.environ.get("FRY_BRIGHT"))
-                contrast_val = int(os.environ.get("FRY_CONTRAST"))
-                sharpness_val = int(os.environ.get("FRY_SHARPNESS"))
-            except Exception as e:
-                print(e)
-                saturation_val = 4
-                brightness_val = 4
-                contrast_val = 20
-                sharpness_val = 300
+                frame.seek(nframes)
+            except EOFError:
+                break
 
-            files = [f for f in listdir(outFolder) if isfile(join(outFolder, f))]
-            images = []
+        # Get values for deep fry
+        try:
+            saturation_val = int(os.environ.get("FRY_SAT"))
+            brightness_val = int(os.environ.get("FRY_BRIGHT"))
+            contrast_val = int(os.environ.get("FRY_CONTRAST"))
+            sharpness_val = int(os.environ.get("FRY_SHARPNESS"))
+        except Exception as e:
+            print(e)
+            saturation_val = 4
+            brightness_val = 4
+            contrast_val = 20
+            sharpness_val = 300
 
-            for file in files:
-                img = os.getcwd() + "/download/deepfry/" + file
-                im = Image.open(img)
-                im = im.convert("RGB")
-                saturated = ImageEnhance.Color(im).enhance(saturation_val)
-                brightness = ImageEnhance.Brightness(saturated).enhance(brightness_val)
-                contrast = ImageEnhance.Contrast(brightness).enhance(contrast_val)
-                final = ImageEnhance.Sharpness(contrast).enhance(sharpness_val)
-                final.save(img+".jpeg", format="jpeg")
-                images.append(imageio.imread(img+".jpeg"))
-            imageio.mimsave('deepfried.gif', images)
+        files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
+        images = []
 
-            return "deepfried.gif"
+        for file in files:
+            img = f"{FRY_DIRECTORY}/{file}"
+            im = Image.open(img)
+            im = im.convert("RGB")
+            saturated = ImageEnhance.Color(im).enhance(saturation_val)
+            brightness = ImageEnhance.Brightness(saturated).enhance(brightness_val)
+            contrast = ImageEnhance.Contrast(brightness).enhance(contrast_val)
+            final = ImageEnhance.Sharpness(contrast).enhance(sharpness_val)
+            final.save(img + ".jpeg", format="jpeg")
+            images.append(imageio.imread(img + ".jpeg"))
+        imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/deepfried.gif", images)
+
+        return f"{DOWNLOAD_DIRECTORY}/deepfried.gif"
+
 
 def setup(bot):
     bot.add_cog(DeepFry(bot))
