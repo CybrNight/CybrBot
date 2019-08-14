@@ -32,10 +32,10 @@ class JPEG(commands.Cog):
             async for x in channel.history(limit=number):
                 if x.content != "needsmorejpeg" or x.content != "needs more jpeg" or x.content != "morejpeg" \
                         or x.content != "more jpeg":
-                    if x.content == "":
-                        img = x.attachments[0].url
-                    else:
+                    if not x.attachments:
                         img = x.content
+                    else:
+                        img = x.attachments[0].url
 
             ext = os.path.splitext(img)[1]
 

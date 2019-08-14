@@ -30,10 +30,10 @@ class DeepFry(commands.Cog):
             # Get previous image in chat
             async for x in channel.history(limit=number):
                 if x.content != "deepfry" or x.content != "deep fry":
-                    if x.content == "":
-                        img = x.attachments[0].url
-                    else:
+                    if not x.attachments:
                         img = x.content
+                    else:
+                        img = x.attachments[0].url
 
             ext = os.path.splitext(img)[1]
 
