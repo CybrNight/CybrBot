@@ -1,19 +1,18 @@
 import discord
 
-from bot import reference as ref
+from bot.reference import *
 from discord.ext import commands
 import os
 
 
 class InMessage(commands.Cog):
     def __init__(self, bot):
-        cwd = os.getcwd()
         self.bot = bot
-        self.autism = discord.File(f"{cwd}/resources/autism.png")
-        self.riding_mower = discord.File(f"{cwd}/resources/riding_mower.gif")
-        self.eyepatch = discord.File(f"{cwd}/resources/eyepatch.jpg")
-        self.nepeta = discord.File(f"{cwd}/resources/nepeta.gif")
-        self.nyanpasu = discord.File(f"{cwd}/resources/nyanpasu.png")
+        self.autism = discord.File(f"{IMG_DIRECTORY}/autism.png")
+        self.riding_mower = discord.File(f"{IMG_DIRECTORY}/riding_mower.gif")
+        self.eyepatch = discord.File(f"{IMG_DIRECTORY}/eyepatch.jpg")
+        self.nepeta = discord.File(f"{IMG_DIRECTORY}/nepeta.gif")
+        self.nyanpasu = discord.File(f"{IMG_DIRECTORY}/nyanpasu.png")
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -40,7 +39,7 @@ class InMessage(commands.Cog):
 
         # Sends current prefix to chat
         if content.startswith("prefix?"):
-            await channel.send("```The current prefix is " + "'" + ref.BOT_PREFIX + "'```")
+            await channel.send("```The current prefix is " + "'" + BOT_PREFIX + "'```")
             await message.delete()
 
         # Sends eye=patch picture to chat
@@ -53,7 +52,7 @@ class InMessage(commands.Cog):
 
         # Sends nyanpasu picture
         if content.startswith("nyanpasu"):
-            await channel.send("@everyone",self.nyanpasu)
+            await channel.send("@everyone",file=self.nyanpasu)
             await message.delete()
 
 

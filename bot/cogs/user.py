@@ -139,7 +139,7 @@ class User(commands.Cog):
 
     @commands.command(name='police', aliases=['lolice', '911', 'swat'], pass_context=True)
     async def police(self, ctx, *args):
-        await ctx.message.channel.send(str(" ").join(args), file=discord.File(os.getcwd() + "/resources/police.jpg"))
+        await ctx.message.channel.send(str(" ").join(args), file=discord.File(f"{IMG_DIRECTORY}/police.jpg"))
 
     @commands.command(name="purge", aliases=["PURGE"], pass_context=True)
     async def purge(self, ctx, number=2):
