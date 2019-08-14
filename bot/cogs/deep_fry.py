@@ -56,7 +56,7 @@ class DeepFry(commands.Cog):
                                 sharpness_val = 300
 
                             img_path = f"{DOWNLOAD_DIRECTORY}/deepfried." + ext
-                            file = await aiofiles.open(img, mode="wb")
+                            file = await aiofiles.open(img_path, mode="wb")
                             await file.write(await resp.read())
                             await file.close()
 
