@@ -67,8 +67,6 @@ class JPEG(commands.Cog):
                                 file = await aiofiles.open("morejpeg.gif", mode="wb")
                                 await file.write(await resp.read())
                                 await file.close()
-
-                    if not os.path.isdir(os.getcwd()+"/download/gif"): os.mkdir(os.getcwd()+"/download/gif")
                     await channel.send(file=discord.File(
                         await self.assemble_gif("morejpeg.gif", os.getcwd()+"/download/gif")))
                     # Delete off server

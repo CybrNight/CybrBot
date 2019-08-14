@@ -77,7 +77,6 @@ class DeepFry(commands.Cog):
                             await file.write(await resp.read())
                             await file.close()
 
-                            if not os.path.isdir(self.download_dir): os.mkdir(self.download_dir)
                             await channel.send("Fresh from the fryer!", file=discord.File(
                                 await self.assemble_gif("deepfry.gif", self.download_dir)))
                             # Delete off server
