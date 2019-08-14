@@ -130,7 +130,5 @@ class DeepFry(commands.Cog):
 
             return "deepfried.gif"
 
-
-
 def setup(bot):
     bot.add_cog(DeepFry(bot))
