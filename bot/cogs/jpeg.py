@@ -11,7 +11,6 @@ class JPEG(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.download_dir = os.getcwd() + "/download/gif"
 
     @commands.Cog.listener()
     async def on_message(self,message):
@@ -69,9 +68,9 @@ class JPEG(commands.Cog):
                                 await file.write(await resp.read())
                                 await file.close()
 
-                    if not os.path.isdir(self.download_dir): os.mkdir(self.download_dir)
+                    if not os.path.isdir(os.getcwd()+"/download/gif"): os.mkdir(os.getcwd()+"/download/gif")
                     await channel.send(file=discord.File(
-                        await self.assemble_gif("morejpeg.gif", self.download_dir)))
+                        await self.assemble_gif("morejpeg.gif", os.getcwd()+"/download/gif")))
                     # Delete off server
                     shutil.rmtree(os.getcwd()+"/download/gif")
                     os.remove("jpeg.gif")
