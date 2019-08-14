@@ -13,7 +13,6 @@ class DeepFry(commands.Cog):
         self.bot = bot
         self.download_dir = os.getcwd()+"/download/deepfry"
 
-    
 
 def setup(bot):
     bot.add_cog(DeepFry(bot))
