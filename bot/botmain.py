@@ -15,6 +15,7 @@ print(f"Running Python {sys.version}")
 @bot.event
 async def on_ready():
     #await bot.change_presence(game=Game(name="with fellow humans"))
+    if not os.path.isdir(os.getcwd()+"/download"): os.mkdir((os.getcwd()+"/download"))
     if not os.path.isdir(os.getcwd() + "/download/gif"): os.mkdir(os.getcwd() + "/download/gif")
     if not os.path.isdir(os.getcwd() + "/download/deepfry"): os.mkdir(os.getcwd() + "/download/deepfry")
     print(f"Logged in as {bot.user.name}")
