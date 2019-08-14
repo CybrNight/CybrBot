@@ -77,12 +77,13 @@ class DeepFry(commands.Cog):
                             await file.write(await resp.read())
                             await file.close()
 
-                            await channel.send("Fresh from the fryer!", file=discord.File(
-                                await self.assemble_gif("deepfry.gif", self.download_dir)))
-                            # Delete off server
-                            shutil.rmtree(self.download_dir)
-                            os.remove("deepfry.gif")
-                            os.remove("deepfried.gif")
+                if not os.path.isdir(os.getcwd() + "/download/deepfry"): os.mkdir(os.getcwd() + "/download/deepfry")
+                await channel.send("Fresh from the fryer!", file=discord.File(
+                await self.assemble_gif("deepfry.gif", self.download_dir)))
+                # Delete off server
+                shutil.rmtree(self.download_dir)
+                os.remove("deepfry.gif")
+                os.remove("deepfried.gif")
 
     async def assemble_gif(self, inGif, outFolder):
             frame = Image.open(inGif)
