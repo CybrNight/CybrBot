@@ -11,7 +11,6 @@ class DeepFry(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.download_dir = os.getcwd()+"/download/deepfry"
 
     @commands.Cog.listener()
     async def on_message(self,message):
@@ -25,15 +24,14 @@ class DeepFry(commands.Cog):
 
             # et previous image in chat
             async for x in channel.history(limit=number):
-                if x.content != "deepfry" or x.content != "deep fry":
+                if x.content != "deep fry" or x.content != "deep fry":
                     if x.content == "":
-                        img = x.attachments[0].url
+                        img = x.attachments[0]["url"]
                     else:
                         img = x.content
 
-            ext = os.path.splitext(img)[1]
-
-            if ext != ".gif":
+            # Download image from URL
+            try:
                 async with aiohttp.ClientSession() as session:
                     async with session.get(img) as resp:
                         if resp.status == 200:
@@ -67,9 +65,10 @@ class DeepFry(commands.Cog):
 
                     # Delete temp picture file
                     os.remove("deepfried.png")
-                # Download image from URL
-            else:
-                print("GIF")
+            except Exception as e:
+                print(e)
+                await channel.send("```Found no image```")
+
 
 def setup(bot):
     bot.add_cog(DeepFry(bot))
