@@ -17,8 +17,26 @@ class DeepFry(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+        # Generate default values
+        self.saturation_val = 4
+        self.brightness_val = 4
+        self.contrast_val = 20
+        self.sharpness_val = 300
+
+        # Get saturation, brightness, contrast, and sharpness values from environ vars
+        try:
+            self.saturation_val = int(os.environ.get("FRY_SAT"))
+            self.brightness_val = int(os.environ.get("FRY_BRIGHT"))
+            self.contrast_val = int(os.environ.get("FRY_CONTRAST"))
+            self.sharpness_val = int(os.environ.get("FRY_SHARPNESS"))
+        # Use defaults when unable to get values from vars
+        except Exception as e:
+            print(e)
+            print("Unable to access environment variables! Using default values!")
+
     @commands.Cog.listener()
     async def on_message(self, message):
+        # Get channel and content of message for parsing
         channel = message.channel
         content = str(message.content).lower()
 
@@ -27,7 +45,7 @@ class DeepFry(commands.Cog):
             number = 2
             img = ""
 
-            # Get previous image in chat
+            # Get image above message in chat
             async for x in channel.history(limit=number):
                 if x.content != "deepfry" or x.content != "deep fry":
                     if not x.attachments:
@@ -35,25 +53,15 @@ class DeepFry(commands.Cog):
                     else:
                         img = x.attachments[0].url
 
+            # Grab the file extension
             ext = os.path.splitext(img)[1]
 
             if ext != ".gif":
+
+                # Get file and save it locally
                 async with aiohttp.ClientSession() as session:
                     async with session.get(img) as resp:
                         if resp.status == 200:
-
-                            # Get deep fry values
-                            try:
-                                saturation_val = int(os.environ.get("FRY_SAT"))
-                                brightness_val = int(os.environ.get("FRY_BRIGHT"))
-                                contrast_val = int(os.environ.get("FRY_CONTRAST"))
-                                sharpness_val = int(os.environ.get("FRY_SHARPNESS"))
-                            except Exception as e:
-                                print(e)
-                                saturation_val = 4
-                                brightness_val = 4
-                                contrast_val = 20
-                                sharpness_val = 300
 
                             img_path = f"{DOWNLOAD_DIRECTORY}/deepfried." + ext
                             file = await aiofiles.open(img_path, mode="wb")
@@ -62,10 +70,10 @@ class DeepFry(commands.Cog):
 
                 # Open with PIL and "enhance" it
                 img = Image.open(img_path)
-                saturated = ImageEnhance.Color(img).enhance(saturation_val)
-                brightness = ImageEnhance.Brightness(saturated).enhance(brightness_val)
-                contrast = ImageEnhance.Contrast(brightness).enhance(contrast_val)
-                final = ImageEnhance.Sharpness(contrast).enhance(sharpness_val)
+                saturated = ImageEnhance.Color(img).enhance(self.saturation_val)
+                brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
+                contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
+                final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
 
                 # Write editrd picture to disk
                 final.save(img_path, format="png")
@@ -95,8 +103,7 @@ class DeepFry(commands.Cog):
                 os.remove(img_path)
                 os.remove(f"{DOWNLOAD_DIRECTORY}/deepfried.gif")
 
-    @staticmethod
-    async def assemble_gif(in_gif, out_folder):
+    async def assemble_gif(self, in_gif, out_folder):
         frame = Image.open(in_gif)
         nframes = 0
         while frame:
@@ -107,19 +114,6 @@ class DeepFry(commands.Cog):
             except EOFError:
                 break
 
-        # Get values for deep fry
-        try:
-            saturation_val = int(os.environ.get("FRY_SAT"))
-            brightness_val = int(os.environ.get("FRY_BRIGHT"))
-            contrast_val = int(os.environ.get("FRY_CONTRAST"))
-            sharpness_val = int(os.environ.get("FRY_SHARPNESS"))
-        except Exception as e:
-            print(e)
-            saturation_val = 4
-            brightness_val = 4
-            contrast_val = 20
-            sharpness_val = 300
-
         files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
         images = []
 
@@ -127,10 +121,10 @@ class DeepFry(commands.Cog):
             img = f"{FRY_DIRECTORY}/{file}"
             im = Image.open(img)
             im = im.convert("RGB")
-            saturated = ImageEnhance.Color(im).enhance(saturation_val)
-            brightness = ImageEnhance.Brightness(saturated).enhance(brightness_val)
-            contrast = ImageEnhance.Contrast(brightness).enhance(contrast_val)
-            final = ImageEnhance.Sharpness(contrast).enhance(sharpness_val)
+            saturated = ImageEnhance.Color(im).enhance(self.saturation_val)
+            brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
+            contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
+            final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
             final.save(img + ".jpeg", format="jpeg")
             images.append(imageio.imread(img + ".jpeg"))
         imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/deepfried.gif", images)

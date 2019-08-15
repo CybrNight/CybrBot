@@ -14,6 +14,7 @@ class BotPresence(commands.Cog):
         self.bot.loop.create_task(self.update_presence())
         self.data = ""
 
+        # Load JSON of statuses
         with open(PRESENCE_JSON, "r", encoding="utf8", errors="ignore") as cfg:
             self.data = json.load(cfg)
 
@@ -29,6 +30,7 @@ class BotPresence(commands.Cog):
 
             print(f"{status} {name}")
 
+            # Generate Discord activity object based on status_type
             if status == "listening":
                 activity = discord.Activity(name=name, type=discord.ActivityType.listening)
             elif status == "watching":
@@ -36,8 +38,10 @@ class BotPresence(commands.Cog):
             elif status == "playing":
                 activity = discord.Activity(name=name, type=discord.ActivityType.playing)
 
+            # Set presence of bot
             await self.bot.change_presence(activity=activity)
 
+            # Sleep for 30 minutes and upate again
             await asyncio.sleep(60*30)
 
 
