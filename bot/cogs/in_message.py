@@ -8,11 +8,11 @@ import os
 class InMessage(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.autism = discord.File(f"{IMG_DIRECTORY}/autism.png")
-        self.riding_mower = discord.File(f"{IMG_DIRECTORY}/riding_mower.gif")
-        self.eyepatch = discord.File(f"{IMG_DIRECTORY}/eyepatch.jpg")
-        self.nepeta = discord.File(f"{IMG_DIRECTORY}/nepeta.gif")
-        self.nyanpasu = discord.File(f"{IMG_DIRECTORY}/nyanpasu.png")
+        self.autism = f"{IMG_DIRECTORY}/autism.png"
+        self.riding_mower = f"{IMG_DIRECTORY}/riding_mower.gif"
+        self.eyepatch = f"{IMG_DIRECTORY}/eyepatch.jpg"
+        self.nepeta = f"{IMG_DIRECTORY}/nepeta.gif"
+        self.nyanpasu = f"{IMG_DIRECTORY}/nyanpasu.png"
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -32,10 +32,10 @@ class InMessage(commands.Cog):
             msg = content.split(" ")
             if len(msg) > 1:
                 msg.pop(0)
-                await channel.send(">literally " + str(" ").join(msg), file=self.autism)
+                await channel.send(">literally " + str(" ").join(msg), file=discord.File(self.autism))
 
         if content.startswith("mechanized autism"):
-            await channel.send("Mechanzied Autism", file=self.riding_mower)
+            await channel.send("Mechanzied Autism", file=discord.File(self.riding_mower))
 
         # Sends current prefix to chat
         if content.startswith("prefix?"):
@@ -44,15 +44,15 @@ class InMessage(commands.Cog):
 
         # Sends eye=patch picture to chat
         if content.startswith("fuck you"):
-            await channel.send(file=self.eyepatch)
+            await channel.send(file=discord.File(self.eyepatch))
 
         # Sends lewd gif
         if content.startswith("lewd"):
-            await channel.send(file=self.nepeta)
+            await channel.send(file=discord.File(self.nepeta))
 
         # Sends nyanpasu picture
         if content.startswith("nyanpasu"):
-            await channel.send("@everyone",file=self.nyanpasu)
+            await channel.send("@everyone", file=discord.File(self.nyanpasu))
             await message.delete()
 
 
