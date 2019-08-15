@@ -79,7 +79,7 @@ class DeepFry(commands.Cog):
                 final.save(img_path, format="png")
                 await channel.send("Fresh from the fryer!", file=discord.File(img_path))
 
-                # Delete temp picture file
+                # Delete file from disk
                 os.remove(img_path)
             else:
                 # Download GIF
@@ -96,17 +96,20 @@ class DeepFry(commands.Cog):
                 if not os.path.isdir(FRY_DIRECTORY):
                     os.mkdir(FRY_DIRECTORY)
 
-                await channel.send("Fresh from the fryer!", file=discord.File(
-                    await self.assemble_gif(img_path, FRY_DIRECTORY)))
+                # Send fried GIF to server chat
+                await channel.send("Fresh from the fryer!", file=await self.assemble_gif(img_path, FRY_DIRECTORY))
+
                 # Delete off server
                 shutil.rmtree(FRY_DIRECTORY)
                 os.remove(img_path)
                 os.remove(f"{DOWNLOAD_DIRECTORY}/deepfried.gif")
 
     async def assemble_gif(self, in_gif, out_folder):
+        # Open GIF
         frame = Image.open(in_gif)
         nframes = 0
         while frame:
+            # Iterate through whole GIF and save each frame
             frame.save('%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), nframes), 'GIF', quality=1)
             nframes += 1
             try:
@@ -114,9 +117,11 @@ class DeepFry(commands.Cog):
             except EOFError:
                 break
 
+        # Get list of all files in download directory
         files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
         images = []
 
+        # Modify each frame
         for file in files:
             img = f"{FRY_DIRECTORY}/{file}"
             im = Image.open(img)
@@ -125,11 +130,16 @@ class DeepFry(commands.Cog):
             brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
             contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
             final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
+
+            # Save final image and append to images array
             final.save(img + ".jpeg", format="jpeg")
             images.append(imageio.imread(img + ".jpeg"))
+
+        # Generate GIF from images array
         imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/deepfried.gif", images)
 
-        return f"{DOWNLOAD_DIRECTORY}/deepfried.gif"
+        # Return Discord file object that can be sent to server
+        return discord.File(f"{DOWNLOAD_DIRECTORY}/deepfried.gif")
 
 
 def setup(bot):

@@ -78,10 +78,10 @@ class JPEG(commands.Cog):
                     if not os.path.isdir(JPEG_DIRECTORY):
                         os.mkdir(JPEG_DIRECTORY)
 
-                    await channel.send(file=discord.File(
-                        await self.assemble_gif(img_path, JPEG_DIRECTORY)))
+                    # Send modified GIF to server chat
+                    await channel.send(file=await self.assemble_gif(img_path, JPEG_DIRECTORY))
 
-                    # Delete off server
+                    # Remove files from server
                     shutil.rmtree(JPEG_DIRECTORY)
                     os.remove(img_path)
                     os.remove(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif")
@@ -114,7 +114,7 @@ class JPEG(commands.Cog):
             images.append(imageio.imread(f"{img}.jpeg"))
         imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif", images)
 
-        return f"{DOWNLOAD_DIRECTORY}/morejpeg.gif"
+        return discord.File(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif")
 
 
 def setup(bot):
