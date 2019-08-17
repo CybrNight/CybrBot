@@ -79,6 +79,7 @@ class Voice(commands.Cog):
             for file in os.listdir(AUDIO_DIRECTORY):
                 os.remove(f"{AUDIO_DIRECTORY}/{file}")
             await ctx.send("```Cleared Queue```")
+            print("Cleared music queue")
             return
         elif option == "-v":
             i = 1
