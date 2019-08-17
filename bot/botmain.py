@@ -43,6 +43,9 @@ async def on_ready():
             print("Created audio directory")
         except Exception as e:
             print(e)
+    for file in os.listdir(AUDIO_DIRECTORY):
+        os.remove(f"{AUDIO_DIRECTORY}/{file}")
+        print("Cleared Queue")
 
     print(f"Logged in as {bot.user.name}")
 
