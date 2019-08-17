@@ -15,6 +15,7 @@ class BotPresence(commands.Cog):
         self.presence_json = ""
 
     async def initialize(self):
+        await self.bot.wait_until_ready()
         # Load JSON of statuses
         try:
             with open(PRESENCE_JSON, "r", encoding="utf8", errors="ignore") as cfg:

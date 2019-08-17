@@ -37,9 +37,9 @@ async def on_ready():
             print("Created audio directory")
         except Exception as e:
             print(e)
-    if not os.path.isdir(MUSIC_DIRECTORY):
+    if not os.path.isdir(AUDIO_DIRECTORY):
         try:
-            os.mkdir(MUSIC_DIRECTORY)
+            os.mkdir(AUDIO_DIRECTORY)
             print("Created audio directory")
         except Exception as e:
             print(e)

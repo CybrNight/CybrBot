@@ -12,8 +12,6 @@ DOWNLOAD_DIRECTORY = os.getcwd()+"/download"
 PRESENCE_JSON = os.getcwd()+"/resources/json/presence.json"
 COMMAND_JSON = os.getcwd()+"/resources/json/commands.json"
 
-MUSIC_DIRECTORY = os.getcwd()+"/resources/audio"
-
 RELEASE_VERSION = "3.0"
 
 try:

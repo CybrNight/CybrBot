@@ -16,6 +16,11 @@ class Voice(commands.Cog):
         self.players = {}
         self.youtube_id = ""
 
+        self.bot.loop.create_task(self.initialize())
+
+    async def initialize(self):
+        await self.bot.wait_until_ready()
+        await self.bot.is_ready()
         for file in os.listdir(AUDIO_DIRECTORY):
             os.remove(f"{AUDIO_DIRECTORY}/{file}")
 
