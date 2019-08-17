@@ -20,7 +20,6 @@ class Voice(commands.Cog):
 
     async def initialize(self):
         await self.bot.wait_until_ready()
-        await self.bot.is_ready()
         for file in os.listdir(AUDIO_DIRECTORY):
             os.remove(f"{AUDIO_DIRECTORY}/{file}")
             print("Cleared Queue")
