@@ -20,6 +20,8 @@ class Voice(commands.Cog):
 
     async def initialize(self):
         await self.bot.wait_until_ready()
+        if not discord.opus.is_loaded():
+            discord.opus.load_opus('opus')
 
     @commands.command(pass_context=True)
     async def leave(self, ctx):
