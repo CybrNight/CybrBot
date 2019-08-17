@@ -1,8 +1,7 @@
-import json
-import os, sys
-import atexit
+import sys
 
 from discord.ext.commands import Bot
+
 from bot.reference import *
 
 bot = Bot(command_prefix=BOT_PREFIX)
@@ -10,12 +9,33 @@ bot.remove_command("help")
 cogs_dir = "cogs"
 print(f"Running Python {sys.version}")
 
+
 @bot.event
 async def on_ready():
-    #await bot.change_presence(game=Game(name="with fellow humans"))
-    if not os.path.isdir(DOWNLOAD_DIRECTORY): os.mkdir(DOWNLOAD_DIRECTORY)
-    if not os.path.isdir(JPEG_DIRECTORY): os.mkdir(JPEG_DIRECTORY)
-    if not os.path.isdir(FRY_DIRECTORY): os.mkdir(FRY_DIRECTORY)
+    if not os.path.isdir(DOWNLOAD_DIRECTORY):
+        try:
+            os.mkdir(DOWNLOAD_DIRECTORY)
+            print("Created download directory")
+        except Exception as e:
+            print(e)
+    if not os.path.isdir(JPEG_DIRECTORY):
+        try:
+            os.mkdir(JPEG_DIRECTORY)
+            print("Created JPEG directory")
+        except Exception as e:
+            print(e)
+    if not os.path.isdir(FRY_DIRECTORY):
+        try:
+            os.mkdir(FRY_DIRECTORY)
+            print("Created deep fry directory")
+        except Exception as e:
+            print(e)
+    if not os.path.isdir(AUDIO_DIRECTORY):
+        try:
+            os.mkdir(AUDIO_DIRECTORY)
+            print("Created audio directory")
+        except Exception as e:
+            print(e)
     print(f"Logged in as {bot.user.name}")
 
 cogs = os.listdir(cogs_dir)
