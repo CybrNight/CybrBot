@@ -23,6 +23,7 @@ class Voice(commands.Cog):
         await self.bot.is_ready()
         for file in os.listdir(AUDIO_DIRECTORY):
             os.remove(f"{AUDIO_DIRECTORY}/{file}")
+            print("Cleared Queue")
 
     @commands.command(pass_context=True)
     async def leave(self, ctx):
