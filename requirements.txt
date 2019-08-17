@@ -6,3 +6,5 @@ aiohttp
 Pillow
 aiofiles
 imageio
+youtube_dl
+discord.py[voice]
