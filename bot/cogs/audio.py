@@ -15,6 +15,7 @@ class Voice(commands.Cog):
         self.bot = bot
         self.players = {}
         self.youtube_id = ""
+        self.queue_count = 0
 
         self.bot.loop.create_task(self.initialize())
 
@@ -100,29 +101,30 @@ class Voice(commands.Cog):
                 }],
             }
 
-            if "https://www.youtube.com" in url:
-                print(f"Adding {url} to song queue")
-                adding_msg = await ctx.send(f"Adding {url} to queue!")
-                try:
-                    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                        print("Download started")
-                        result = ydl.extract_info(url, download=True)
+            print(f"Adding {url} to song queue")
+            adding_msg = await ctx.send(f"Adding {url} to queue!")
+            try:
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                    print("Download started")
+                    result = ydl.extract_info(url, download=True)
 
-                        if "entries" in result:  # Add playlist support
+                    if "entries" in result:  # Add playlist support
                             video = result[0]
-                        else:
+                    else:
                             video = result  # Just Video
 
-                    print(f"Added {url}")
-                    await adding_msg.delete()
-                    temp = await ctx.send(f"Added {url} to queue!\n/play to play queue")
-                    await asyncio.sleep(5)
-                    await temp.delete()
-                    print(f"Added {video['tile']} to song queue")
-                except Exception as e:
-                    print(e)
-                    print("Error downloading file")
-                return
+                print(f"Added {url}")
+                await adding_msg.delete()
+                self.queue_count += 1
+                embed_queue = discord.Embed(title=f"Added {video['title']}", color=0x00ff00)
+                embed_queue.set_video(url=video["thumbnail"])
+                embed_queue.add_field(name=f"{self.queue_count} song(s) in queue", value=f"/play to play queue")
+                temp = await ctx.send(embed=embed_queue)
+                print(f"Added {video['tile']} to song queue")
+            except Exception as e:
+                print(e)
+                print("Error downloading file")
+            return
         await ctx.message.delete()
 
 

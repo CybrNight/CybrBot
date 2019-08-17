@@ -10,7 +10,7 @@ from PIL import Image, ImageEnhance
 from discord.ext import commands
 
 from bot.reference import *
-
+ 
 
 class DeepFry(commands.Cog):
 
