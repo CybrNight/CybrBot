@@ -1,4 +1,4 @@
-discord.py
+discord.py[voice]
 beautifulsoup4
 bs4
 asyncio
@@ -7,4 +7,3 @@ Pillow
 aiofiles
 imageio
 youtube_dl
-discord.py[voice]

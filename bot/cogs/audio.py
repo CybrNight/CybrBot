@@ -105,7 +105,6 @@ class Voice(commands.Cog):
                         print("Download started")
                         result = ydl.extract_info(url, download=True)
 
-                        print(result)
                         if "entries" in result:  # Add playlist support
                             video = result[0]
                         else:
