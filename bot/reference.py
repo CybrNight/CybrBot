@@ -9,13 +9,18 @@ FRY_DIRECTORY = os.getcwd()+"/download/deepfry"
 IMG_DIRECTORY = os.getcwd()+"/resources/img"
 AUDIO_DIRECTORY = os.getcwd()+"/resources/audio"
 DOWNLOAD_DIRECTORY = os.getcwd()+"/download"
-CONFIG_JSON = os.getcwd()+"/resources/json/config.json"
 PRESENCE_JSON = os.getcwd()+"/resources/json/presence.json"
 COMMAND_JSON = os.getcwd()+"/resources/json/commands.json"
 
-with open(CONFIG_JSON, "r") as config:
-    data = json.load(config)
+MUSIC_DIRECTORY = os.getcwd()+"/resources/audio"
 
 RELEASE_VERSION = "3.0"
-BOT_PREFIX = data["prefix"]
-TOKEN = os.environ.get("BOT_TOKEN")
+
+try:
+    BOT_PREFIX = os.environ["BOT_PREFIX"]
+    BOT_TOKEN = os.environ["BOT_TOKEN"]
+    print(f"Loaded {BOT_TOKEN}, prefix is {BOT_PREFIX}")
+except Exception as e:
+    print(e)
+    print("Unable to fetch BOT_TOKEN and BOT_PREFIX")
+    BOT_TOKEN = "STOP"

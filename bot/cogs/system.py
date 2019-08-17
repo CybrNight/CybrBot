@@ -14,28 +14,26 @@ class Util(commands.Cog):
     @commands.command(pass_context=True, name="clear")
     async def clear(self, ctx, number=5):
         number = int(number)  # Converting the amount of messages to delete to an integer
-        counter = 0
-        async for x in ctx.message.channel.history(limit=number):
-            if counter < number:
-                await x.delete()
-                counter += 1
-
-        clear_message = await ctx.message.channel.send("Cleared Messages :white_check_mark:")
+        await ctx.channel.purge(limit=number)
+        temp = await ctx.send(f"@everyone :white_check_mark: {number} message(s) Cleared!")
+        print(f"Cleared {number} messages from channel: {ctx.channel}")
         await asyncio.sleep(2.5)
-        await clear_message.delete()
+        await temp.delete()
 
     @commands.command(pass_context=True, name="prefix")
-    async def prefix(self, ctx, prefix):
-        with open(CONFIG_JSON, "r") as cfg:
-            json_data = json.load(cfg)
-
-        json_data["prefix"] = prefix
-        ref.BOT_PREFIX = prefix
-
-        with open(CONFIG_JSON, "w") as cfg:
-            json.dump(json_data, cfg)
-        await ctx.message.channel(f"Command Prefix is now {prefix}")
-        self.bot.command_prefix = prefix
+    async def prefix(self, ctx, prefix=None):
+        if prefix is None:
+            print("NoneType passed as prefix. Not changing prefix")
+            return
+        try:
+            os.environ["BOT_PREFIX"] = prefix
+            ref.BOT_PREFIX = prefix
+            self.bot.command_prefix = prefix
+            await ctx.send(f"```Set prefix to '{prefix}'```")
+            print(f"Command prefix is now '{prefix}'")
+        except Exception as e:
+            print("Failed to set prefix")
+            print(e)
 
     @commands.command(name="info", pass_context=True, alias=['status'])
     async def info(self, ctx):

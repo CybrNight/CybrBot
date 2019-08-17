@@ -16,13 +16,14 @@ class DeepFry(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-
-        # Generate default values
         self.saturation_val = 4
         self.brightness_val = 4
         self.contrast_val = 20
         self.sharpness_val = 300
 
+        self.bot.loop.create_task(self.initalize())
+
+    async def initalize(self):
         # Get saturation, brightness, contrast, and sharpness values from environ vars
         try:
             self.saturation_val = int(os.environ.get("FRY_SAT"))
@@ -32,77 +33,85 @@ class DeepFry(commands.Cog):
         # Use defaults when unable to get values from vars
         except Exception as e:
             print(e)
-            print("Unable to access environment variables! Using default values!")
+            print("Unable to access environment variables for deep fry! Using default values!")
+            self.saturation_val = 4
+            self.brightness_val = 4
+            self.contrast_val = 20
+            self.sharpness_val = 300
+
+    @commands.command(name="deepfry",pass_context=True)
+    async def deepfry(self, ctx, url=None):
+        content = ctx.message.content
+        channel = ctx.message.channel
+
+        img = ""
+
+        if url is None:
+            # Get image above message in chat
+            async for x in channel.history(limit=2):
+                if x.content != "deepfry" or x.content != "deep fry":
+                    if not x.attachments:
+                        img = x.content
+                    else:
+                        img = x.attachments[0].url
+        else:
+            img = url
+
+        # Grab the file extension
+        ext = os.path.splitext(img)[1]
+
+        if ext != ".gif":
+
+            # Get file and save it locally
+            async with aiohttp.ClientSession() as session:
+                async with session.get(img) as resp:
+                    if resp.status == 200:
+                        img_path = f"{DOWNLOAD_DIRECTORY}/deepfried." + ext
+                        file = await aiofiles.open(img_path, mode="wb")
+                        await file.write(await resp.read())
+                        await file.close()
+
+            # Open with PIL and "enhance" it
+            img = Image.open(img_path)
+            saturated = ImageEnhance.Color(img).enhance(self.saturation_val)
+            brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
+            contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
+            final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
+
+            # Write editrd picture to disk
+            final.save(img_path, format="png")
+            await channel.send("Fresh from the fryer!", file=discord.File(img_path))
+
+            # Delete file from disk
+            os.remove(img_path)
+            await ctx.message.delete()
+        else:
+            # Download GIF
+            async with aiohttp.ClientSession() as session:
+                async with session.get(img) as resp:
+                    if resp.status == 200:
+                        img_path = f"{DOWNLOAD_DIRECTORY}/deepfry." + ext
+                        file = await aiofiles.open(img_path, mode="wb")
+                        await file.write(await resp.read())
+                        await file.close()
+
+            # Create exraction directory
+            if not os.path.isdir(FRY_DIRECTORY):
+                os.mkdir(FRY_DIRECTORY)
+
+            # Send fried GIF to server chat
+            await channel.send("Fresh from the fryer!", file=await self.assemble_gif(img_path, FRY_DIRECTORY))
+
+            # Delete off server
+            shutil.rmtree(FRY_DIRECTORY)
+            os.remove(img_path)
+            os.remove(f"{DOWNLOAD_DIRECTORY}/deepfried.gif")
 
     @commands.Cog.listener()
     async def on_message(self, message):
         # Get channel and content of message for parsing
         channel = message.channel
         content = str(message.content).lower()
-
-        # Check if message is deep fry or deepfry
-        if content == "deepfry" or content == "deep fry":
-            number = 2
-            img = ""
-
-            # Get image above message in chat
-            async for x in channel.history(limit=number):
-                if x.content != "deepfry" or x.content != "deep fry":
-                    if not x.attachments:
-                        img = x.content
-                    else:
-                        img = x.attachments[0].url
-
-            # Grab the file extension
-            ext = os.path.splitext(img)[1]
-
-            if ext != ".gif":
-
-                # Get file and save it locally
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(img) as resp:
-                        if resp.status == 200:
-
-                            img_path = f"{DOWNLOAD_DIRECTORY}/deepfried." + ext
-                            file = await aiofiles.open(img_path, mode="wb")
-                            await file.write(await resp.read())
-                            await file.close()
-
-                # Open with PIL and "enhance" it
-                img = Image.open(img_path)
-                saturated = ImageEnhance.Color(img).enhance(self.saturation_val)
-                brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
-                contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
-                final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
-
-                # Write editrd picture to disk
-                final.save(img_path, format="png")
-                await channel.send("Fresh from the fryer!", file=discord.File(img_path))
-
-                # Delete file from disk
-                os.remove(img_path)
-            else:
-                # Download GIF
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(img) as resp:
-                        if resp.status == 200:
-
-                            img_path = f"{DOWNLOAD_DIRECTORY}/deepfry." + ext
-                            file = await aiofiles.open(img_path, mode="wb")
-                            await file.write(await resp.read())
-                            await file.close()
-
-                # Create exraction directory
-                if not os.path.isdir(FRY_DIRECTORY):
-                    os.mkdir(FRY_DIRECTORY)
-
-                # Send fried GIF to server chat
-                await channel.send("Fresh from the fryer!", file=await self.assemble_gif(img_path, FRY_DIRECTORY))
-
-                # Delete off server
-                shutil.rmtree(FRY_DIRECTORY)
-                os.remove(img_path)
-                os.remove(f"{DOWNLOAD_DIRECTORY}/deepfried.gif")
 
     async def assemble_gif(self, in_gif, out_folder):
         # Open GIF

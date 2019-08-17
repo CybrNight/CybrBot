@@ -52,10 +52,7 @@ class Voice(commands.Cog):
         else:
             voice = await channel.connect()
             print(f"Connected to {channel}\n")
-            await ctx.send(f"```Joined {channel}")
-
-        player = voice.create_ytdl_player(url)
-        player.start()
+            await ctx.send(f"```Joined {channel}```")
 
     @commands.command(pass_context=True, name="queue")
     async def queue_control(self, ctx, option="-v", url=""):

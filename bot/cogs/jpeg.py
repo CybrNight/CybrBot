@@ -17,17 +17,11 @@ class JPEG(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
-    async def on_message(self,message):
-        channel = message.channel
-        content = str(message.content).lower()
+    @commands.command(name="morejpeg",pass_context=True)
+    async def more_jpeg(self, ctx, url=None):
+        channel = ctx.message.channel
 
-        # Takes previous image in chat and compresses it
-        if content.lower().startswith("needsmorejpeg") or content.lower().startswith("needs more jpeg") \
-                or content.lower().startswith("morejpeg") or content.lower().startswith("more jpeg"):
-            number = 2
-            img = ""
-
+        if url is None:
             # Get link to previous image in chat
             async for x in channel.history(limit=number):
                 if x.content != "needsmorejpeg" or x.content != "needs more jpeg" or x.content != "morejpeg" \
@@ -36,85 +30,124 @@ class JPEG(commands.Cog):
                         img = x.content
                     else:
                         img = x.attachments[0].url
+            print(f"Got URL {img} from message")
+        else:
+            img = url
+            
+        ext = os.path.splitext(img)[1]
 
-            ext = os.path.splitext(img)[1]
-
-            if ext != ".gif":
-                try:
-                    # Download image locally to server
-                    async with aiohttp.ClientSession() as session:
-                        async with session.get(img) as resp:
-                            if resp.status == 200:
-                                img_path = f"{DOWNLOAD_DIRECTORY}/needsmore."+ext
+        if ext != ".gif":
+            try:
+                # Download image locally to server
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(img) as resp:
+                        if resp.status == 200:
+                            try:
+                                img_path = f"{DOWNLOAD_DIRECTORY}/needsmore." + ext
                                 file = await aiofiles.open(img_path, mode="wb")
                                 await file.write(await resp.read())
                                 await file.close()
+                            except Exception as e:
+                                print("Failed to download image from URL")
+                                print(e)
 
+                            try:
                                 # Save as JPEG in lowest quality and send it
                                 im = Image.open(img_path)
                                 im = im.convert("RGB")
                                 im.save(f"{DOWNLOAD_DIRECTORY}/morejpeg.jpeg", format="jpeg", quality=1)
                                 await channel.send(file=discord.File(f"{DOWNLOAD_DIRECTORY}/morejpeg.jpeg"))
+                                print("Sent image to server successfully")
+                            except Exception as e:
+                                print(f"Failed to send image to sever")
+                                print(e)
 
-                        # Delete off server
+                    # Delete off server
+                    try:
                         os.remove(img_path)
                         os.remove(f"{DOWNLOAD_DIRECTORY}/morejpeg.jpeg")
-                except Exception as e:
-                    print(e)
+                        print(f"Removed {img_path} and {DOWNLOAD_DIRECTORY}/morejpeg.jpeg from disk")
+                    except Exception as e:
+                        print(f"Failed to remove {img_path} and {DOWNLOAD_DIRECTORY}/morejpeg.jpeg from disk")
+                        print(e)
+            except Exception as e:
+                print(e)
 
-                    error = "No image found in message"
+                error = "No image found in message"
 
-                    await channel.send("```" + error + "```")
-            else:
-                try:
-                    async with aiohttp.ClientSession() as session:
-                        async with session.get(img) as resp:
-                            if resp.status == 200:
+                await channel.send("```" + error + "```")
+        else:
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(img) as resp:
+                        if resp.status == 200:
+                            try:
                                 img_path = f"{DOWNLOAD_DIRECTORY}/needsmore.gif"
                                 file = await aiofiles.open(img_path, mode="wb")
                                 await file.write(await resp.read())
                                 await file.close()
-
+                                print("Saved GIF image to disk")
+                            except Exception as e:
+                                print("Failed to Save GIF image to disk")
+                                print(e)
+                try:
                     if not os.path.isdir(JPEG_DIRECTORY):
                         os.mkdir(JPEG_DIRECTORY)
-
-                    # Send modified GIF to server chat
-                    await channel.send(file=await self.assemble_gif(img_path, JPEG_DIRECTORY))
-
-                    # Remove files from server
-                    shutil.rmtree(JPEG_DIRECTORY)
-                    os.remove(img_path)
-                    os.remove(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif")
                 except Exception as e:
+                    print("Failed to create JPEG directory")
+                    print(e)
+                # Send modified GIF to server chat
+
+                try:
+                    await channel.send(file=await self.assemble_gif(img_path, JPEG_DIRECTORY))
+                    print("Sent converted GIF to server")
+                except Exception as e:
+                    print("Failed to convert GIF and send to server!")
                     print(e)
 
-                    error = "No image found in message"
+                # Remove files from server
+                shutil.rmtree(JPEG_DIRECTORY)
+                os.remove(img_path)
+                os.remove(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif")
+            except Exception as e:
+                print(e)
 
-                    await channel.send("```" + error + "```")
+                error = "No image found in message"
+
+                await channel.send("```" + error + "```")
 
     @staticmethod
     async def assemble_gif(in_gif, out_folder):
-        frame = Image.open(in_gif)
-        nframes = 0
-        while frame:
-            frame.save( '%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), nframes), 'GIF', quality=1)
-            nframes += 1
-            try:
-                frame.seek(nframes)
-            except EOFError:
-                break
-        files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
-        images = []
+        try:
+            frame = Image.open(in_gif)
+            nframes = 0
+            while frame:
+                frame.save( '%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), nframes), 'GIF', quality=1)
+                nframes += 1
+                try:
+                    frame.seek(nframes)
+                except EOFError:
+                    break
+            files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
+            images = []
+        except Exception as e:
+            print(f"Failed to extract {in_gif} file to directory {out_folder}")
+            print(e)
 
-        for file in files:
-            img = f"{JPEG_DIRECTORY}/{file}"
-            im = Image.open(img)
-            im = im.convert("RGB")
-            im.save(f"{img}.jpeg", format="jpeg", quality=1)
-            images.append(imageio.imread(f"{img}.jpeg"))
-        imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif", images)
+        try:
+            for file in files:
+                img = f"{JPEG_DIRECTORY}/{file}"
+                im = Image.open(img)
+                im = im.convert("RGB")
+                im.save(f"{img}.jpeg", format="jpeg", quality=1)
+                images.append(imageio.imread(f"{img}.jpeg"))
+            imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif", images)
 
-        return discord.File(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif")
+            print("Converted image and returned file object!")
+            return discord.File(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif")
+        except Exception as e:
+            print("Failed to convert GIF and return file object")
+            print(e)
 
 
 def setup(bot):

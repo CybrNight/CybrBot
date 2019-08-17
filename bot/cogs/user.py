@@ -8,27 +8,47 @@ import random
 
 
 class User(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
 
         self.shake_a = self.shake_b = self.shake_c = []
         self.haikuLines = []
+        self.command_json = ""
 
-        with open(INSULT_CSV, mode='r') as file:
-            for line in file:
-                words = line.split(",")
-                self.shake_a.append(words[0])
-                self.shake_b.append(words[1])
-                self.shake_c.append(words[2].strip())
-            file.close()
+        self.bot.loop.create_task(self.initalize())
 
-        with open(HAIKU_CSV, mode='r') as file:
-            for line in file:
-                self.haikuLines.append(line)
-            file.close()
+    async def initalize(self):
+        try:
+            with open(INSULT_CSV, mode='r') as file:
+                for line in file:
+                    words = line.split(",")
+                    self.shake_a.append(words[0])
+                    self.shake_b.append(words[1])
+                    self.shake_c.append(words[2].strip())
+                file.close()
+            print("Loaded insult.csv")
+        except Exception as e:
+            print("Failed to load insult.csv")
+            print(e)
 
-        with open(COMMAND_JSON, "r") as cmds:
-            self.command_json = json.load(cmds)
+        try:
+            with open(HAIKU_CSV, mode='r') as file:
+                for line in file:
+                    self.haikuLines.append(line)
+                file.close()
+        except Exception as e:
+            print("Failed to load haiku.csv")
+            print(e)
+
+        try:
+            with open(COMMAND_JSON, "r") as cmds:
+                self.command_json = json.load(cmds)
+                cmds.close()
+            print("Loaded command.json")
+        except Exception as e:
+            print("Failed to load commmand.json")
+            print(e)
 
     # Haiku Generator
     @commands.command(name="haiku", pass_context=True)
@@ -63,6 +83,7 @@ class User(commands.Cog):
                                                                                                 str(", ").join(aliases))
             # Send author help text in direct message
             msg = await ctx.message.author.send(f"```html\n{help_message} ```")
+            print(f"Sent help message to {ctx.message.author}")
 
             await sleepasync(5)
             await msg.delete()
@@ -142,14 +163,8 @@ class User(commands.Cog):
         await ctx.message.channel.send(str(" ").join(args), file=discord.File(f"{IMG_DIRECTORY}/police.jpg"))
 
     @commands.command(name="purge", aliases=["PURGE"], pass_context=True)
-    async def purge(self, ctx, number=2):
-        msg = []  # Empty list to put all the messages in the log
-        number = int(number)  # Converting the amount of messages to delete to an integer
-        if number <= 1:
-            number = 2
-
-        async for x in ctx.message.channel.history(limit=number):
-            await x.delete()
+    async def purge(self, ctx):
+        await ctx.channel.purge(limit=2)
 
     # Spanks User
     @commands.command(pass_context=True)

@@ -3,6 +3,7 @@ import sys
 from discord.ext.commands import Bot
 
 from bot.reference import *
+from time import sleep
 
 bot = Bot(command_prefix=BOT_PREFIX)
 bot.remove_command("help")
@@ -36,6 +37,13 @@ async def on_ready():
             print("Created audio directory")
         except Exception as e:
             print(e)
+    if not os.path.isdir(MUSIC_DIRECTORY):
+        try:
+            os.mkdir(MUSIC_DIRECTORY)
+            print("Created audio directory")
+        except Exception as e:
+            print(e)
+
     print(f"Logged in as {bot.user.name}")
 
 cogs = os.listdir(cogs_dir)
@@ -44,7 +52,13 @@ if __name__ == "__main__":
     for extension in [f.replace('.py', '') for f in os.listdir(cogs_dir) if os.path.isfile(os.path.join(cogs_dir, f))]:
         try:
             bot.load_extension(f"{cogs_dir}.{extension}")
+            print(f"Loaded extension: {extension}")
+            sleep(0.1)
         except Exception as e:
             print(e)
-            print(f'Failed to load extension {extension}.')
-    bot.run(TOKEN)
+            print(f'Failed to load extension: {extension}.')
+    try:
+        bot.run(BOT_TOKEN)
+    except Exception as e:
+        print(f"{e} Stopping execution!")
+        sys.exit()
