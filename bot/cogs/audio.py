@@ -6,14 +6,18 @@ import youtube_dl
 import os
 import asyncio
 
+from bot.reference import *
+
 
 class Voice(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
         self.players = {}
-        self.song_queue = {}
         self.youtube_id = ""
+
+        for file in os.listdir(AUDIO_DIRECTORY):
+            os.remove(f"{AUDIO_DIRECTORY}/{file}")
 
     @commands.command(pass_context=True)
     async def leave(self, ctx):
@@ -41,7 +45,7 @@ class Voice(commands.Cog):
             await ctx.send(f"```Joined {channel}")
 
     @commands.command(pass_context=True)
-    async def play(self, ctx, url: str):
+    async def play(self, ctx):
         server = ctx.guild
 
         channel = ctx.message.author.voice.channel
@@ -54,21 +58,36 @@ class Voice(commands.Cog):
             print(f"Connected to {channel}\n")
             await ctx.send(f"```Joined {channel}```")
 
+        file = os.listdir(AUDIO_DIRECTORY)[0]
+        full_file = AUDIO_DIRECTORY+"/"+file
+
+        voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: print(f"{full_file} has finished"))
+        voice.source = discord.PCMVolumeTransformer(voice.source)
+        voice.source.volume = 0.07
+
+        print(f"Playing {file}")
+        await ctx.send(f"Playing {file}")
+
     @commands.command(pass_context=True, name="queue")
-    async def queue_control(self, ctx, option="-v", url=""):
+    async def queue_control(self, ctx, option="-v", url=None):
+        print(option)
         if option == "-c":
-            self.song_queue.clear()
+            for file in os.listdir(AUDIO_DIRECTORY):
+                os.remove(f"{AUDIO_DIRECTORY}/{file}")
             await ctx.send("```Cleared Queue```")
+            return
         elif option == "-v":
             i = 1
             queue_list = ""
-            for url in self.song_queue:
-                queue_list += f"{i} {url}\n"
+            for file in os.listdir(AUDIO_DIRECTORY):
+                queue_list += f"{i}. {os.path.splitext(file)[0]}\n"
                 i += 1
             await ctx.send(f"```{queue_list}```")
+            return
         elif option == "-a":
             ydl_opts = {
                 "format": "bestaudio/best",
+                "outtmpl": f"{AUDIO_DIRECTORY}/%(title)s.%(ext)s",
                 "postprocessors": [{
                     "key": "FFmpegExtractAudio",
                     "preferredcodec": "mp3",
@@ -77,6 +96,8 @@ class Voice(commands.Cog):
             }
 
             if "https://www.youtube.com" in url:
+                print(f"Adding {url} to song queue")
+                adding_msg = await ctx.send(f"Adding {url} to queue!")
                 try:
                     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                         print("Download started")
@@ -88,16 +109,17 @@ class Voice(commands.Cog):
                         else:
                             video = result  # Just Video
 
-                    '''print(f"Added {url}")
+                    print(f"Added {url}")
+                    await adding_msg.delete()
                     temp = await ctx.send(f"Added {url} to queue!\n/play to play queue")
-                    await ctx.message.delete()
                     await asyncio.sleep(5)
-                    await temp.delete()'''
-                    self.song_queue.update({video["id"]: video["title"]})
+                    await temp.delete()
                     print(f"Added {video['tile']} to song queue")
                 except Exception as e:
                     print(e)
                     print("Error downloading file")
+                return
+        await ctx.message.delete()
 
 
 def setup(bot):

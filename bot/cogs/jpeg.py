@@ -20,10 +20,11 @@ class JPEG(commands.Cog):
     @commands.command(name="morejpeg",pass_context=True)
     async def more_jpeg(self, ctx, url=None):
         channel = ctx.message.channel
+        img = ""
 
         if url is None:
             # Get link to previous image in chat
-            async for x in channel.history(limit=number):
+            async for x in channel.history(limit=2):
                 if x.content != "needsmorejpeg" or x.content != "needs more jpeg" or x.content != "morejpeg" \
                         or x.content != "more jpeg":
                     if not x.attachments:
@@ -33,7 +34,7 @@ class JPEG(commands.Cog):
             print(f"Got URL {img} from message")
         else:
             img = url
-            
+
         ext = os.path.splitext(img)[1]
 
         if ext != ".gif":
