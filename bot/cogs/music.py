@@ -112,7 +112,7 @@ class Music(commands.Cog):
                     voice = await channel.connect()
                     print(f"Connected to {channel}\n")
 
-                embed_playing = await self.embed_playing(song, url)
+                embed_playing = await self.embed_song(song)
 
                 print(f"Playing {title}")
                 await ctx.send(embed=embed_playing)
@@ -226,10 +226,7 @@ class Music(commands.Cog):
             await ctx.send(":track_next: **Skipped**")
             voice.stop()
 
-            if len(self.queue) > 0:
-                await self.play_queue(ctx)
-            else:
-                self.clear_queue()
+            self.play_queue(ctx)
         else:
             msg = await ctx.send(":x: **Music not playing**")
             print("No music to stop!")
@@ -242,45 +239,17 @@ class Music(commands.Cog):
         queue_length = len(self.queue)
 
         embed = discord.Embed(title=f"**{title}**", url=url, color=0x00ff00)
-        embed.add_field(name="Duration:", value=f"{duration}", inline=False)
         embed.set_thumbnail(url=thumbnail)
 
         if show_queue and ctx is not None:
             user = ctx.message.author
-            embed.add_field(name=f"**Position in queue:**", value=str(queue_length))
+            embed.add_field(name=f"**Position in queue:** {queue_length}", value="\u200b")
             embed.set_footer(text=f"{queue_length} song(s) in queue\n /play")
             embed.set_author(name="Added to queue", icon_url=f"https://cdn.discordapp.com/avatars/"
                                                              f"{user.id}/{user.avatar}.png?size=1024")
         else:
+            embed.add_field(name=f"**Duration:** {duration}", value=f"\u200b", inline=False)
             embed.set_author(name="Now Playing")
-
-        return embed
-
-    async def embed_queued(self, song, url):
-        title = song['title']
-        duration = str(datetime.timedelta(seconds=int(song['duration'])))
-        thumbnail = song["thumbnail"]
-
-        print(f"Added {url}")
-
-        embed = discord.Embed(title=f"**{title}**", url=url, color=0x00ff00)
-        embed.set_thumbnail(url=thumbnail)
-        queue_length = len(self.queue)
-        embed.add_field(name="Duration:", value=f"{duration}", inline=False)
-        embed.add_field(name=f"{queue_length} song(s) in queue", value=f"/play to play queue\n"
-                                                                             f"/queue to view queue", inline=False)
-
-        return embed
-
-    @staticmethod
-    async def embed_playing(song, url):
-        title = song['title']
-        duration = str(datetime.timedelta(seconds=int(song['duration'])))
-        thumbnail = song["thumbnail"]
-
-        embed = discord.Embed(title=f"**Playing {title}**", url=url, color=0x00ff00)
-        embed.add_field(name=f"Duration:", value=f"{duration}", inline=True)
-        embed.set_thumbnail(url=thumbnail)
 
         return embed
 
@@ -289,7 +258,6 @@ class Music(commands.Cog):
             with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
                 print("Download started")
                 result = ydl.extract_info(url, download=True)
-                print(result)
 
                 if "entries" in result:  # Add playlist support
                     video = result[0]
@@ -302,17 +270,17 @@ class Music(commands.Cog):
 
     async def build_queue_embed(self):
         i = 1
-        queue_embed = discord.Embed(title="Queue", description=f"Song Count:{str(len(self.queue))}", color=0xFFA200)
+        queue_embed = discord.Embed(title=f"**Songs in queue:** {len(self.queue)}", description="\u200b")
         if len(self.queue) > 0:
             for song, duration in self.queue.items():
                 if i == 1:
-                    queue_embed.add_field(name=f"{i}. {song}\n", value=f"-Duration-\n{duration}", inline=True)
+                    queue_embed.add_field(name=f"{i}. {song}", value=f"Duration:{duration}", inline=True)
                 else:
-                    queue_embed.add_field(name=f"{i}. {song}\n", value=f"-Duration-\n{duration}", inline=False)
+                    queue_embed.add_field(name=f"{i}. {song}", value=f"Duration:{duration}", inline=False)
                 i += 1
             return queue_embed
         else:
-            queue_embed.add_field(name="No songs in queue", value="-")
+            queue_embed.add_field(name="**No songs in queue**", value='\u200b')
             return queue_embed
 
     def clear_queue(self):
