@@ -9,6 +9,14 @@ import asyncio
 
 from bot.reference import *
 
+from enum import Enum
+
+
+class MusicState(Enum):
+    PlayingNone = -1
+    PlayingSingle = 0
+    PlayingQueue = 1
+
 
 class Music(commands.Cog):
     global voice
@@ -18,6 +26,7 @@ class Music(commands.Cog):
         self.queue = {}
         self.queue_index = 0
         self.ydl_opts = None
+        self.music_state = MusicState.PlayingNone
 
         self.bot.loop.create_task(self.initialize())
 
@@ -27,6 +36,7 @@ class Music(commands.Cog):
         # Load Opus library for voice
         if not discord.opus.is_loaded():
             discord.opus.load_opus('opus')
+            print("Loaded OPUS lib")
 
         self.ydl_opts = {
             "format": "bestaudio/best",
@@ -69,6 +79,11 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True)
     async def play(self, ctx, url=None):
+        if self.music_state is not MusicState.PlayingNone:
+            await ctx.send("**Already playing music. Try /queue <url>**")
+            print("Already playing music")
+            return
+
         voice = get(self.bot.voice_clients, guild=ctx.guild)
         channel = ctx.message.author.voice.channel
         if url is None and len(self.queue) > 0:
@@ -78,13 +93,12 @@ class Music(commands.Cog):
                 else:
                     await channel.connect()
                     print(f"Connected to {channel}\n")
+                self.queue_index = 0
+                self.play_queue(ctx)
             except Exception as e:
                 print(e)
                 await ctx.send("```Must be in voice channel to use this command```")
                 return
-
-            self.queue_index = 0
-            self.play_queue(ctx)
             return
         else:
             try:
@@ -92,17 +106,12 @@ class Music(commands.Cog):
                 channel = ctx.message.author.voice.channel
             except Exception as e:
                 print(e)
-                msg = await ctx.send("```Must be in voice channel to use this command```")
-                await asyncio.sleep(1.5)
-                await ctx.message.delete()
-                await msg.delete()
+                await ctx.send("```Must be in voice channel to use this command```")
                 return
 
             await ctx.send(f"**Downloading**: `{url}`")
             song = await self.download_audio(url)
             title = song['title']
-            duration = str(datetime.timedelta(seconds=int(song['duration'])))
-            thumbnail = song['thumbnail']
             full_file = f"{AUDIO_DIRECTORY}/{title}.mp3"
 
             try:
@@ -112,14 +121,14 @@ class Music(commands.Cog):
                     voice = await channel.connect()
                     print(f"Connected to {channel}\n")
 
-                embed_playing = await self.embed_song(song)
-
                 print(f"Playing {title}")
-                await ctx.send(embed=embed_playing)
 
-                voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: os.remove(full_file))
+                await ctx.send(embed=await self.embed_song(song))
+
+                voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.clear_queue())
                 voice.source = discord.PCMVolumeTransformer(voice.source)
                 voice.source.volume = float(os.environ["BOT_VOLUME"])
+                self.music_state = MusicState.PlayingSingle
             except Exception as e:
                 print(e)
                 await ctx.send("`Must be in voice channel to use this command`")
@@ -167,24 +176,19 @@ class Music(commands.Cog):
         else:
             msg = await ctx.send(":x: **Music not playing**")
             print("No music to stop!")
-        await asyncio.sleep(1.5)
+        self.music_state = MusicState.PlayingNone
 
     @commands.command(pass_context=True, name="queue")
     async def queue_control(self, ctx, option=None):
-        print(option)
-        if option == "clear" or option == "-c":
+        if option == "clear" or option == "-c" and self.music_state is MusicState.PlayingNone:
             self.clear_queue()
             msg = await ctx.send("```Cleared Queue```")
-            await asyncio.sleep(2.5)
-            await msg.delete()
             print("Cleared music queue")
             return
         elif option is None:
             await ctx.send(embed=await self.build_queue_embed())
             return
         elif option is not None and option is not "clear":
-            await asyncio.sleep(0.5)
-            print(f"Downloading: `{option}`")
             await ctx.send(f"**Queueing:`{option}`**")
             song = await self.download_audio(option)
 
@@ -204,18 +208,23 @@ class Music(commands.Cog):
     def play_queue(self, ctx):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
 
-        if len(self.queue) == 0:
+        print(len(self.queue))
+
+        if len(self.queue) == 0 and len(os.listdir(AUDIO_DIRECTORY)) > 0:
+            print("Cleaing queue @ play_queue")
             self.clear_queue()
+            return
         else:
             file = list(self.queue)[self.queue_index]
             full_file = f"{AUDIO_DIRECTORY}/{file}.mp3"
+            self.music_state = MusicState.PlayingQueue
 
             voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.play_queue(ctx))
+            voice.source = discord.PCMVolumeTransformer(voice.source)
+            voice.source.volume = float(os.environ["BOT_VOLUME"])
             print(self.queue[file])
             del self.queue[file]
-
-        voice.source = discord.PCMVolumeTransformer(voice.source)
-        voice.source.volume = float(os.environ["BOT_VOLUME"])
+            return
 
     @commands.command(name="skip", pass_context=True)
     async def skip(self, ctx):
@@ -225,8 +234,6 @@ class Music(commands.Cog):
             print("Music stopped")
             await ctx.send(":track_next: **Skipped**")
             voice.stop()
-
-            self.play_queue(ctx)
         else:
             msg = await ctx.send(":x: **Music not playing**")
             print("No music to stop!")
@@ -243,7 +250,8 @@ class Music(commands.Cog):
 
         if show_queue and ctx is not None:
             user = ctx.message.author
-            embed.add_field(name=f"**Position in queue:** {queue_length}", value="\u200b")
+            embed.add_field(name=f"**Position in queue:** {queue_length}", value="\u200b", inline=True)
+            embed.add_field(name=f"**Duration:** {duration}", value=f"\u200b", inline=False)
             embed.set_footer(text=f"{queue_length} song(s) in queue\n /play")
             embed.set_author(name="Added to queue", icon_url=f"https://cdn.discordapp.com/avatars/"
                                                              f"{user.id}/{user.avatar}.png?size=1024")
@@ -288,6 +296,7 @@ class Music(commands.Cog):
         for file in os.listdir(AUDIO_DIRECTORY):
             print(f"Removeed {file}")
             os.remove(f"{AUDIO_DIRECTORY}/{file}")
+        self.music_state = MusicState.PlayingNone
 
 
 def setup(bot):

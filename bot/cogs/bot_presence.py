@@ -40,13 +40,10 @@ class BotPresence(commands.Cog):
             # Generate Discord activity object based on status_type
             if status == "listening":
                 activity = discord.Activity(name=name, type=discord.ActivityType.listening)
-                print(f"Now listening to {name}")
             elif status == "watching":
                 activity = discord.Activity(name=name, type=discord.ActivityType.watching)
-                print(f"Now watching {name}")
             elif status == "playing":
                 activity = discord.Activity(name=name, type=discord.ActivityType.playing)
-                print(f"Now playing {name}")
 
             # Set presence of bot
             await self.bot.change_presence(activity=activity)

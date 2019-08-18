@@ -27,10 +27,11 @@ class DeepFry(commands.Cog):
         await self.bot.wait_until_ready()
         # Get saturation, brightness, contrast, and sharpness values from environ vars
         try:
-            self.saturation_val = int(os.environ.get("FRY_SAT"))
-            self.brightness_val = int(os.environ.get("FRY_BRIGHT"))
-            self.contrast_val = int(os.environ.get("FRY_CONTRAST"))
-            self.sharpness_val = int(os.environ.get("FRY_SHARPNESS"))
+            self.saturation_val = int(os.environ["FRY_SAT"])
+            self.brightness_val = int(os.environ["FRY_BRIGHT"])
+            self.contrast_val = int(os.environ["FRY_CONTRAST"])
+            self.sharpness_val = int(os.environ["FRY_SHARPNESS"])
+            print("Loaded fry values from os.environ")
         # Use defaults when unable to get values from vars
         except Exception as e:
             print(e)
@@ -42,21 +43,25 @@ class DeepFry(commands.Cog):
 
     @commands.command(name="deepfry",pass_context=True)
     async def deepfry(self, ctx, url=None):
-        content = ctx.message.content
         channel = ctx.message.channel
 
         img = ""
 
-        if url is None:
-            # Get image above message in chat
-            async for x in channel.history(limit=2):
-                if x.content != "deepfry" or x.content != "deep fry":
-                    if not x.attachments:
-                        img = x.content
-                    else:
-                        img = x.attachments[0].url
-        else:
-            img = url
+        try:
+            if url is None:
+                # Get image above message in chat
+                async for x in channel.history(limit=2):
+                    if x.content != "deepfry" or x.content != "deep fry":
+                        if not x.attachments:
+                            img = x.content
+                        else:
+                            img = x.attachments[0].url
+                            print("Found image in message")
+            else:
+                img = url
+        except Exception as e:
+            print(e)
+            print("Unable to find image attatchment in previous message")
 
         # Grab the file extension
         ext = os.path.splitext(img)[1]
@@ -64,41 +69,57 @@ class DeepFry(commands.Cog):
         if ext != ".gif":
 
             # Get file and save it locally
-            async with aiohttp.ClientSession() as session:
-                async with session.get(img) as resp:
-                    if resp.status == 200:
-                        img_path = f"{DOWNLOAD_DIRECTORY}/deepfried." + ext
-                        file = await aiofiles.open(img_path, mode="wb")
-                        await file.write(await resp.read())
-                        await file.close()
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(img) as resp:
+                        if resp.status == 200:
+                            img_path = f"{DOWNLOAD_DIRECTORY}/deepfried." + ext
+                            file = await aiofiles.open(img_path, mode="wb")
+                            await file.write(await resp.read())
+                            await file.close()
+                print("Downloaded image file from url")
+            except Exception as e:
+                print(e)
+                print("Failed to download image file")
 
-            # Open with PIL and "enhance" it
-            img = Image.open(img_path)
-            saturated = ImageEnhance.Color(img).enhance(self.saturation_val)
-            brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
-            contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
-            final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
-
-            # Write editrd picture to disk
-            final.save(img_path, format="png")
-            await channel.send("Fresh from the fryer!", file=discord.File(img_path))
+            # Open with PIL and modify
+            try:
+                img = Image.open(img_path)
+                saturated = ImageEnhance.Color(img).enhance(self.saturation_val)
+                brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
+                contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
+                final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
+                final.save(img_path, format="png")
+                await channel.send("Fresh from the fryer!", file=discord.File(img_path))
+                print("Successfully modifiied downloaded image")
+            except Exception as e:
+                print(e)
+                print("Failed while modifiying image")
 
             # Delete file from disk
             os.remove(img_path)
             await ctx.message.delete()
         else:
             # Download GIF
-            async with aiohttp.ClientSession() as session:
-                async with session.get(img) as resp:
-                    if resp.status == 200:
-                        img_path = f"{DOWNLOAD_DIRECTORY}/deepfry." + ext
-                        file = await aiofiles.open(img_path, mode="wb")
-                        await file.write(await resp.read())
-                        await file.close()
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(img) as resp:
+                        if resp.status == 200:
+                            img_path = f"{DOWNLOAD_DIRECTORY}/deepfry." + ext
+                            file = await aiofiles.open(img_path, mode="wb")
+                            await file.write(await resp.read())
+                            await file.close()
+            except Exception as e:
+                print(e)
+                print("Failed to download GIF file from url")
 
-            # Create exraction directory
-            if not os.path.isdir(FRY_DIRECTORY):
-                os.mkdir(FRY_DIRECTORY)
+            try:
+                # Create exraction directory
+                if not os.path.isdir(FRY_DIRECTORY):
+                    os.mkdir(FRY_DIRECTORY)
+            except Exception as e:
+                print(e)
+                print("Failed to create directory for extracting GIF")
 
             # Send fried GIF to server chat
             await channel.send("Fresh from the fryer!", file=await self.assemble_gif(img_path, FRY_DIRECTORY))
@@ -116,40 +137,53 @@ class DeepFry(commands.Cog):
 
     async def assemble_gif(self, in_gif, out_folder):
         # Open GIF
-        frame = Image.open(in_gif)
-        nframes = 0
-        while frame:
-            # Iterate through whole GIF and save each frame
-            frame.save('%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), nframes), 'GIF', quality=1)
-            nframes += 1
-            try:
-                frame.seek(nframes)
-            except EOFError:
-                break
+
+        try:
+            frame = Image.open(in_gif)
+            nframes = 0
+            while frame:
+                # Iterate through whole GIF and save each frame
+                frame.save('%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), nframes), 'GIF', quality=1)
+                nframes += 1
+                try:
+                    frame.seek(nframes)
+                except EOFError:
+                    break
+        except Exception as e:
+            print(e)
+            print("Failed to extract GIF frames")
 
         # Get list of all files in download directory
-        files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
-        images = []
+        try:
+            files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
+            images = []
+        except Exception as e:
+            print(e)
+            print("Failed to load individual frames")
 
         # Modify each frame
-        for file in files:
-            img = f"{FRY_DIRECTORY}/{file}"
-            im = Image.open(img)
-            im = im.convert("RGB")
-            saturated = ImageEnhance.Color(im).enhance(self.saturation_val)
-            brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
-            contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
-            final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
+        try:
+            for file in files:
+                img = f"{FRY_DIRECTORY}/{file}"
+                im = Image.open(img)
+                im = im.convert("RGB")
+                saturated = ImageEnhance.Color(im).enhance(self.saturation_val)
+                brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
+                contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
+                final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
 
-            # Save final image and append to images array
-            final.save(img + ".jpeg", format="jpeg")
-            images.append(imageio.imread(img + ".jpeg"))
+                # Save final image and append to images array
+                final.save(img + ".jpeg", format="jpeg")
+                images.append(imageio.imread(img + ".jpeg"))
 
-        # Generate GIF from images array
-        imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/deepfried.gif", images)
+            # Generate GIF from images array
+            imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/deepfried.gif", images)
 
-        # Return Discord file object that can be sent to server
-        return discord.File(f"{DOWNLOAD_DIRECTORY}/deepfried.gif")
+            # Return Discord file object that can be sent to server
+            return discord.File(f"{DOWNLOAD_DIRECTORY}/deepfried.gif")
+        except Exception as e:
+            print(e)
+            print("Failed to save modified GIF file and return file object")
 
 
 def setup(bot):
