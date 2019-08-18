@@ -236,7 +236,7 @@ class Music(commands.Cog):
             if len(self.queue) > 0:
                 await self.play_queue(ctx)
             else:
-                await self.queue_finished(ctx)
+                self.queue_finished(ctx)
         else:
             msg = await ctx.send(":x: **Music not playing**")
             print("No music to stop!")
