@@ -69,7 +69,7 @@ class User(commands.Cog):
         # Open commands.json for reading
         if args.__len__() == 0:
             # Send message to channel where message was sent
-            bot_message = await ctx.message.channel.send(f"{ctx.author.mention} I DM'd you the command list!")
+            bot_message = await ctx.message.channel.send(f"**{ctx.author.mention} I DM'd you the command list!**")
             help_message = f"Here's the command list! The current prefix is '{BOT_PREFIX}'"
 
             # Iterate through json file and add all commands to help string
@@ -81,12 +81,15 @@ class User(commands.Cog):
                                                                                                 item["desc"],
                                                                                                 item["usage"],
                                                                                                 str(", ").join(aliases))
+                if len(help_message) >= 1900:
+                    print(len(help_message))
+                    await ctx.message.author.send(f"```html\n{help_message} ```")
+                    help_message = ""
             # Send author help text in direct message
-            msg = await ctx.message.author.send(f"```html\n{help_message} ```")
+            await ctx.message.author.send(f"```html\n{help_message} ```")
             print(f"Sent help message to {ctx.message.author}")
 
             await sleepasync(5)
-            await msg.delete()
             await bot_message.delete()
         else:
             help_message = ""
@@ -127,7 +130,7 @@ class User(commands.Cog):
     @commands.command(name="insult", pass_context=True)
     async def insult(self, ctx, user=None):
         if user is None:
-            await ctx.message.channel.send("```Thy did not specify whom I shall insult!```")
+            await ctx.message.channel.send("**Thy did not specify whom I shall insult!**")
             return
 
         word_a = random.choice(self.shake_a)
@@ -150,13 +153,13 @@ class User(commands.Cog):
     @commands.command(name='pat', aliases=['pats', 'pets', 'pet'], pass_context=True)
     async def pat(self, ctx, *args):
         if args.__len__() == 0:
-            await ctx.message.channel.send(f"{ctx.message.author.mention} \*pats\* themselves")
+            await ctx.message.channel.send(f"**{ctx.message.author.mention} \*pats\* themselves**")
         else:
-            await ctx.message.channel.send(f"{ctx.message.author.mention} \*pats\* {str(' ').join(args)}")
+            await ctx.message.channel.send(f"**{ctx.message.author.mention} \*pats\* {str(' ').join(args)}**")
 
     @commands.command(name='ping', pass_context=True)
     async def ping(self, ctx, *args):
-        await ctx.message.channel.send(f":ping_pong: Pong! {str(' ').join(args)}")
+        await ctx.message.channel.send(f"**:ping_pong: Pong! {str(' ').join(args)}**")
 
     @commands.command(name='police', aliases=['lolice', '911', 'swat'], pass_context=True)
     async def police(self, ctx, *args):
@@ -170,9 +173,9 @@ class User(commands.Cog):
     @commands.command(pass_context=True)
     async def spank(self, ctx, *args):
         if args.__len__() == 0:
-            await ctx.message.channel.send(ctx.message.author.mention + " \*spanks* themselves")
+            await ctx.message.channel.send(ctx.message.author.mention + "** \*spanks* themselves**")
         else:
-            await ctx.message.channel.send(ctx.message.author.mention + " \*spanks* " + str(" ").join(args))
+            await ctx.message.channel.send(ctx.message.author.mention + "** \*spanks* **" + str(" ").join(args))
 
 
 def setup(bot):

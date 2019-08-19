@@ -1,6 +1,42 @@
 {
   "commands":[
     {
+      "name": "play",
+      "desc": "Plays a song from YouTube/SoundCloud and more.\n-Full list here:https://ytdl-org.github.io/youtube-dl/supportedsites.html",
+      "usage": "play <url>",
+      "aliases": [{"id":"p"}]
+    },
+    {
+      "name": "queue",
+      "desc": "Add song to queue. Use /play without arguments to play queue",
+      "usage": "queue <url>\n-/queue to view queue",
+      "aliases": [{"id":"q"}]
+    },
+    {
+      "name": "stop",
+      "desc": "Stops currently playing music, and clears queue",
+      "usage": "stop",
+      "aliases":[{"id":"None"}]
+    },
+    {
+      "name": "skip",
+      "desc": "Skips currently playing music",
+      "usage": "skip",
+      "aliases":[{"id":"None"}]
+    },
+    {
+      "name": "join",
+      "desc": "Connects bot to voice channel user is in",
+      "usage": "join",
+      "aliases":[{"id":"None"}]
+    },
+    {
+      "name": "leave",
+      "desc": "Disconnected bot from voice channel",
+      "usage": "leave",
+      "aliases":[{"id":"None"}]
+    },
+    {
       "name":"diceroll",
       "desc":"Rolls a die",
       "usage":"diceroll",

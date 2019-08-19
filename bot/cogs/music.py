@@ -77,7 +77,7 @@ class Music(commands.Cog):
             print(e)
             await ctx.send("**Must be in voice channel to use this command**")
 
-    @commands.command(pass_context=True)
+    @commands.command(pass_context=True, aliases=['p'])
     async def play(self, ctx, url=None):
         if self.music_state is not MusicState.PlayingNone:
             await ctx.send("**Already playing music. Try /queue <url> or /stop**")
@@ -177,7 +177,7 @@ class Music(commands.Cog):
             print("No music to stop!")
         self.music_state = MusicState.PlayingNone
 
-    @commands.command(pass_context=True, name="queue")
+    @commands.command(pass_context=True, name="queue", aliases=['q'])
     async def queue_control(self, ctx, option=None):
         if option == "clear" or option == "-c" and self.music_state is MusicState.PlayingNone:
             self.clear_queue()
@@ -248,13 +248,13 @@ class Music(commands.Cog):
         if show_queue and ctx is not None:
             user = ctx.message.author
             embed.add_field(name=f"**Position in queue:** {queue_length}", value="\u200b", inline=True)
-            embed.add_field(name=f"**Duration:** {duration}", value=f"\u200b", inline=False)
             embed.set_footer(text=f"{queue_length} song(s) in queue\n /play")
             embed.set_author(name="Added to queue", icon_url=f"https://cdn.discordapp.com/avatars/"
                                                              f"{user.id}/{user.avatar}.png?size=1024")
         else:
-            embed.add_field(name=f"**Duration:** {duration}", value=f"\u200b", inline=False)
-            embed.set_author(name="**Now Playing**")
+            embed.set_author(name="Now Playing")
+
+        embed.add_field(name=f"**Duration:** {duration}", value=f"\u200b", inline=False)
 
         return embed
 
@@ -291,7 +291,7 @@ class Music(commands.Cog):
     def clear_queue(self):
         self.queue.clear()
         for file in os.listdir(AUDIO_DIRECTORY):
-            print(f"Removeed {file}")
+            print(f"Removed {file}")
             os.remove(f"{AUDIO_DIRECTORY}/{file}")
         self.music_state = MusicState.PlayingNone
 

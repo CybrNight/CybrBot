@@ -25,7 +25,7 @@ class RNG(commands.Cog):
     # Coin Flip Command
     @commands.command(name="coinflip", aliases=['flipacoin', 'flipcoin'], pass_context=True)
     async def coin_flip(self, ctx):
-        await ctx.channel.send("Flipping coin...")
+        await ctx.channel.send("**Flipping coin...**")
         await asyncio.sleep(0.5)
         possible_outcomes = ['Heads', 'Tails']
         await ctx.channel.send("It's " + random.choice(possible_outcomes))

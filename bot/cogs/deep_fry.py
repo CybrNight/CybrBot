@@ -90,7 +90,7 @@ class DeepFry(commands.Cog):
                 contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
                 final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
                 final.save(img_path, format="png")
-                await channel.send("Fresh from the fryer!", file=discord.File(img_path))
+                await channel.send("**Fresh from the fryer!**", file=discord.File(img_path))
                 print("Successfully modifiied downloaded image")
             except Exception as e:
                 print(e)
@@ -122,7 +122,7 @@ class DeepFry(commands.Cog):
                 print("Failed to create directory for extracting GIF")
 
             # Send fried GIF to server chat
-            await channel.send("Fresh from the fryer!", file=await self.assemble_gif(img_path, FRY_DIRECTORY))
+            await channel.send("**Fresh from the fryer!**", file=await self.assemble_gif(img_path, FRY_DIRECTORY))
 
             # Delete off server
             shutil.rmtree(FRY_DIRECTORY)

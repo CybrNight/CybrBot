@@ -23,13 +23,13 @@ class Util(commands.Cog):
     @commands.command(pass_context=True, name="prefix")
     async def prefix(self, ctx, prefix=None):
         if prefix is None:
-            print("NoneType passed as prefix. Not changing prefix")
+            await ctx.send(f"**Current prefix is '{os.environ['BOT_PRECIX']}'")
             return
         try:
             os.environ["BOT_PREFIX"] = prefix
             ref.BOT_PREFIX = prefix
             self.bot.command_prefix = prefix
-            await ctx.send(f"```Set prefix to '{prefix}'```")
+            await ctx.send(f"**Set prefix to '{prefix}'**")
             print(f"**Command prefix is now '{prefix}'**")
         except Exception as e:
             print("Failed to set prefix")
