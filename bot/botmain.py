@@ -59,7 +59,8 @@ if __name__ == "__main__":
             sleep(0.1)
         except Exception as e:
             print(e)
-            print(f'Failed to load extension: {extension}.')
+
+            raise Warning(f'Failed to load extension: {extension}.')
     try:
         bot.run(BOT_TOKEN)
     except Exception as e:

@@ -15,7 +15,7 @@ class Util(commands.Cog):
     async def clear(self, ctx, number=5):
         number = int(number)  # Converting the amount of messages to delete to an integer
         await ctx.channel.purge(limit=number)
-        temp = await ctx.send(f"@everyone :white_check_mark: {number} message(s) Cleared!")
+        temp = await ctx.send(f"**@everyone :white_check_mark: {number} message(s) Cleared!**")
         print(f"Cleared {number} messages from channel: {ctx.channel}")
         await asyncio.sleep(2.5)
         await temp.delete()
@@ -30,7 +30,7 @@ class Util(commands.Cog):
             ref.BOT_PREFIX = prefix
             self.bot.command_prefix = prefix
             await ctx.send(f"```Set prefix to '{prefix}'```")
-            print(f"Command prefix is now '{prefix}'")
+            print(f"**Command prefix is now '{prefix}'**")
         except Exception as e:
             print("Failed to set prefix")
             print(e)

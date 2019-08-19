@@ -80,14 +80,14 @@ class Music(commands.Cog):
     @commands.command(pass_context=True)
     async def play(self, ctx, url=None):
         if self.music_state is not MusicState.PlayingNone:
-            await ctx.send("**Already playing music. Try /queue <url>**")
+            await ctx.send("**Already playing music. Try /queue <url> or /stop**")
             print("Already playing music")
             return
 
         voice = get(self.bot.voice_clients, guild=ctx.guild)
-        channel = ctx.message.author.voice.channel
         if url is None and len(self.queue) > 0:
             try:
+                channel = ctx.message.author.voice.channel
                 if voice and voice.is_connected():
                     await voice.move_to(channel)
                 else:
@@ -97,16 +97,15 @@ class Music(commands.Cog):
                 self.play_queue(ctx)
             except Exception as e:
                 print(e)
-                await ctx.send("```Must be in voice channel to use this command```")
+                await ctx.send(f"{ctx.message.author.mention} **Must be in voice channel to use this command**")
                 return
             return
         else:
             try:
-                server = ctx.guild
                 channel = ctx.message.author.voice.channel
             except Exception as e:
                 print(e)
-                await ctx.send("```Must be in voice channel to use this command```")
+                await ctx.send(f"{ctx.message.author.mention} **Must be in voice channel to use this command**")
                 return
 
             await ctx.send(f"**Downloading**: `{url}`")
@@ -131,7 +130,7 @@ class Music(commands.Cog):
                 self.music_state = MusicState.PlayingSingle
             except Exception as e:
                 print(e)
-                await ctx.send("`Must be in voice channel to use this command`")
+                await ctx.send(f"{ctx.message.author.mention} **Must be in voice channel to use this command**")
                 return
 
     @commands.command(pass_context=True, name="volume")
@@ -146,7 +145,7 @@ class Music(commands.Cog):
     @commands.command(pass_context=True, name="pause")
     async def pause(self, ctx):
         if voice and voice.is_playing():
-            await ctx.send("`Paused :pause_button:")
+            await ctx.send("**Music paused :pause_button:**")
             print("Music paused")
             voice.pause()
         else:
@@ -158,11 +157,11 @@ class Music(commands.Cog):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
 
         if voice and voice.is_paused():
-            await ctx.send("```Music resumed```")
+            await ctx.send("**Music resumed :play_pause:**")
             print("Music paused")
             voice.resume()
         else:
-            await ctx.send("```No music to resume```")
+            await ctx.send("**:x: No music to resume**")
             print("Trying to resume music that is not paused")
 
     @commands.command(pass_context=True, name="stop")
@@ -170,7 +169,7 @@ class Music(commands.Cog):
         voice = get(self.bot.voice_clients, guild=ctx.guild)
 
         if voice and voice.is_playing():
-            await ctx.send("```Music stopped```")
+            await ctx.send("**Music stopped :octagonal_sign:**")
             print("Music stopped")
             voice.stop()
         else:
@@ -182,7 +181,7 @@ class Music(commands.Cog):
     async def queue_control(self, ctx, option=None):
         if option == "clear" or option == "-c" and self.music_state is MusicState.PlayingNone:
             self.clear_queue()
-            msg = await ctx.send("```Cleared Queue```")
+            msg = await ctx.send("**Cleared Queue :wastebasket:**")
             print("Cleared music queue")
             return
         elif option is None:
@@ -206,8 +205,6 @@ class Music(commands.Cog):
         await ctx.message.delete()
 
     def play_queue(self, ctx):
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
-
         print(len(self.queue))
 
         if len(self.queue) == 0 and len(os.listdir(AUDIO_DIRECTORY)) > 0:
@@ -257,7 +254,7 @@ class Music(commands.Cog):
                                                              f"{user.id}/{user.avatar}.png?size=1024")
         else:
             embed.add_field(name=f"**Duration:** {duration}", value=f"\u200b", inline=False)
-            embed.set_author(name="Now Playing")
+            embed.set_author(name="**Now Playing**")
 
         return embed
 
