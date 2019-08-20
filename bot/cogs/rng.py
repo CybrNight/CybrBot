@@ -21,7 +21,7 @@ class RNG(commands.Cog):
             'Definitely',
         ]
         response = random.choice(possible_responses)
-        await ctx.send(f"{response}, {ctx.message.author.mention}")
+        await ctx.send(f"**{response}, {ctx.message.author.mention}**")
         
     # Coin Flip Command
     @commands.command(name="coinflip", aliases=['flipacoin', 'flipcoin'], pass_context=True)
@@ -30,7 +30,7 @@ class RNG(commands.Cog):
         await asyncio.sleep(0.5)
         possible_outcomes = ['Heads', 'Tails']
         outcome = random.choice(possible_outcomes)
-        await ctx.send(f"It's {outcome}")
+        await ctx.send(f"**It's {outcome}**")
 
     # Dice Roll Command
     @commands.command(name="diceroll", aliases=['rolldie', 'rolladie'], pass_context=True)

@@ -137,7 +137,7 @@ class User(commands.Cog):
         word_c = random.choice(self.shake_c)
 
         insult = f"Thou {word_a} {word_b} {word_c}"
-        await ctx.send(f"{user} {insult}")
+        await ctx.send(f"**{user} {insult}**")
 
     @commands.command(name='lolicon', aliases=['loli'], pass_context=True)
     async def lolicon(self, ctx, *args):

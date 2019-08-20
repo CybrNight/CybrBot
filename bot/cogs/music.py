@@ -55,6 +55,7 @@ class Music(commands.Cog):
 
         if voice and voice.is_connected():
             await voice.disconnect()
+            await ctx.send(f"**Successfully disconnected**")
             print(f"Disconnected from {channel}")
         else:
             print("Told to leave channel, but not connected to one")
@@ -73,6 +74,7 @@ class Music(commands.Cog):
             else:
                 voice = await channel.connect()
                 print(f"Connected to {channel}\n")
+            await ctx.send(f"**Connected to `{channel}**")
         except Exception as e:
             print(e)
             await ctx.send("**Must be in voice channel to use this command**")
@@ -108,7 +110,7 @@ class Music(commands.Cog):
                 await ctx.send(f"{ctx.message.author.mention} **Must be in voice channel to use this command**")
                 return
 
-            await ctx.send(f"**Downloading**: `{url}`")
+            await ctx.send(f"**Downloading**: `{url}` for playback")
             song = await self.download_audio(url)
             title = song['title']
             full_file = f"{AUDIO_DIRECTORY}/{title}.mp3"
