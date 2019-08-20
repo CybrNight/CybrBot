@@ -20,23 +20,25 @@ class RNG(commands.Cog):
             'It is quite possible',
             'Definitely',
         ]
-        await ctx.channel.send(random.choice(possible_responses) + ", " + ctx.message.author.mention)
-
+        response = random.choice(possible_responses)
+        await ctx.send(f"{response}, {ctx.message.author.mention}")
+        
     # Coin Flip Command
     @commands.command(name="coinflip", aliases=['flipacoin', 'flipcoin'], pass_context=True)
     async def coin_flip(self, ctx):
-        await ctx.channel.send("**Flipping coin...**")
+        await ctx.send("**Flipping coin...**")
         await asyncio.sleep(0.5)
         possible_outcomes = ['Heads', 'Tails']
-        await ctx.channel.send("It's " + random.choice(possible_outcomes))
+        outcome = random.choice(possible_outcomes)
+        await ctx.send(f"It's {outcome}")
 
     # Dice Roll Command
     @commands.command(name="diceroll", aliases=['rolldie', 'rolladie'], pass_context=True)
     async def dice_roll(self, ctx):
-        await ctx.channel.send(":game_die: Rolling die...")
+        await ctx.send("**:game_die: Rolling die...**")
         await asyncio.sleep(0.5)
         number = random.randint(1, 6)
-        await ctx.channel.send("It's " + str(number))
+        await ctx.send(f"**It's {number}**")
 
 
 def setup(bot):

@@ -13,6 +13,12 @@
       "aliases": [{"id":"q"}]
     },
     {
+      "name": "volume",
+      "desc": "Sets internal playback volume for bot. Applied when next song played",
+      "usage": "volume <value>",
+      "aliases": [{"id": "None"}]
+    },
+    {
       "name": "stop",
       "desc": "Stops currently playing music, and clears queue",
       "usage": "stop",

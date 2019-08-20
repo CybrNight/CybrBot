@@ -60,7 +60,7 @@ class User(commands.Cog):
         haiku += random.choice(self.haikuLines[5].split(",")).strip() + " " + random.choice(
             self.haikuLines[6].split(",")).strip() + "\n"
 
-        await ctx.message.channel.send(haiku)
+        await ctx.send(haiku)
 
     # Help Command
     @commands.command(name="help", pass_context=True)
@@ -69,22 +69,25 @@ class User(commands.Cog):
         # Open commands.json for reading
         if args.__len__() == 0:
             # Send message to channel where message was sent
-            bot_message = await ctx.message.channel.send(f"**{ctx.author.mention} I DM'd you the command list!**")
-            help_message = f"Here's the command list! The current prefix is '{BOT_PREFIX}'"
+            bot_message = await ctx.send(f"**{ctx.author.mention} I DM'd you the command list!**")
+            help_message = f"Here's the command list! The current prefix is '{BOT_PREFIX}'\n"
 
             # Iterate through json file and add all commands to help string
             for index, item in enumerate(self.command_json["commands"]):
                 aliases = []
                 for index2, alias in enumerate(item["aliases"]):
                     aliases.append(alias["id"])
-                help_message += "\n{0}\n-Description: {1}\n-Usage: {2}\n-Aliases: {3}\n".format(item["name"],
-                                                                                                item["desc"],
-                                                                                                item["usage"],
-                                                                                                str(", ").join(aliases))
+
+                name = item["name"]
+                desc = item["desc"]
+                usage = item["usage"]
+                help_message += f"\n{name}\n-Description: {desc}\n-Usage: {BOT_PREFIX}{usage}\n-Aliases: {aliases}\n"
+
                 if len(help_message) >= 1900:
                     print(len(help_message))
                     await ctx.message.author.send(f"```html\n{help_message} ```")
                     help_message = ""
+
             # Send author help text in direct message
             await ctx.message.author.send(f"```html\n{help_message} ```")
             print(f"Sent help message to {ctx.message.author}")
@@ -103,10 +106,10 @@ class User(commands.Cog):
                             aliases.append(alias["id"])
 
                         alias_str = str(" ").join(aliases)
-                        help_message += "\n{0}\n-Description: {1}\n-Usage: {2}\n-Aliases: {3}\n".format(item["name"],
-                                                                                                        item["desc"],
-                                                                                                        item["usage"],
-                                                                                                        alias_str)
+                        name = item["name"]
+                        desc = item["desc"]
+                        usage = item["usage"]
+                        help_message += f"\n{name}\n-Description: {desc}\n-Usage: {BOT_PREFIX}{usage}\n-Aliases: {alias_str}"
                         continue
 
                     aliases = []
@@ -120,17 +123,13 @@ class User(commands.Cog):
                                 item["usage"],
                                 alias_str)
             # Send help info for inputed commands to channel
-            bot_message = ctx.message.author.send(f"```html\n{help_message} ```")
-
-            await sleepasync(5)
-            await bot_message.delete()
-            await ctx.message.delete()
+            bot_message = await ctx.send(f"```html\n{help_message} ```")
 
     # Shakespeare Insults
     @commands.command(name="insult", pass_context=True)
     async def insult(self, ctx, user=None):
         if user is None:
-            await ctx.message.channel.send("**Thy did not specify whom I shall insult!**")
+            await ctx.send("**Thy did not specify whom I shall insult!**")
             return
 
         word_a = random.choice(self.shake_a)
@@ -138,32 +137,32 @@ class User(commands.Cog):
         word_c = random.choice(self.shake_c)
 
         insult = f"Thou {word_a} {word_b} {word_c}"
-        await ctx.message.channel.send(f"{user} {insult}")
+        await ctx.send(f"{user} {insult}")
 
     @commands.command(name='lolicon', aliases=['loli'], pass_context=True)
     async def lolicon(self, ctx, *args):
         if args.__len__() == 0:
-            await ctx.message.channel.send(f"{ctx.message.author.mention} "
+            await ctx.send(f"{ctx.message.author.mention} "
                                            f"https://www.youtube.com/watch?v=-mzR1jcZ_OI")
         else:
-            await ctx.message.channel.send(f"{str(' ').join(args)}"
+            await ctx.send(f"{str(' ').join(args)}"
                                            f"https://www.youtube.com/watch?v=-mzR1jcZ_OI")
 
     # Pat user command
     @commands.command(name='pat', aliases=['pats', 'pets', 'pet'], pass_context=True)
     async def pat(self, ctx, *args):
         if args.__len__() == 0:
-            await ctx.message.channel.send(f"**{ctx.message.author.mention} \*pats\* themselves**")
+            await ctx.send(f"**{ctx.message.author.mention} \*pats\* themselves**")
         else:
-            await ctx.message.channel.send(f"**{ctx.message.author.mention} \*pats\* {str(' ').join(args)}**")
+            await ctx.send(f"**{ctx.message.author.mention} \*pats\* {str(' ').join(args)}**")
 
     @commands.command(name='ping', pass_context=True)
     async def ping(self, ctx, *args):
-        await ctx.message.channel.send(f"**:ping_pong: Pong! {str(' ').join(args)}**")
+        await ctx.send(f"**:ping_pong: Pong! {str(' ').join(args)}**")
 
     @commands.command(name='police', aliases=['lolice', '911', 'swat'], pass_context=True)
     async def police(self, ctx, *args):
-        await ctx.message.channel.send(str(" ").join(args), file=discord.File(f"{IMG_DIRECTORY}/police.jpg"))
+        await ctx.send(str(" ").join(args), file=discord.File(f"{IMG_DIRECTORY}/police.jpg"))
 
     @commands.command(name="purge", aliases=["PURGE"], pass_context=True)
     async def purge(self, ctx):
@@ -173,9 +172,9 @@ class User(commands.Cog):
     @commands.command(pass_context=True)
     async def spank(self, ctx, *args):
         if args.__len__() == 0:
-            await ctx.message.channel.send(ctx.message.author.mention + "** \*spanks* themselves**")
+            await ctx.send(ctx.message.author.mention + "** \*spanks* themselves**")
         else:
-            await ctx.message.channel.send(ctx.message.author.mention + "** \*spanks* **" + str(" ").join(args))
+            await ctx.send(ctx.message.author.mention + "** \*spanks* **" + str(" ").join(args))
 
 
 def setup(bot):

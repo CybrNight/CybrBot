@@ -32,14 +32,14 @@ class InMessage(commands.Cog):
             msg = content.split(" ")
             if len(msg) > 1:
                 msg.pop(0)
-                await channel.send("**>literally** " + str(" ").join(msg), file=discord.File(self.autism))
+                await channel.send(f"**>literally** {msg}", file=discord.File(self.autism))
 
         if content.startswith("**mechanized autism**"):
             await channel.send("Mechanzied Autism", file=discord.File(self.riding_mower))
 
         # Sends current prefix to chat
         if content.startswith("prefix?"):
-            await channel.send("```The current prefix is " + "'" + BOT_PREFIX + "'```")
+            await channel.send(f"**The current prefix is '{BOT_PREFIX}'")
             await message.delete()
 
         # Sends eye=patch picture to chat
