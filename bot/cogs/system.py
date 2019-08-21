@@ -16,7 +16,7 @@ class Util(commands.Cog):
         number = int(number)  # Converting the amount of messages to delete to an integer
         await ctx.channel.purge(limit=number)
         temp = await ctx.send(f"**@everyone :white_check_mark: {number} message(s) Cleared!**")
-        print(f"Cleared {number} messages from channel: {ctx.channel}")
+        print(f":wastebasket: Cleared {number} messages from channel: {ctx.channel}")
         await asyncio.sleep(2.5)
         await temp.delete()
 

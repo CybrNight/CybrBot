@@ -17,7 +17,7 @@ class JPEG(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="morejpeg",pass_context=True)
+    @commands.command(name="morejpeg", aliases=["jpeg", "needsmorejpeg"], pass_context=True)
     async def more_jpeg(self, ctx, url=None):
         channel = ctx.message.channel
         img = ""

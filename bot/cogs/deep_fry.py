@@ -41,7 +41,7 @@ class DeepFry(commands.Cog):
             self.contrast_val = 20
             self.sharpness_val = 300
 
-    @commands.command(name="deepfry",pass_context=True)
+    @commands.command(name="deepfry", pass_context=True)
     async def deepfry(self, ctx, url=None):
         channel = ctx.message.channel
 

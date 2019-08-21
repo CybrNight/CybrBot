@@ -61,7 +61,7 @@ class Music(commands.Cog):
             print("Told to leave channel, but not connected to one")
 
     # Tells bot to join text channel in
-    @commands.command(pass_context=True)
+    @commands.command(pass_context=True, aliases=["disconnect"])
     async def join(self, ctx):
         global voice
         try:

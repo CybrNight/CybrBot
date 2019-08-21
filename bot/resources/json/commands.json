@@ -4,151 +4,253 @@
       "name": "play",
       "desc": "Plays a song from YouTube/SoundCloud and more.\n-Full list here:https://ytdl-org.github.io/youtube-dl/supportedsites.html",
       "usage": "play <url>",
-      "aliases": [{"id":"p"}]
+      "aliases": [{
+        "id":"p"
+      }]
     },
     {
       "name": "queue",
       "desc": "Add song to queue. Use /play without arguments to play queue",
-      "usage": "queue <url>\n-/queue to view queue",
-      "aliases": [{"id":"q"}]
+      "usage": "queue <url> /queue to view queue /queue clear or -c to clear queue",
+      "aliases": [{
+        "id": "q"
+      }]
     },
     {
       "name": "volume",
       "desc": "Sets internal playback volume for bot. Applied when next song played",
       "usage": "volume <value>",
-      "aliases": [{"id": "None"}]
+      "aliases": [{
+        "id": "None"
+      }]
+    },
+    {
+      "name": "pause",
+      "desc": "Pauses currently playing music. /resume to resume",
+      "usage": "resume",
+      "aliases": [{
+        "id":"None"
+      }]
+    },
+    {
+      "name": "resume",
+      "desc": "Resumes currently paused music",
+      "usage": "resume",
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
       "name": "stop",
       "desc": "Stops currently playing music, and clears queue",
       "usage": "stop",
-      "aliases":[{"id":"None"}]
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
       "name": "skip",
       "desc": "Skips currently playing music",
       "usage": "skip",
-      "aliases":[{"id":"None"}]
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
       "name": "join",
       "desc": "Connects bot to voice channel user is in",
       "usage": "join",
-      "aliases":[{"id":"None"}]
+      "aliases": [{
+        "id": "None"
+      }]
+    },
+    {
+      "name": "jpeg",
+      "desc": "More jpegs an image from url or previous message",
+      "usage": "jpeg <url> or jpeg (will grab previous image)",
+      "aliases": [{
+        "id": "morejpeg"
+      },{
+        "id": "needsmorejpeg"
+      }]
+    },
+    {
+      "name": "deepfry",
+      "desc": "Deep fries an image from url or previous message",
+      "usage": "deepfry <urL> or deepfry (will grab previous image)",
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
       "name": "leave",
-      "desc": "Disconnected bot from voice channel",
+      "desc": "Disconnects bot from voice channel",
       "usage": "leave",
-      "aliases":[{"id":"None"}]
+      "aliases": [{
+        "id": "disconnect"
+      }]
     },
     {
-      "name":"diceroll",
-      "desc":"Rolls a die",
-      "usage":"diceroll",
-      "aliases":[{"id":"rolldie"},{"id":"rolladie"}]
+      "name": "diceroll",
+      "desc": "Rolls a die",
+      "usage": "diceroll",
+      "aliases": [{
+        "id": "rolldie"
+      },{
+        "id": "rolladie"
+      }]
     },
     {
-      "name":"clear",
-      "desc":"Clears # of messages from screen. (Default 5)",
+      "name": "clear",
+      "desc": "Clears # of messages from screen. (Default 5)",
       "usage": "clear <number> e.g clear 20",
-      "aliases":[{"id":"None"}]
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
-      "name":"coinflip",
-      "desc":"Flips a coin",
-      "usage":"coinflip",
-      "aliases":[{"id":"flipcoin"}, {"id":"flipacoin"}]
+      "name": "coinflip",
+      "desc": "Flips a coin",
+      "usage": "coinflip",
+      "aliases": [{
+        "id": "flipcoin"
+      },{
+        "id": "flipacoin"
+      }]
     },
     {
-      "name":"gelbooru",
-      "desc":"Scrapes gelbooru.com for images",
-      "usage":"gelbooru <search-query>  e.g gelbooru bee_movie",
-      "aliases":[{"id":"gb"}, {"id":"gbooru"}]
+      "name": "gelbooru",
+      "desc": "Scrapes gelbooru.com for images",
+      "usage": "gelbooru <search-query>  e.g gelbooru bee_movie",
+      "aliases": [{
+        "id":"gb"
+      },{
+        "id":"gbooru"
+      }]
     },
     {
       "name":"haiku",
       "desc":"Generates a random haiku.",
       "usage":"haiku",
-      "aliases":[{"id":"None"}]
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
       "name":"help",
       "desc":"Displays list of commands.",
       "usage":"help <command>",
-      "aliases":[{"id":"None"}]
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
       "name":"info",
       "desc":"Displays bot info.",
       "usage":"info",
-      "aliases":[{"id":"status"}]
+      "aliases": [{
+        "id": "status"
+      }]
     },
     {
       "name":"insult",
       "desc":"Insults a user with a random shakespearian insult.",
       "usage":"insult <user>",
-      "aliases":[{"id":"None"}]
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
       "name":"hentaihaven",
       "desc":"Scrapes HentaiHaven.org for videos based on categories.",
       "usage": "hentaihaven <category> e.g hh milf ugly-bastard",
-      "aliases":[{"id":"hh"},{"id":"hentai"}]
+      "aliases": [{
+        "id": "hh"
+      },{
+        "id": "hentai"
+      }]
     },
     {
       "name":"lolicon",
       "desc":"Exposes a user as lolicon and sends them an informational video.",
       "usage": "lolicon <user>",
-      "aliases":[{"id":"loli"}]
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
       "name":"pat",
       "desc":"Pats a user on the head.",
       "usage": "pat <user>",
-      "aliases":[{"id":"pet"},{"id":"pats"},{"id":"pets"}]
+      "aliases": [{
+        "id": "pet"
+      },{
+        "id": "pats"
+      },{
+        "id": "pets"
+      }]
     },
     {
       "name":"ping",
       "desc":"Pings a user on the server.",
       "usage": "ping <user>",
-      "aliases":[{"id":"None"}]
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
       "name":"police",
       "desc":"Calls the police on a user.",
       "usage": "police <user>",
-      "aliases":[{"id":"lolice"},{"id":"911"},{"id":"swat"}]
+      "aliases": [{
+        "id": "911"
+      },{
+        "id": "lolice"
+      },{
+        "id": "swat"
+      }]
     },
     {
       "name":"pornhub",
       "desc":"Scrapes PornHub.com for videos based on keywords.",
       "usage": "pornhub <keywords>",
-      "aliases":[{"id":"ph"},{"id":"porn"}]
+      "aliases": [{
+        "id": "ph"
+      },{
+        "id": "porn"
+      }]
     },
     {
       "name":"prefix",
       "desc":"Sets command prefix.",
       "usage": "prefix <prefix>",
-      "aliases":[{"id":"None"}]
+      "aliases": [{
+        "id": "None"
+      }]
     },
     {
       "name":"purge",
       "desc":"deletes the previous few messages",
       "usage":"purge",
-      "aliases":[{"id":"PURGE"}]
+      "aliases": [{
+        "id": "PURGE"
+      }]
     },
     {
       "name":"rule34",
       "desc":"Scrapes rule34 for lewd images.",
       "usage": "rule34 <search-query>  e.g rule34 bee_movie",
-      "aliases":[{"id":"r34"}]
+      "aliases": [{
+        "id": "r34"
+      }]
     },
     {
       "name":"spank",
       "desc":"Spanks a user on the server.",
       "usage":"spank <user>",
-      "aliases":[{"id":"None"}]
+      "aliases":[{
+        "id": "None"
+      }]
     }
   ]
 }
