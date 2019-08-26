@@ -23,7 +23,7 @@ class Util(commands.Cog):
     @commands.command(pass_context=True, name="prefix")
     async def prefix(self, ctx, prefix=None):
         if prefix is None:
-            await ctx.send(f"**Current prefix is '{os.environ['BOT_PRECIX']}'")
+            await ctx.send(f"**Current prefix is '{os.environ['BOT_PREFIX']}'")
             return
         try:
             os.environ["BOT_PREFIX"] = prefix
