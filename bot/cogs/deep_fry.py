@@ -61,7 +61,7 @@ class DeepFry(commands.Cog):
                 img = url
         except Exception as e:
             print(e)
-            print("Unable to find image attatchment in previous message")
+            print("Unable to find image attachment in previous message")
 
         # Grab the file extension
         ext = os.path.splitext(img)[1]
@@ -73,7 +73,7 @@ class DeepFry(commands.Cog):
                 async with aiohttp.ClientSession() as session:
                     async with session.get(img) as resp:
                         if resp.status == 200:
-                            img_path = f"{DOWNLOAD_DIRECTORY}/deepfried." + ext
+                            img_path = f"{DOWNLOAD_DIRECTORY}/deep_fried." + ext
                             file = await aiofiles.open(img_path, mode="wb")
                             await file.write(await resp.read())
                             await file.close()
@@ -127,7 +127,7 @@ class DeepFry(commands.Cog):
             # Delete off server
             shutil.rmtree(FRY_DIRECTORY)
             os.remove(img_path)
-            os.remove(f"{DOWNLOAD_DIRECTORY}/deepfried.gif")
+            os.remove(f"{DOWNLOAD_DIRECTORY}/deep_fried.gif")
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -140,13 +140,13 @@ class DeepFry(commands.Cog):
 
         try:
             frame = Image.open(in_gif)
-            nframes = 0
+            n_frames = 0
             while frame:
                 # Iterate through whole GIF and save each frame
-                frame.save('%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), nframes), 'GIF', quality=1)
-                nframes += 1
+                frame.save('%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), n_frames), 'GIF', quality=1)
+                n_frames += 1
                 try:
-                    frame.seek(nframes)
+                    frame.seek(n_frames)
                 except EOFError:
                     break
         except Exception as e:
@@ -154,12 +154,14 @@ class DeepFry(commands.Cog):
             print("Failed to extract GIF frames")
 
         # Get list of all files in download directory
+        files = []
         try:
             files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
-            images = []
         except Exception as e:
             print(e)
             print("Failed to load individual frames")
+
+        images = []
 
         # Modify each frame
         try:
@@ -177,10 +179,10 @@ class DeepFry(commands.Cog):
                 images.append(imageio.imread(img + ".jpeg"))
 
             # Generate GIF from images array
-            imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/deepfried.gif", images)
+            imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/deep_fried.gif", images)
 
             # Return Discord file object that can be sent to server
-            return discord.File(f"{DOWNLOAD_DIRECTORY}/deepfried.gif")
+            return discord.File(f"{DOWNLOAD_DIRECTORY}/deep_fried.gif")
         except Exception as e:
             print(e)
             print("Failed to save modified GIF file and return file object")

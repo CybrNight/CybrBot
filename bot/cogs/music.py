@@ -156,7 +156,6 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True, name='resume')
     async def resume(self, ctx):
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
 
         if voice and voice.is_paused():
             await ctx.send("**Music resumed :play_pause:**")
@@ -168,7 +167,6 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True, name="stop")
     async def stop(self, ctx):
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
 
         if voice and voice.is_playing():
             await ctx.send("**Music stopped :octagonal_sign:**")
@@ -181,6 +179,7 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True, name="queue", aliases=['q'])
     async def queue_control(self, ctx, option=None):
+
         if option == "clear" or option == "-c" and self.music_state is MusicState.PlayingNone:
             self.clear_queue()
             msg = await ctx.send("**Cleared Queue :wastebasket:**")
