@@ -16,9 +16,9 @@ class User(commands.Cog):
         self.haikuLines = []
         self.command_json = ""
 
-        self.bot.loop.create_task(self.initalize())
+        self.bot.loop.create_task(self.initialize())
 
-    async def initalize(self):
+    async def initialize(self):
         try:
             with open(INSULT_CSV, mode='r') as file:
                 for line in file:
