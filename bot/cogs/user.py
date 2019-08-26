@@ -47,7 +47,7 @@ class User(commands.Cog):
                 cmds.close()
             print("Loaded command.json")
         except Exception as e:
-            print("Failed to load commmand.json")
+            print("Failed to load command.json")
             print(e)
 
     # Haiku Generator
