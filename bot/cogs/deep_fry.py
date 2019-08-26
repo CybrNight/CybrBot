@@ -21,9 +21,9 @@ class DeepFry(commands.Cog):
         self.contrast_val = 20
         self.sharpness_val = 300
 
-        self.bot.loop.create_task(self.initalize())
+        self.bot.loop.create_task(self.initialize())
 
-    async def initalize(self):
+    async def initialize(self):
         await self.bot.wait_until_ready()
         # Get saturation, brightness, contrast, and sharpness values from environ vars
         try:
