@@ -44,7 +44,7 @@ class JPEG(commands.Cog):
                     async with session.get(img) as resp:
                         if resp.status == 200:
                             try:
-                                img_path = f"{DOWNLOAD_DIRECTORY}/needsmore." + ext
+                                img_path = f"{DOWNLOAD_DIRECTORY}/needs_more." + ext
                                 file = await aiofiles.open(img_path, mode="wb")
                                 await file.write(await resp.read())
                                 await file.close()
@@ -56,8 +56,8 @@ class JPEG(commands.Cog):
                                 # Save as JPEG in lowest quality and send it
                                 im = Image.open(img_path)
                                 im = im.convert("RGB")
-                                im.save(f"{DOWNLOAD_DIRECTORY}/morejpeg.jpeg", format="jpeg", quality=1)
-                                await channel.send(file=discord.File(f"{DOWNLOAD_DIRECTORY}/morejpeg.jpeg"))
+                                im.save(f"{DOWNLOAD_DIRECTORY}/more_jpeg.jpeg", format="jpeg", quality=1)
+                                await channel.send(file=discord.File(f"{DOWNLOAD_DIRECTORY}/more_jpeg.jpeg"))
                                 print("Sent image to server successfully")
                             except Exception as e:
                                 print(f"Failed to send image to sever")
@@ -66,10 +66,10 @@ class JPEG(commands.Cog):
                     # Delete off server
                     try:
                         os.remove(img_path)
-                        os.remove(f"{DOWNLOAD_DIRECTORY}/morejpeg.jpeg")
-                        print(f"Removed {img_path} and {DOWNLOAD_DIRECTORY}/morejpeg.jpeg from disk")
+                        os.remove(f"{DOWNLOAD_DIRECTORY}/more_jpeg.jpeg")
+                        print(f"Removed {img_path} and {DOWNLOAD_DIRECTORY}/more_jpeg.jpeg from disk")
                     except Exception as e:
-                        print(f"Failed to remove {img_path} and {DOWNLOAD_DIRECTORY}/morejpeg.jpeg from disk")
+                        print(f"Failed to remove {img_path} and {DOWNLOAD_DIRECTORY}/more_jpeg.jpeg from disk")
                         print(e)
             except Exception as e:
                 print(e)
@@ -83,7 +83,7 @@ class JPEG(commands.Cog):
                     async with session.get(img) as resp:
                         if resp.status == 200:
                             try:
-                                img_path = f"{DOWNLOAD_DIRECTORY}/needsmore.gif"
+                                img_path = f"{DOWNLOAD_DIRECTORY}/needs_more.gif"
                                 file = await aiofiles.open(img_path, mode="wb")
                                 await file.write(await resp.read())
                                 await file.close()
@@ -109,7 +109,7 @@ class JPEG(commands.Cog):
                 # Remove files from server
                 shutil.rmtree(JPEG_DIRECTORY)
                 os.remove(img_path)
-                os.remove(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif")
+                os.remove(f"{DOWNLOAD_DIRECTORY}/more_jpeg.gif")
             except Exception as e:
                 print(e)
 
@@ -129,11 +129,12 @@ class JPEG(commands.Cog):
                     frame.seek(nframes)
                 except EOFError:
                     break
-            files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
-            images = []
         except Exception as e:
             print(f"Failed to extract {in_gif} file to directory {out_folder}")
             print(e)
+
+        files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
+        images = []
 
         try:
             for file in files:
@@ -142,10 +143,10 @@ class JPEG(commands.Cog):
                 im = im.convert("RGB")
                 im.save(f"{img}.jpeg", format="jpeg", quality=1)
                 images.append(imageio.imread(f"{img}.jpeg"))
-            imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif", images)
+            imageio.mimsave(f"{DOWNLOAD_DIRECTORY}/more_jpeg.gif", images)
 
             print("Converted image and returned file object!")
-            return discord.File(f"{DOWNLOAD_DIRECTORY}/morejpeg.gif")
+            return discord.File(f"{DOWNLOAD_DIRECTORY}/more_jpeg.gif")
         except Exception as e:
             print("Failed to convert GIF and return file object")
             print(e)

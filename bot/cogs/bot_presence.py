@@ -16,6 +16,7 @@ class BotPresence(commands.Cog):
 
     async def initialize(self):
         await self.bot.wait_until_ready()
+
         # Load JSON of statuses
         try:
             with open(PRESENCE_JSON, "r", encoding="utf8", errors="ignore") as cfg:
@@ -48,7 +49,7 @@ class BotPresence(commands.Cog):
             # Set presence of bot
             await self.bot.change_presence(activity=activity)
 
-            # Sleep for 30 minutes and upate again
+            # Sleep for 30 minutes and update again
             await asyncio.sleep(60*30)
 
 

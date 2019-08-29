@@ -10,7 +10,7 @@ class InMessage(commands.Cog):
         self.bot = bot
         self.autism = f"{IMG_DIRECTORY}/autism.png"
         self.riding_mower = f"{IMG_DIRECTORY}/riding_mower.gif"
-        self.eyepatch = f"{IMG_DIRECTORY}/eyepatch.jpg"
+        self.eye_patch = f"{IMG_DIRECTORY}/eyepatch.jpg"
         self.nepeta = f"{IMG_DIRECTORY}/nepeta.gif"
         self.nyanpasu = f"{IMG_DIRECTORY}/nyanpasu.png"
 
@@ -34,8 +34,8 @@ class InMessage(commands.Cog):
                 msg.pop(0)
                 await channel.send(f"**>literally** {msg}", file=discord.File(self.autism))
 
-        if content.startswith("**mechanized autism**"):
-            await channel.send("Mechanzied Autism", file=discord.File(self.riding_mower))
+        if content.startswith("**mechanised autism**"):
+            await channel.send("Mechanised Autism", file=discord.File(self.riding_mower))
 
         # Sends current prefix to chat
         if content.startswith("prefix?"):
@@ -44,7 +44,7 @@ class InMessage(commands.Cog):
 
         # Sends eye=patch picture to chat
         if content.startswith("fuck you"):
-            await channel.send(file=discord.File(self.eyepatch))
+            await channel.send(file=discord.File(self.eye_patch))
 
         # Sends lewd gif
         if content.startswith("lewd"):
