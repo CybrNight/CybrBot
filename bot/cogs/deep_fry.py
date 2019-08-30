@@ -42,7 +42,7 @@ class DeepFry(commands.Cog):
             self.sharpness_val = 300
 
     @commands.command(name="deepfry", pass_context=True)
-    async def deepfry(self, ctx, url=None):
+    async def deep_fry(self, ctx, url=None):
         channel = ctx.message.channel
 
         img = ""

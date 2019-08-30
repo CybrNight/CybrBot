@@ -173,7 +173,7 @@ class Music(commands.Cog):
             print("Music stopped")
             voice.stop()
         else:
-            msg = await ctx.send(":x: **Music not playing**")
+            await ctx.send(":x: **Music not playing**")
             print("No music to stop!")
         self.music_state = MusicState.PlayingNone
 
@@ -182,7 +182,7 @@ class Music(commands.Cog):
 
         if option == "clear" or option == "-c" and self.music_state is MusicState.PlayingNone:
             self.clear_queue()
-            msg = await ctx.send("**Cleared Queue :wastebasket:**")
+            await ctx.send("**Cleared Queue :wastebasket:**")
             print("Cleared music queue")
             return
         elif option is None:
@@ -194,7 +194,6 @@ class Music(commands.Cog):
 
             title = song['title']
             duration = str(datetime.timedelta(seconds=int(song['duration'])))
-            thumbnail = song["thumbnail"]
 
             self.queue.update({title: duration})
 
@@ -226,14 +225,12 @@ class Music(commands.Cog):
 
     @commands.command(name="skip", pass_context=True)
     async def skip(self, ctx):
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
-
         if voice and voice.is_playing():
             print("Music stopped")
             await ctx.send(":track_next: **Skipped**")
             voice.stop()
         else:
-            msg = await ctx.send(":x: **Music not playing**")
+            await ctx.send(":x: **Music not playing**")
             print("No music to stop!")
 
     async def embed_song(self, song, show_queue=False, ctx=None):
