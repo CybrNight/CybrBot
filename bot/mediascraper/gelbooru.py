@@ -9,8 +9,8 @@ class Gelbooru:
     def __init__(self):
         self.URL = "https://gelbooru.com/"
         self.SEARCH = "https://gelbooru.com/index.php?page=post&s=list&tags="
-        self.POST = "page=post&s=view&id="
-        self.IMG = "https://simg3.gelbooru.com//samples/"
+        self.POST = "page=post&s=view"
+        self.IMG = "https://img2.gelbooru.com//images/"
         self.AVATAR = "user_avatars"
 
     async def image_search(self, keywords):
@@ -26,7 +26,7 @@ class Gelbooru:
             if link.has_attr('href'):
                 lnk = link.attrs['href']
                 if str(lnk).__contains__(self.POST) and not str(lnk).__contains__(self.AVATAR):
-                    posts.append(self.URL + lnk)
+                    posts.append("https:" + lnk)
         try:
             post = random.choice(posts)
             async with aiohttp.ClientSession() as session:
@@ -35,8 +35,8 @@ class Gelbooru:
             bs = BeautifulSoup(text, "html.parser")
             for link in bs.find_all('img'):
                 if link.has_attr('src'):
-                    lnk = link.attrs['src']
-                    return lnk
+                    if self.IMG in link.attrs["src"]:
+                        return link.attrs["src"]
         except Exception as e:
             print(e)
             return "```No Results Found :(```"
