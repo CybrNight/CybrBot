@@ -52,6 +52,7 @@ class Music(commands.Cog):
     @commands.command(pass_context=True)
     async def leave(self, ctx):
         channel = ctx.message.author.voice.channel
+        voice = get(self.bot.voice_clients, guild=ctx.guild)
 
         if voice and voice.is_connected():
             await voice.disconnect()
@@ -146,6 +147,8 @@ class Music(commands.Cog):
     # Pause music command
     @commands.command(pass_context=True, name="pause")
     async def pause(self, ctx):
+        voice = get(self.bot.voice_clients, guild=ctx.guild)
+
         if voice and voice.is_playing():
             await ctx.send("**Music paused :pause_button:**")
             print("Music paused")
@@ -156,6 +159,7 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True, name='resume')
     async def resume(self, ctx):
+        voice = get(self.bot.voice_clients, guild=ctx.guild)
 
         if voice and voice.is_paused():
             await ctx.send("**Music resumed :play_pause:**")
@@ -167,6 +171,7 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True, name="stop")
     async def stop(self, ctx):
+        voice = get(self.bot.voice_clients, guild=ctx.guild)
 
         if voice and voice.is_playing():
             await ctx.send("**Music stopped :octagonal_sign:**")
@@ -225,6 +230,8 @@ class Music(commands.Cog):
 
     @commands.command(name="skip", pass_context=True)
     async def skip(self, ctx):
+        voice = get(self.bot.voice_clients, guild=ctx.guild)
+
         if voice and voice.is_playing():
             print("Music stopped")
             await ctx.send(":track_next: **Skipped**")
