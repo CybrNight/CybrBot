@@ -19,6 +19,10 @@ class JPEG(commands.Cog):
 
     @commands.command(name="morejpeg", aliases=["jpeg", "needsmorejpeg"], pass_context=True)
     async def more_jpeg(self, ctx, url=None):
+        can_send = await can_use(ctx, "jpeg")
+        if not can_send:
+            return
+
         channel = ctx.message.channel
         img = ""
 

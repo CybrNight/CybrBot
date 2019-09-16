@@ -6,7 +6,8 @@
       "usage": "play <url>",
       "aliases": [{
         "id":"p"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "queue",
@@ -14,7 +15,8 @@
       "usage": "queue <url> /queue to view queue /queue clear or -c to clear queue",
       "aliases": [{
         "id": "q"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "volume",
@@ -32,7 +34,7 @@
       "aliases": [{
         "id":"None"
       }],
-      "permission-level": "5"
+      "permission-level": "0"
     },
     {
       "name": "resume",
@@ -40,7 +42,8 @@
       "usage": "resume",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "stop",
@@ -48,7 +51,8 @@
       "usage": "stop",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "skip",
@@ -56,7 +60,8 @@
       "usage": "skip",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "join",
@@ -64,7 +69,8 @@
       "usage": "join",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "jpeg",
@@ -74,7 +80,8 @@
         "id": "morejpeg"
       },{
         "id": "needsmorejpeg"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "deepfry",
@@ -82,7 +89,8 @@
       "usage": "deepfry <urL> or deepfry (will grab previous image)",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "leave",
@@ -90,7 +98,8 @@
       "usage": "leave",
       "aliases": [{
         "id": "disconnect"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "diceroll",
@@ -100,7 +109,8 @@
         "id": "rolldie"
       },{
         "id": "rolladie"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "clear",
@@ -108,7 +118,8 @@
       "usage": "clear <number> e.g clear 20",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "15"
     },
     {
       "name": "coinflip",
@@ -118,7 +129,8 @@
         "id": "flipcoin"
       },{
         "id": "flipacoin"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name": "gelbooru",
@@ -128,7 +140,8 @@
         "id":"gb"
       },{
         "id":"gbooru"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name":"haiku",
@@ -136,7 +149,8 @@
       "usage":"haiku",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name":"help",
@@ -144,7 +158,8 @@
       "usage":"help <command>",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name":"info",
@@ -152,7 +167,8 @@
       "usage":"info",
       "aliases": [{
         "id": "status"
-      }]
+      }],
+      "permission-level": "15"
     },
     {
       "name":"insult",
@@ -160,7 +176,8 @@
       "usage":"insult <user>",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name":"hentaihaven",
@@ -170,7 +187,9 @@
         "id": "hh"
       },{
         "id": "hentai"
-      }]
+      }],
+      "permission-level": "0"
+
     },
     {
       "name":"lolicon",
@@ -178,7 +197,8 @@
       "usage": "lolicon <user>",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name":"pat",
@@ -190,7 +210,8 @@
         "id": "pats"
       },{
         "id": "pets"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name":"ping",
@@ -198,7 +219,8 @@
       "usage": "ping <user>",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name":"police",
@@ -210,7 +232,8 @@
         "id": "lolice"
       },{
         "id": "swat"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name":"pornhub",
@@ -220,7 +243,8 @@
         "id": "ph"
       },{
         "id": "porn"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name":"prefix",
@@ -228,7 +252,8 @@
       "usage": "prefix <prefix>",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "15"
     },
     {
       "name":"purge",
@@ -236,7 +261,8 @@
       "usage":"purge",
       "aliases": [{
         "id": "PURGE"
-      }]
+      }],
+      "permission-level": "15"
     },
     {
       "name":"rule34",
@@ -244,7 +270,8 @@
       "usage": "rule34 <search-query>  e.g rule34 bee_movie",
       "aliases": [{
         "id": "r34"
-      }]
+      }],
+      "permission-level": "0"
     },
     {
       "name":"spank",
@@ -252,7 +279,8 @@
       "usage":"spank <user>",
       "aliases":[{
         "id": "None"
-      }]
+      }],
+      "permission-level": "0"
     }
   ]
 }

@@ -45,6 +45,10 @@ class DeepFry(commands.Cog):
     async def deep_fry(self, ctx, url=None):
         channel = ctx.message.channel
 
+        can_send = await can_use(ctx, "deepfry")
+        if not can_send:
+            return
+
         img = ""
 
         try:

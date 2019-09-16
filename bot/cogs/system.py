@@ -14,14 +14,9 @@ class Util(commands.Cog):
 
     @commands.command(pass_context=True, name="clear")
     async def clear(self, ctx, number=5):
-        can_send = False
-        roles = {"Sauce Creator": 10, "Sauce Provider": 15, "Admin": 10}
-        for role in ctx.author.roles:
-            if role.name in roles:
-                can_send = True
-
-        if ctx.author.id == "229773126936821760":
-            can_send = True
+        can_send = await ref.can_use(ctx, "prefix")
+        if not can_send:
+            return
 
         if can_send:
             number = int(number)  # Converting the amount of messages to delete to an integer
@@ -36,6 +31,13 @@ class Util(commands.Cog):
 
     @commands.command(pass_context=True, name="prefix")
     async def prefix(self, ctx, prefix=None):
+        can_send = ref.can_use(ctx, "prefix")
+        if not can_send:
+            return
+
+        if ctx.channel.name is not "bot_commands" and "Sauce Creators" not in ctx.author.roles:
+            return
+
         if prefix is None:
             await ctx.send(f"**Current prefix is '{os.environ['BOT_PREFIX']}'")
             return
@@ -51,6 +53,10 @@ class Util(commands.Cog):
 
     @commands.command(name="info", pass_context=True, alias=['status'])
     async def info(self, ctx):
+        can_send = await ref.can_use(ctx, "info")
+        if not can_send:
+            return
+
         current_datetime = datetime.datetime.now()
         time = current_datetime.time()
         date = current_datetime.date()

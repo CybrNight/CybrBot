@@ -3,6 +3,7 @@ from discord.ext import commands
 
 from bot.reference import *
 from asyncio import sleep as sleepasync
+import bot.reference as ref
 
 import random
 
@@ -53,6 +54,10 @@ class User(commands.Cog):
     # Haiku Generator
     @commands.command(name="haiku", pass_context=True)
     async def haiku(self, ctx):
+        can_send = await ref.can_use(ctx, "haiku")
+        if not can_send:
+            return
+
         haiku = random.choice(self.haikuLines[0].split(",")).strip() + " " + random.choice(
             self.haikuLines[1].split(",")).strip() + "\n"
         haiku += random.choice(self.haikuLines[2].split(",")).strip() + " " + random.choice(
@@ -65,6 +70,9 @@ class User(commands.Cog):
     # Help Command
     @commands.command(name="help", pass_context=True)
     async def help(self, ctx, *args):
+        can_send = await ref.can_use(ctx, "help")
+        if not can_send:
+            return
 
         # Open commands.json for reading
         if args.__len__() == 0:
@@ -123,11 +131,15 @@ class User(commands.Cog):
                                 item["usage"],
                                 alias_str)
             # Send help info for inputed commands to channel
-            bot_message = await ctx.send(f"```html\n{help_message} ```")
+            await ctx.send(f"```html\n{help_message} ```")
 
     # Shakespeare Insults
     @commands.command(name="insult", pass_context=True)
     async def insult(self, ctx, user=None):
+        can_send = await ref.can_use(ctx, "insult")
+        if not can_send:
+            return
+
         if user is None:
             await ctx.send("**Thy did not specify whom I shall insult!**")
             return
@@ -141,6 +153,10 @@ class User(commands.Cog):
 
     @commands.command(name='lolicon', aliases=['loli'], pass_context=True)
     async def lolicon(self, ctx, *args):
+        can_send = await ref.can_use(ctx, "lolicon")
+        if not can_send:
+            return
+
         if args.__len__() == 0:
             await ctx.send(f"{ctx.message.author.mention} "
                                            f"https://www.youtube.com/watch?v=-mzR1jcZ_OI")
@@ -151,6 +167,10 @@ class User(commands.Cog):
     # Pat user command
     @commands.command(name='pat', aliases=['pats', 'pets', 'pet'], pass_context=True)
     async def pat(self, ctx, *args):
+        can_send = await ref.can_use(ctx, "pat")
+        if not can_send:
+            return
+
         if args.__len__() == 0:
             await ctx.send(f"**{ctx.message.author.mention} \*pats\* themselves**")
         else:
@@ -158,19 +178,35 @@ class User(commands.Cog):
 
     @commands.command(name='ping', pass_context=True)
     async def ping(self, ctx, *args):
+        can_send = await ref.can_use(ctx, "ping")
+        if not can_send:
+            return
+
         await ctx.send(f"**:ping_pong: Pong! {str(' ').join(args)}**")
 
     @commands.command(name='police', aliases=['lolice', '911', 'swat'], pass_context=True)
     async def police(self, ctx, *args):
+        can_send = await ref.can_use(ctx, "police")
+        if not can_send:
+            return
+
         await ctx.send(str(" ").join(args), file=discord.File(f"{IMG_DIRECTORY}/police.jpg"))
 
     @commands.command(name="purge", aliases=["PURGE"], pass_context=True)
     async def purge(self, ctx):
+        can_send = await ref.can_use(ctx, "purge")
+        if not can_send:
+            return
+
         await ctx.channel.purge(limit=2)
 
     # Spanks User
     @commands.command(pass_context=True)
     async def spank(self, ctx, *args):
+        can_send = await ref.can_use(ctx, "spank")
+        if not can_send:
+            return
+
         if args.__len__() == 0:
             await ctx.send(ctx.message.author.mention + "** \*spanks* themselves**")
         else:
