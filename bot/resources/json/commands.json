@@ -22,7 +22,8 @@
       "usage": "volume <value>",
       "aliases": [{
         "id": "None"
-      }]
+      }],
+      "permission-level": "15"
     },
     {
       "name": "pause",
