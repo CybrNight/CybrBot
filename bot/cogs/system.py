@@ -31,6 +31,7 @@ class Util(commands.Cog):
             await asyncio.sleep(2.5)
             await temp.delete()
         else:
+            print("User unable to use this command")
             await ctx.channel.send(f"**{ctx.author.mention} You do not have permission to use this!**")
 
     @commands.command(pass_context=True, name="prefix")
