@@ -31,7 +31,8 @@
       "usage": "resume",
       "aliases": [{
         "id":"None"
-      }]
+      }],
+      "permission-level": "5"
     },
     {
       "name": "resume",
