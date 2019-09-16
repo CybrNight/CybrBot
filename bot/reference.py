@@ -37,10 +37,11 @@ async def can_use(ctx, command=None):
                             if ROLES[role.name] >= int(item["permission-level"]):
                                 can_use = True
 
-            if ctx.author.id == "229773126936821760":
+            if ctx.author.id == 229773126936821760:
                 can_use = True
 
-            if ctx.message.channel.name is not "bot-commands":
+            if ctx.message.channel.name != "bot-commands":
+                print(f"Not in bot-commands, but actually in {ctx.message.channel.name}")
                 can_use = False
 
             cmds.close()

@@ -80,21 +80,29 @@ class User(commands.Cog):
             bot_message = await ctx.send(f"**{ctx.author.mention} I DM'd you the command list!**")
             help_message = f"Here's the command list! The current prefix is '{BOT_PREFIX}'\n"
 
+            user_role = "Sauce"
+            print(ROLES)
+            for role in ctx.author.roles:
+                if role in ROLES:
+                    print(role)
+                    user_role = role
+
             # Iterate through json file and add all commands to help string
             for index, item in enumerate(self.command_json["commands"]):
-                aliases = []
-                for index2, alias in enumerate(item["aliases"]):
-                    aliases.append(alias["id"])
+                if ROLES[user_role] >= int(item["permission-level"]):
+                    aliases = []
+                    for index2, alias in enumerate(item["aliases"]):
+                        aliases.append(alias["id"])
 
-                name = item["name"]
-                desc = item["desc"]
-                usage = item["usage"]
-                help_message += f"\n{name}\n-Description: {desc}\n-Usage: {BOT_PREFIX}{usage}\n-Aliases: {aliases}\n"
+                    name = item["name"]
+                    desc = item["desc"]
+                    usage = item["usage"]
+                    help_message += f"\n{name}\n-Description: {desc}\n-Usage: {BOT_PREFIX}{usage}\n-Aliases: {aliases}\n"
 
-                if len(help_message) >= 1900:
-                    print(len(help_message))
-                    await ctx.message.author.send(f"```html\n{help_message} ```")
-                    help_message = ""
+                    if len(help_message) >= 1750:
+                        print(len(help_message))
+                        await ctx.message.author.send(f"```html\n{help_message} ```")
+                        help_message = ""
 
             # Send author help text in direct message
             await ctx.message.author.send(f"```html\n{help_message} ```")
