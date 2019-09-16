@@ -40,7 +40,7 @@ async def can_use(ctx, command=None):
             if ctx.author.id == "229773126936821760":
                 can_use = True
 
-            if ctx.message.channel.name is not "bot_commands":
+            if ctx.message.channel.name is not "bot-commands":
                 can_use = False
 
             cmds.close()
