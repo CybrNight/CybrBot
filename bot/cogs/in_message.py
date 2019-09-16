@@ -32,7 +32,7 @@ class InMessage(commands.Cog):
             msg = content.split(" ")
             if len(msg) > 1:
                 msg.pop(0)
-                await channel.send(f"**>literally** {msg}", file=discord.File(self.autism))
+                await channel.send(f"**literally>** {msg}", file=discord.File(self.autism))
 
         if content.startswith("**mechanised autism**"):
             await channel.send("Mechanised Autism", file=discord.File(self.riding_mower))
