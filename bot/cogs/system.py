@@ -14,7 +14,7 @@ class Util(commands.Cog):
 
     @commands.command(pass_context=True, name="clear")
     async def clear(self, ctx, number=5):
-        can_send = await ref.can_use(ctx, "prefix")
+        can_send = await ref.check_can_use(ctx, "prefix")
         if not can_send:
             return
 
@@ -31,7 +31,7 @@ class Util(commands.Cog):
 
     @commands.command(pass_context=True, name="prefix")
     async def prefix(self, ctx, prefix=None):
-        can_send = ref.can_use(ctx, "prefix")
+        can_send = ref.check_can_use(ctx, "prefix")
         if not can_send:
             return
 
@@ -53,7 +53,7 @@ class Util(commands.Cog):
 
     @commands.command(name="info", pass_context=True, alias=['status'])
     async def info(self, ctx):
-        can_send = await ref.can_use(ctx, "info")
+        can_send = await ref.check_can_use(ctx, "info")
         if not can_send:
             return
 

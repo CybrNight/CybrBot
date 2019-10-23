@@ -14,7 +14,10 @@ COMMAND_JSON = os.getcwd()+"/resources/json/commands.json"
 
 RELEASE_VERSION = "3.0"
 
+ALLOWED_CHANNELS = ["bot-commands", "bot-commands-nsfw", "bot-commands-sfw"]
+
 ROLES = {
+    "Trusted": 99,
     "Sauce Provider": 20,
     "Sauce Creators": 15,
     "Sauce Enforcers": 10,
@@ -24,7 +27,7 @@ ROLES = {
 }
 
 
-async def can_use(ctx, command=None):
+async def check_can_use(ctx, command=None):
     try:
         with open(COMMAND_JSON, "r") as cmds:
             cmd = json.load(cmds)
@@ -40,7 +43,7 @@ async def can_use(ctx, command=None):
             if ctx.author.id == 229773126936821760:
                 can_use = True
 
-            if ctx.message.channel.name != "bot-commands":
+            if ctx.message.channel.name not in ALLOWED_CHANNELS:
                 print(f"Not in bot-commands, but actually in {ctx.message.channel.name}")
                 can_use = False
 

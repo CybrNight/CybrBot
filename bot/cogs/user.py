@@ -54,7 +54,7 @@ class User(commands.Cog):
     # Haiku Generator
     @commands.command(name="haiku", pass_context=True)
     async def haiku(self, ctx):
-        can_send = await ref.can_use(ctx, "haiku")
+        can_send = await ref.check_can_use(ctx, "haiku")
         if not can_send:
             return
 
@@ -70,7 +70,7 @@ class User(commands.Cog):
     # Help Command
     @commands.command(name="help", pass_context=True)
     async def help(self, ctx, *args):
-        can_send = await ref.can_use(ctx, "help")
+        can_send = await ref.check_can_use(ctx, "help")
         if not can_send:
             return
 
@@ -144,7 +144,7 @@ class User(commands.Cog):
     # Shakespeare Insults
     @commands.command(name="insult", pass_context=True)
     async def insult(self, ctx, user=None):
-        can_send = await ref.can_use(ctx, "insult")
+        can_send = await ref.check_can_use(ctx, "insult")
         if not can_send:
             return
 
@@ -161,7 +161,7 @@ class User(commands.Cog):
 
     @commands.command(name='lolicon', aliases=['loli'], pass_context=True)
     async def lolicon(self, ctx, *args):
-        can_send = await ref.can_use(ctx, "lolicon")
+        can_send = await ref.check_can_use(ctx, "lolicon")
         if not can_send:
             return
 
@@ -175,7 +175,7 @@ class User(commands.Cog):
     # Pat user command
     @commands.command(name='pat', aliases=['pats', 'pets', 'pet'], pass_context=True)
     async def pat(self, ctx, *args):
-        can_send = await ref.can_use(ctx, "pat")
+        can_send = await ref.check_can_use(ctx, "pat")
         if not can_send:
             return
 
@@ -186,7 +186,7 @@ class User(commands.Cog):
 
     @commands.command(name='ping', pass_context=True)
     async def ping(self, ctx, *args):
-        can_send = await ref.can_use(ctx, "ping")
+        can_send = await ref.check_can_use(ctx, "ping")
         if not can_send:
             return
 
@@ -194,7 +194,7 @@ class User(commands.Cog):
 
     @commands.command(name='police', aliases=['lolice', '911', 'swat'], pass_context=True)
     async def police(self, ctx, *args):
-        can_send = await ref.can_use(ctx, "police")
+        can_send = await ref.check_can_use(ctx, "police")
         if not can_send:
             return
 
@@ -202,7 +202,7 @@ class User(commands.Cog):
 
     @commands.command(name="purge", aliases=["PURGE"], pass_context=True)
     async def purge(self, ctx):
-        can_send = await ref.can_use(ctx, "purge")
+        can_send = await ref.check_can_use(ctx, "purge")
         if not can_send:
             return
 
@@ -211,7 +211,7 @@ class User(commands.Cog):
     # Spanks User
     @commands.command(pass_context=True)
     async def spank(self, ctx, *args):
-        can_send = await ref.can_use(ctx, "spank")
+        can_send = await ref.check_can_use(ctx, "spank")
         if not can_send:
             return
 

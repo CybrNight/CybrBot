@@ -14,7 +14,7 @@ class RNG(commands.Cog):
                       aliases=['eight_ball', 'eightball', '8-ball'],
                       pass_context=True)
     async def eight_ball(self, ctx):
-        can_send = await ref.can_use(ctx, "8ball")
+        can_send = await ref.check_can_use(ctx, "8ball")
         if not can_send:
             return
 
@@ -31,7 +31,7 @@ class RNG(commands.Cog):
     # Coin Flip Command
     @commands.command(name="coinflip", aliases=['flipacoin', 'flipcoin'], pass_context=True)
     async def coin_flip(self, ctx):
-        can_send = await ref.can_use(ctx, "coinflip")
+        can_send = await ref.check_can_use(ctx, "coinflip")
         if not can_send:
             return
 
@@ -44,7 +44,7 @@ class RNG(commands.Cog):
     # Dice Roll Command
     @commands.command(name="diceroll", aliases=['rolldie', 'rolladie'], pass_context=True)
     async def dice_roll(self, ctx):
-        can_send = await ref.can_use(ctx, "diceroll")
+        can_send = await ref.check_can_use(ctx, "diceroll")
         if not can_send:
             return
 

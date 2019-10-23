@@ -23,7 +23,7 @@ class Media(commands.Cog):
 
     @commands.command(name='hentaihaven', aliases=['hh', 'hentai'], pass_context=True)
     async def hentai_haven(self, ctx, *args):
-        can_send = await can_use(ctx, "hentaihaven")
+        can_send = await check_can_use(ctx, "hentaihaven")
         if not can_send:
             return
 
@@ -33,7 +33,7 @@ class Media(commands.Cog):
 
     @commands.command(name='pornhub', aliases=['ph', 'porn'], pass_context=True)
     async def porn_hub(self, ctx, *args):
-        can_send = await can_use(ctx, "pornhub")
+        can_send = await check_can_use(ctx, "pornhub")
         if not can_send:
             return
 
@@ -42,7 +42,7 @@ class Media(commands.Cog):
 
     @commands.command(name='r34', alias=['rule34'], pass_context=True)
     async def rule34(self, ctx, *args):
-        can_send = await can_use(ctx, "r34")
+        can_send = await check_can_use(ctx, "r34")
         if not can_send:
             return
 
@@ -51,7 +51,7 @@ class Media(commands.Cog):
 
     @commands.command(name='gb', aliases=['gbooru', 'gelbooru'], pass_context=True)
     async def gelbooru(self, ctx, *args):
-        can_send = await can_use(ctx, "gelbooru")
+        can_send = await check_can_use(ctx, "gelbooru")
         if not can_send:
             return
 

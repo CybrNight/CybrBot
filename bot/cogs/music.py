@@ -51,7 +51,7 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True)
     async def leave(self, ctx):
-        can_send = await can_use(ctx, "leave")
+        can_send = await check_can_use(ctx, "leave")
         if not can_send:
             return
 
@@ -68,7 +68,7 @@ class Music(commands.Cog):
     # Tells bot to join text channel in
     @commands.command(pass_context=True, aliases=["disconnect"])
     async def join(self, ctx):
-        can_send = await can_use(ctx, "join")
+        can_send = await check_can_use(ctx, "join")
         if not can_send:
             return
 
@@ -90,7 +90,7 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True, aliases=['p'])
     async def play(self, ctx, url=None):
-        can_send = await can_use(ctx, "play")
+        can_send = await check_can_use(ctx, "play")
         if not can_send:
             return
 
@@ -150,7 +150,7 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True, name="volume")
     async def volume(self, ctx, volume=None):
-        can_send = await can_use(ctx, "volume")
+        can_send = await check_can_use(ctx, "volume")
         if not can_send:
             return
 
@@ -163,7 +163,7 @@ class Music(commands.Cog):
     # Pause music command
     @commands.command(pass_context=True, name="pause")
     async def pause(self, ctx):
-        can_send = await can_use(ctx, "pause")
+        can_send = await check_can_use(ctx, "pause")
         if not can_send:
             return
 
@@ -179,7 +179,7 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True, name='resume')
     async def resume(self, ctx):
-        can_send = await can_use(ctx, "resume")
+        can_send = await check_can_use(ctx, "resume")
         if not can_send:
             return
 
@@ -195,7 +195,7 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True, name="stop")
     async def stop(self, ctx):
-        can_send = await can_use(ctx, "stop")
+        can_send = await check_can_use(ctx, "stop")
         if not can_send:
             return
 
@@ -212,7 +212,7 @@ class Music(commands.Cog):
 
     @commands.command(pass_context=True, name="queue", aliases=['q'])
     async def queue_control(self, ctx, option=None):
-        can_send = await can_use(ctx, "queue")
+        can_send = await check_can_use(ctx, "queue")
         if not can_send:
             return
 
@@ -261,7 +261,7 @@ class Music(commands.Cog):
 
     @commands.command(name="skip", pass_context=True)
     async def skip(self, ctx):
-        can_send = await can_use(ctx, "skip")
+        can_send = await check_can_use(ctx, "skip")
         if not can_send:
             return
 
