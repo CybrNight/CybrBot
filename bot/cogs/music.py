@@ -224,7 +224,7 @@ class Music(commands.Cog):
         elif option is None:
             await ctx.send(embed=await self.build_queue_embed())
             return
-        elif option is not None and option is not "clear":
+        elif option is not None and option != "clear":
             await ctx.send(f"**Queueing:`{option}`**")
             song = await self.download_audio(option)
 
