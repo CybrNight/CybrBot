@@ -1,7 +1,6 @@
 discord.py[voice]
 beautifulsoup4
 bs4
-asyncio
 aiohttp
 Pillow
 aiofiles
