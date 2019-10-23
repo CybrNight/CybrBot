@@ -1,0 +1,16 @@
+{
+  "allowed-channels": [
+    {
+      "name": "bot-commands",
+      "nsfw": "no"
+    },
+    {
+      "name": "bot-commands-sfw",
+      "nsfw": "no"
+    },
+    {
+      "name": "bot-commands-nsfw",
+      "nsfw": "yes"
+    }
+  ]
+}
