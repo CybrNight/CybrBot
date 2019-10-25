@@ -12,5 +12,12 @@
       "name": "bot-commands-nsfw",
       "nsfw": "yes"
     }
-  ]
+  ],
+  "Trusted": 99,
+  "Sauce Provider": 20,
+  "Sauce Creators": 15,
+  "Sauce Enforcers": 10,
+  "Nitro Booster": 5,
+  "Sauce": 5,
+  "Premium Sauce": 5
 }

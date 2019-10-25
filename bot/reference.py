@@ -1,5 +1,6 @@
 import json
 import os
+import discord
 
 
 INSULT_CSV = os.getcwd()+"/resources/csv/insults.csv"
@@ -11,29 +12,20 @@ AUDIO_DIRECTORY = os.getcwd() + "/resources/audio"
 DOWNLOAD_DIRECTORY = os.getcwd()+"/download"
 PRESENCE_JSON = os.getcwd()+"/resources/json/presence.json"
 COMMAND_JSON = os.getcwd()+"/resources/json/commands.json"
-ALLOWED_CHANNELS_JSON = os.getcwd()+"/resources/json/allowed_channels.json"
+PERMISSIONS_JSON = os.getcwd() + "/resources/json/permissions.json"
 
 RELEASE_VERSION = "3.0"
 
-ALLOWED_CHANNELS = ["bot-commands", "bot-commands-nsfw", "bot-commands-sfw"]
-
-ROLES = {
-    "Trusted": 99,
-    "Sauce Provider": 20,
-    "Sauce Creators": 15,
-    "Sauce Enforcers": 10,
-    "Nitro Booster": 5,
-    "Sauce": 5,
-    "Premium Sauce": 5,
-}
-
 
 async def check_can_use(ctx, command=None):
+    if isinstance(ctx.message.channel, discord.DMChannel):
+        return True
+
     try:
-        with open(ALLOWED_CHANNELS_JSON, "r") as channels:
-            channel = json.load(channels)
+        with open(PERMISSIONS_JSON, "r") as permissions:
+            permission = json.load(permissions)
     except Exception as e:
-        print("Failed to load allowed_channels.json")
+        print("Failed to load permissions.json")
 
     try:
         with open(COMMAND_JSON, "r") as cmds:
@@ -47,21 +39,21 @@ async def check_can_use(ctx, command=None):
     for index, item in enumerate(cmd["commands"]):
         if item["name"] == command:
             for role in ctx.author.roles:
-                if role.name in ROLES:
-                    if ROLES[role.name] >= int(item["permission-level"]):
+                if role.name in permission:
+                    if int(permission[role.name]) >= int(item["permission-level"]):
                         can_use = True
 
     if ctx.author.id == 229773126936821760:
         can_use = True
 
-    for index, item in enumerate(channel["allowed-channels"]):
+    for index, item in enumerate(permission["allowed-channels"]):
         if item["name"] == ctx.message.channel.name:
             can_use = True
             break
         else:
             can_use = False
 
-    channels.close()
+    permissions.close()
     cmds.close()
 
     if not can_use:
