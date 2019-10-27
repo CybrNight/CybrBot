@@ -126,8 +126,13 @@ class Music(commands.Cog):
 
             await ctx.send(f"**Downloading**: `{url}` for playback")
             song = await self.download_audio(url)
-            title = song['title']
-            full_file = f"{AUDIO_DIRECTORY}/{title}.mp3"
+
+            try:
+                title = song['title']
+                full_file = f"{AUDIO_DIRECTORY}/{title}.mp3"
+            except Exception as e:
+                print("Error getting information from downloaded file")
+                print(e)
 
             try:
                 if voice and voice.is_connected():
@@ -139,19 +144,20 @@ class Music(commands.Cog):
                 print(f"Playing {title}")
 
                 await ctx.send(embed=await self.embed_song(song))
-
-                try:
-                    self.music_state = MusicState.PlayingSingle
-                    voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.clear_queue())
-                    voice.source = discord.PCMVolumeTransformer(voice.source)
-                    voice.source.volume = float(os.environ["BOT_VOLUME"])
-                except Exception as e1:
-                    print("Error playing audio file")
-                    print(str(e1))
             except Exception as e:
                 print(e)
+                print("Not in voice channel")
                 await ctx.send(f"{ctx.message.author.mention} **Must be in voice channel to use this command**")
                 return
+
+            try:
+                self.music_state = MusicState.PlayingSingle
+                voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.clear_queue())
+                voice.source = discord.PCMVolumeTransformer(voice.source)
+                voice.source.volume = float(os.environ["BOT_VOLUME"])
+            except Exception as e1:
+                print("Error playing audio file")
+                print(str(e1))
 
     @commands.command(pass_context=True, name="volume")
     async def volume(self, ctx, volume=None):
@@ -320,6 +326,7 @@ class Music(commands.Cog):
 
             return video
         except Exception as e:
+            print("Error downloading video file")
             print(e)
 
     async def build_queue_embed(self):
