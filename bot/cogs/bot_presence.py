@@ -4,7 +4,7 @@ import random
 from discord.ext import commands
 
 from bot.reference import *
-
+from .music import Music, MusicState
 
 class BotPresence(commands.Cog):
 
@@ -31,25 +31,26 @@ class BotPresence(commands.Cog):
         await self.bot.wait_until_ready()
         while not self.bot.is_closed():
 
-            # Pick random game/show to be watching
-            presence = random.choice(self.presence_json["presence"])
-            status = presence["status_type"]
-            name = presence["name"]
-            activity = discord.Activity(name="N/A", type=discord.ActivityType.unknown)
+            if Music.music_state == MusicState.PlayingNone:
+                # Pick random game/show to be watching
+                presence = random.choice(self.presence_json["presence"])
+                status = presence["status_type"]
+                name = presence["name"]
+                activity = discord.Activity(name="N/A", type=discord.ActivityType.unknown)
 
-            # Generate Discord activity object based on status_type
-            if status == "listening":
-                activity = discord.Activity(name=name, type=discord.ActivityType.listening)
-            elif status == "watching":
-                activity = discord.Activity(name=name, type=discord.ActivityType.watching)
-            elif status == "playing":
-                activity = discord.Activity(name=name, type=discord.ActivityType.playing)
+                # Generate Discord activity object based on status_type
+                if status == "listening":
+                    activity = discord.Activity(name=name, type=discord.ActivityType.listening)
+                elif status == "watching":
+                    activity = discord.Activity(name=name, type=discord.ActivityType.watching)
+                elif status == "playing":
+                    activity = discord.Activity(name=name, type=discord.ActivityType.playing)
 
-            # Set presence of bot
-            await self.bot.change_presence(activity=activity)
+                # Set presence of bot
+                await self.bot.change_presence(activity=activity)
 
-            # Sleep for 30 minutes and update again
-            await asyncio.sleep(60*30)
+                # Sleep for 30 minutes and update again
+                await asyncio.sleep(60*30)
 
 
 def setup(bot):

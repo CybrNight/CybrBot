@@ -17,13 +17,14 @@ class MusicState(Enum):
 
 class Music(commands.Cog):
     global voice
+    currentPlayingSong = ""
+    music_state = MusicState.PlayingNone
 
     def __init__(self, bot):
         self.bot = bot
         self.queue = {}
         self.queue_index = 0
         self.ydl_opts = None
-        self.music_state = MusicState.PlayingNone
 
         self.bot.loop.create_task(self.initialize())
 
@@ -72,22 +73,7 @@ class Music(commands.Cog):
         if not can_send:
             return
 
-        global voice
-        try:
-            channel = ctx.message.author.voice.channel
-            voice = get(self.bot.voice_clients, guild=ctx.guild)
-
-            # Connect bot to voice channel
-            if voice and voice.is_connected():
-                await voice.move_to(channel)
-            else:
-                voice = await channel.connect()
-                print(f"Connected to {channel}\n")
-            await ctx.send(f"**Connected to {channel}**")
-        except Exception as e:
-            print(e)
-            print("Must be in voice channel")
-            await ctx.send("**Must be in voice channel to use this command**")
+        await self.join_voice_channel(ctx)
 
     @commands.command(pass_context=True, aliases=['p'])
     async def play(self, ctx, url=None):
@@ -102,20 +88,10 @@ class Music(commands.Cog):
 
         voice = get(self.bot.voice_clients, guild=ctx.guild)
         if url is None and len(self.queue) > 0:
-            try:
-                channel = ctx.message.author.voice.channel
-                if voice and voice.is_connected():
-                    await voice.move_to(channel)
-                else:
-                    await channel.connect()
-                    print(f"Connected to {channel}\n")
-                self.queue_index = 0
-                self.play_queue(ctx)
-            except Exception as e:
-                print(e + "The")
-                await ctx.send(f"{ctx.message.author.mention} **Must be in voice channel to use this command**")
-                return
-            return
+            if voice and not voice.is_connected():
+                await self.join_voice_channel(ctx)
+            self.queue_index = 0
+            self.play_queue(ctx)
         else:
             try:
                 channel = ctx.message.author.voice.channel
@@ -131,21 +107,14 @@ class Music(commands.Cog):
                 title = song['title']
                 full_file = f"{AUDIO_DIRECTORY}/{title}.mp3"
                 print("Downloaded "+title)
+                self.currentPlayingSong = title
             except Exception as e:
                 print("Error getting information from downloaded file")
                 print(e)
 
             try:
-                print("Connecting to voice channel")
-                if voice and voice.is_connected():
-                    await voice.move_to(channel)
-                    print(f"Connected to {channel}\n")
-                else:
-                    voice = await channel.connect()
-                    print(f"Connected to {channel}\n")
-
+                voice = await self.join_voice_channel(ctx)
                 print(f"Playing {title}")
-
                 await ctx.send(embed=await self.embed_song(song))
             except Exception as e:
                 print(e)
@@ -159,6 +128,7 @@ class Music(commands.Cog):
                 voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.clear_queue())
                 voice.source = discord.PCMVolumeTransformer(voice.source)
                 voice.source.volume = float(os.environ["BOT_VOLUME"])
+                self.bot.loop.create_task(self.update_presence())
             except Exception as e1:
                 print("Error playing audio file")
                 print(str(e1))
@@ -255,8 +225,35 @@ class Music(commands.Cog):
             return
         await ctx.message.delete()
 
+    async def join_voice_channel(self, ctx):
+        global voice
+        try:
+            channel = ctx.message.author.voice.channel
+            voice = get(self.bot.voice_clients, guild=ctx.guild)
+
+            # Connect bot to voice channel
+            if voice and voice.is_connected():
+                await voice.move_to(channel)
+            else:
+                voice = await channel.connect()
+                print(f"Connected to {channel}\n")
+            await ctx.send(f"**Connected to {channel}**")
+            return voice
+        except Exception as e:
+            print(e)
+            print("Must be in voice channel")
+            await ctx.send("**Must be in voice channel to use this command**")
+
+
+    async def update_presence(self):
+        await self.bot.wait_until_ready()
+        activity = discord.Activity(name=self.currentPlayingSong, type=discord.ActivityType.listening)
+        # Set presence of bot
+        await self.bot.change_presence(activity=activity)
+
     def play_queue(self, ctx):
         print(len(self.queue))
+        file = None
 
         try:
             if len(self.queue) == 0 and len(os.listdir(AUDIO_DIRECTORY)) > 0:
@@ -265,12 +262,14 @@ class Music(commands.Cog):
                 return
             else:
                 file = list(self.queue)[self.queue_index]
+                self.currentPlayingSong = file
                 full_file = f"{AUDIO_DIRECTORY}/{file}.mp3"
                 self.music_state = MusicState.PlayingQueue
 
                 voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.play_queue(ctx))
                 voice.source = discord.PCMVolumeTransformer(voice.source)
                 voice.source.volume = float(os.environ["BOT_VOLUME"])
+                self.bot.loop.create_task(self.update_presence())
                 print(self.queue[file])
                 del self.queue[file]
                 return
