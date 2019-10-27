@@ -7,4 +7,3 @@ Pillow
 aiofiles
 imageio
 youtube_dl
-opuslib

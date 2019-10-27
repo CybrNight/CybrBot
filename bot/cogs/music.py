@@ -3,7 +3,6 @@ from discord.ext import commands
 from discord.utils import get
 import youtube_dl
 import datetime
-import opuslib
 
 from bot.reference import *
 
@@ -55,6 +54,7 @@ class Music(commands.Cog):
 
         channel = ctx.message.author.voice.channel
         voice = get(self.bot.voice_clients, guild=ctx.guild)
+        print(voice)
 
         if voice and voice.is_connected():
             await voice.disconnect()
