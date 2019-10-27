@@ -34,6 +34,8 @@ class Music(commands.Cog):
         if not discord.opus.is_loaded():
             discord.opus.load_opus("opus")
             print("Loaded OPUS library")
+        else:
+            print("OPUS already loaded")
 
         self.ydl_opts = {
             "format": "bestaudio/best",
