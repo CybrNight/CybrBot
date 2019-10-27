@@ -1,11 +1,9 @@
 import discord
 from discord.ext import commands
 from discord.utils import get
-import aiohttp
 import youtube_dl
 import datetime
-import os
-import asyncio
+import opuslib
 
 from bot.reference import *
 
@@ -35,7 +33,7 @@ class Music(commands.Cog):
 
         # Load Opus library for voice
         if not discord.opus.is_loaded():
-            discord.opus.load_opus('opus')
+            discord.opus.load_opus("opus")
             print("Loaded OPUS library")
 
         self.ydl_opts = {
@@ -139,6 +137,7 @@ class Music(commands.Cog):
                 print("Connecting to voice channel")
                 if voice and voice.is_connected():
                     await voice.move_to(channel)
+                    print(f"Connected to {channel}\n")
                 else:
                     voice = await channel.connect()
                     print(f"Connected to {channel}\n")
@@ -153,6 +152,7 @@ class Music(commands.Cog):
                 return
 
             try:
+                print("Playing audio file")
                 self.music_state = MusicState.PlayingSingle
                 voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.clear_queue())
                 voice.source = discord.PCMVolumeTransformer(voice.source)
