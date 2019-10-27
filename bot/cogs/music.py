@@ -83,9 +83,10 @@ class Music(commands.Cog):
             else:
                 voice = await channel.connect()
                 print(f"Connected to {channel}\n")
-            await ctx.send(f"**Connected to `{channel}**")
+            await ctx.send(f"**Connected to {channel}**")
         except Exception as e:
             print(e)
+            print("Must be in voice channel")
             await ctx.send("**Must be in voice channel to use this command**")
 
     @commands.command(pass_context=True, aliases=['p'])
@@ -111,7 +112,7 @@ class Music(commands.Cog):
                 self.queue_index = 0
                 self.play_queue(ctx)
             except Exception as e:
-                print(e)
+                print(e + "The")
                 await ctx.send(f"{ctx.message.author.mention} **Must be in voice channel to use this command**")
                 return
             return
@@ -139,10 +140,14 @@ class Music(commands.Cog):
 
                 await ctx.send(embed=await self.embed_song(song))
 
-                voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.clear_queue())
-                voice.source = discord.PCMVolumeTransformer(voice.source)
-                voice.source.volume = float(os.environ["BOT_VOLUME"])
-                self.music_state = MusicState.PlayingSingle
+                try:
+                    self.music_state = MusicState.PlayingSingle
+                    voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.clear_queue())
+                    voice.source = discord.PCMVolumeTransformer(voice.source)
+                    voice.source.volume = float(os.environ["BOT_VOLUME"])
+                except Exception as e1:
+                    print("Error playing audio file")
+                    print(str(e1))
             except Exception as e:
                 print(e)
                 await ctx.send(f"{ctx.message.author.mention} **Must be in voice channel to use this command**")
@@ -243,21 +248,25 @@ class Music(commands.Cog):
     def play_queue(self, ctx):
         print(len(self.queue))
 
-        if len(self.queue) == 0 and len(os.listdir(AUDIO_DIRECTORY)) > 0:
-            print("Cleaing queue @ play_queue")
-            self.clear_queue()
-            return
-        else:
-            file = list(self.queue)[self.queue_index]
-            full_file = f"{AUDIO_DIRECTORY}/{file}.mp3"
-            self.music_state = MusicState.PlayingQueue
+        try:
+            if len(self.queue) == 0 and len(os.listdir(AUDIO_DIRECTORY)) > 0:
+                print("Cleaing queue @ play_queue")
+                self.clear_queue()
+                return
+            else:
+                file = list(self.queue)[self.queue_index]
+                full_file = f"{AUDIO_DIRECTORY}/{file}.mp3"
+                self.music_state = MusicState.PlayingQueue
 
-            voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.play_queue(ctx))
-            voice.source = discord.PCMVolumeTransformer(voice.source)
-            voice.source.volume = float(os.environ["BOT_VOLUME"])
-            print(self.queue[file])
-            del self.queue[file]
-            return
+                voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.play_queue(ctx))
+                voice.source = discord.PCMVolumeTransformer(voice.source)
+                voice.source.volume = float(os.environ["BOT_VOLUME"])
+                print(self.queue[file])
+                del self.queue[file]
+                return
+        except Exception as e:
+            print("Error playing "+self.queue[file])
+            print(e)
 
     @commands.command(name="skip", pass_context=True)
     async def skip(self, ctx):
