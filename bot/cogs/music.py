@@ -136,6 +136,7 @@ class Music(commands.Cog):
                 print(e)
 
             try:
+                print("Connecting to voice channel")
                 if voice and voice.is_connected():
                     await voice.move_to(channel)
                 else:
