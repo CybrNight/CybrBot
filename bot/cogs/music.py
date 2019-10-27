@@ -128,7 +128,7 @@ class Music(commands.Cog):
             try:
                 title = song['title']
                 full_file = f"{AUDIO_DIRECTORY}/{title}.mp3"
-                print(title)
+                print("Downloaded "+title)
             except Exception as e:
                 print("Error getting information from downloaded file")
                 print(e)
