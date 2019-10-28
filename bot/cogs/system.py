@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import csv
 
 from discord.ext import commands
 from discord.utils import get
@@ -12,9 +13,39 @@ class Util(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(pass_context=True, name="register_role")
+    async def register_role(self, ctx, role, permission_level=5):
+        if role is not None:
+            for r in ctx.guild.roles:
+                if r.name == role:
+                    fields = [r.name, r.id, permission_level]
+                    with open(ROLES_CSV, 'a') as roles_csv:
+                        writer = csv.writer(roles_csv,lineterminator="\n")
+                        writer.writerow(fields)
+                        print(f"Registered new role {role} successfully")
+                        await ctx.send(f"**Registered new role {role} with permission level {permission_level}"
+                                       f" successfully **")
+
+    @commands.command(pass_context=True, name="register_channel")
+    async def register_channel(self, ctx, channel=None, nsfw=False):
+        if channel is None:
+            channel = ctx.channel.name
+
+        if "nsfw" in channel:
+            nsfw = "yes"
+
+        for c in ctx.guild.channels:
+            if c.name == channel:
+                fields = [c.name, c.id, nsfw]
+                with open(CHANNELS_CSV, 'a') as roles_csv:
+                    writer = csv.writer(roles_csv, lineterminator="\n")
+                    writer.writerow(fields)
+                    print(f"Registered new channel {channel} successfully")
+                    await ctx.send(f"**Registered new channel {channel} successfully **")
+
     @commands.command(pass_context=True, name="clear")
     async def clear(self, ctx, number=5):
-        can_send = await ref.check_can_use(ctx, "prefix")
+        can_send = await ref.check_can_use(ctx, "clear")
         if not can_send:
             return
 

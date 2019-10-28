@@ -18,13 +18,13 @@ COMMAND_JSON = os.getcwd()+"/resources/json/commands.json"
 
 RELEASE_VERSION = "3.0"
 
+roles = []
+channels = []
+
 
 async def check_can_use(ctx, command=None):
     if isinstance(ctx.message.channel, discord.DMChannel):
         return True
-
-    roles = []
-    channels = []
 
     try:
         with open(ROLES_CSV, "r") as roles_csv:
@@ -49,6 +49,19 @@ async def check_can_use(ctx, command=None):
         print(e)
 
     can_use = False
+    nsfw = None
+
+    for line in channels:
+        channel = line.split(',')
+
+        nsfw = channel[2]
+
+        if channel[0] == ctx.message.channel.name and int(channel[1]) == int(ctx.message.channel.id):
+            can_use = True
+            break
+        else:
+            can_use = False
+
     # Check if commands exist
     for index, item in enumerate(cmd["commands"]):
         if item["name"] == command:
@@ -59,14 +72,8 @@ async def check_can_use(ctx, command=None):
                         if int(words[2]) >= int(item["permission-level"]):
                             can_use = True
                             break
-
-    for line in channels:
-        channel = line.split(',')
-        if channel[0] == ctx.message.channel.name and int(channel[0]) == ctx.message.channel.id:
-            can_use = True
-            break
-        else:
-            can_use = False
+                    else:
+                        can_use = False
 
     cmds.close()
 

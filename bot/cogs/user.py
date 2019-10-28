@@ -51,12 +51,6 @@ class User(commands.Cog):
             print("Failed to load command.json")
             print(e)
 
-        try:
-            with open(PERMISSIONS_JSON, "r") as permissions:
-                self.ROLES = json.load(permissions)
-        except Exception as e:
-            print("Failed to load permissions.json")
-
     # Haiku Generator
     @commands.command(name="haiku", pass_context=True)
     async def haiku(self, ctx):
@@ -87,17 +81,17 @@ class User(commands.Cog):
             help_message = f"Here's the command list! The current prefix is '{BOT_PREFIX}'\n"
 
             user_role = "Sauce"
-            print(self.ROLES)
 
             if not isinstance(ctx.message.channel, discord.DMChannel):
                 for role in ctx.author.roles:
-                    if role in self.ROLES:
-                        print(role)
-                        user_role = role
+                    for line in roles:
+                        r = line.split(",")
+                        if role.name == r[0]:
+                            user_role = r
 
             # Iterate through json file and add all commands to help string
             for index, item in enumerate(self.command_json["commands"]):
-                if self.ROLES[user_role] >= int(item["permission-level"]):
+                if int(user_role[2]) >= int(item["permission-level"]):
                     aliases = []
                     for index2, alias in enumerate(item["aliases"]):
                         aliases.append(alias["id"])

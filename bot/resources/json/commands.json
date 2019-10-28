@@ -141,7 +141,8 @@
       },{
         "id":"gbooru"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "True"
     },
     {
       "name":"haiku",
@@ -271,7 +272,8 @@
       "aliases": [{
         "id": "r34"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "True"
     },
     {
       "name":"spank",
@@ -281,6 +283,24 @@
         "id": "None"
       }],
       "permission-level": "0"
+    },
+    {
+      "name": "register_role",
+      "desc": "Registers new role for permissions",
+      "usage": "register_role <role-name> <permission-level>",
+      "aliases": [{
+        "id": "None"
+      }],
+      "permission-level": "99"
+    },
+    {
+      "name": "register_channel",
+      "desc": "Registers new channel for permissions",
+      "usage": "register_channel <channel-name> <nsfw?>",
+      "aliases": [{
+        "id": "None"
+      }],
+      "permission-level": "99"
     }
   ]
 }
