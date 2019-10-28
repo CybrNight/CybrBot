@@ -3,6 +3,9 @@ import os
 import discord
 
 
+ROLES_CSV = os.getcwd() + "/resources/csv/roles.csv"
+CHANNELS_CSV = os.getcwd() + "/resources/csv/channels.csv"
+
 INSULT_CSV = os.getcwd()+"/resources/csv/insults.csv"
 HAIKU_CSV = os.getcwd()+"/resources/csv/haiku.csv"
 JPEG_DIRECTORY = os.getcwd()+"/download/jpeg"
@@ -12,7 +15,6 @@ AUDIO_DIRECTORY = os.getcwd() + "/resources/audio"
 DOWNLOAD_DIRECTORY = os.getcwd()+"/download"
 PRESENCE_JSON = os.getcwd()+"/resources/json/presence.json"
 COMMAND_JSON = os.getcwd()+"/resources/json/commands.json"
-PERMISSIONS_JSON = os.getcwd() + "/resources/json/permissions.json"
 
 RELEASE_VERSION = "3.0"
 
@@ -21,11 +23,23 @@ async def check_can_use(ctx, command=None):
     if isinstance(ctx.message.channel, discord.DMChannel):
         return True
 
+    roles = []
+    channels = []
+
     try:
-        with open(PERMISSIONS_JSON, "r") as permissions:
-            permission = json.load(permissions)
+        with open(ROLES_CSV, "r") as roles_csv:
+            for role in roles_csv:
+                roles.append(role)
     except Exception as e:
-        print("Failed to load permissions.json")
+        print("Failed to load roles.csv")
+
+    try:
+        with open(CHANNELS_CSV, "r") as channels_csv:
+            for channel in channels_csv:
+                channels.append(channel)
+    except Exception as e:
+        print(e)
+        print("Failed to channels.csv")
 
     try:
         with open(COMMAND_JSON, "r") as cmds:
@@ -39,21 +53,21 @@ async def check_can_use(ctx, command=None):
     for index, item in enumerate(cmd["commands"]):
         if item["name"] == command:
             for role in ctx.author.roles:
-                if role.name in permission:
-                    if int(permission[role.name]) >= int(item["permission-level"]):
-                        can_use = True
+                for line in roles:
+                    words = line.split(",")
+                    if words[0] == role.name and int(words[1]) == role.id:
+                        if int(words[2]) >= int(item["permission-level"]):
+                            can_use = True
+                            break
 
-    if ctx.author.id == 229773126936821760:
-        can_use = True
-
-    for index, item in enumerate(permission["allowed-channels"]):
-        if item["name"] == ctx.message.channel.name:
+    for line in channels:
+        channel = line.split(',')
+        if channel[0] == ctx.message.channel.name and int(channel[0]) == ctx.message.channel.id:
             can_use = True
             break
         else:
             can_use = False
 
-    permissions.close()
     cmds.close()
 
     if not can_use:
