@@ -3,6 +3,7 @@ from discord.ext import commands
 from discord.utils import get
 import youtube_dl
 import datetime
+import asyncio
 
 from bot.reference import *
 
@@ -14,6 +15,50 @@ class MusicState(Enum):
     PlayingSingle = 0
     PlayingQueue = 1
 
+ffmpeg_options = {
+    'options': '-vn'
+}
+
+ytdl_format_options = {
+            'format': 'bestaudio/best',
+            'outtmpl': '{AUDIO_DIRECTORY}/%(title)s.%(ext)s',
+            'restrictfilenames': True,
+            'noplaylist': True,
+            'nocheckcertificate': True,
+            'ignoreerrors': False,
+            'logtostderr': False,
+            'quiet': True,
+            'no_warnings': True,
+            'default_search': 'auto',
+            'source_address': '0.0.0.0'  # bind to ipv4 since ipv6 addresses cause issues sometimes
+        }
+
+ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+
+
+class YTDLSource(discord.PCMVolumeTransformer):
+    def __init__(self, source, *, data, volume=0.5):
+        super().__init__(source, volume)
+
+        self.data = data
+
+        self.title = data.get('title')
+        self.url = data.get('url')
+        self.thumbnail = data.get('thumbnail')
+        self.duration = data.get('duration')
+
+    @classmethod
+    async def from_url(cls, url, *, loop=None, stream=False):
+        loop = loop or asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+
+        if 'entries' in data:
+            # take first item from a playlist
+            data = data['entries'][0]
+
+        filename = data['url'] if stream else ytdl.prepare_filename(data)
+        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+
 
 class Music(commands.Cog):
     global voice
@@ -22,9 +67,8 @@ class Music(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.queue = {}
+        self.queue = []
         self.queue_index = 0
-        self.ydl_opts = None
 
         self.bot.loop.create_task(self.initialize())
 
@@ -37,17 +81,6 @@ class Music(commands.Cog):
             print("Loaded OPUS library")
         else:
             print("OPUS already loaded")
-
-        self.ydl_opts = {
-            "format": "bestaudio/best",
-            "quiet": True,
-            "outtmpl": f"{AUDIO_DIRECTORY}/%(title)s.%(ext)s",
-            "postprocessors": [{
-                "key": "FFmpegExtractAudio",
-                "preferredcodec": "mp3",
-                "preferredquality": "320",
-            }],
-        }
 
     @commands.command(pass_context=True, aliases=["disconnect"])
     async def leave(self, ctx):
@@ -75,9 +108,10 @@ class Music(commands.Cog):
 
         await self.join_voice_channel(ctx)
 
-    @commands.command(pass_context=True, aliases=['p'])
+    @commands.command()
     async def play(self, ctx, url=None):
         can_send = await check_can_use(ctx, "play")
+
         if not can_send:
             return
 
@@ -86,52 +120,18 @@ class Music(commands.Cog):
             print("Already playing music")
             return
 
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
         if url is None and len(self.queue) > 0:
-            if voice and not voice.is_connected():
-                await self.join_voice_channel(ctx)
             self.queue_index = 0
-            self.play_queue(ctx)
-        else:
-            try:
-                channel = ctx.message.author.voice.channel
-            except Exception as e:
-                print(e)
-                await ctx.send(f"{ctx.message.author.mention} **Must be in voice channel to use this command**")
-                return
-
-            await ctx.send(f"**Downloading**: `{url}` for playback")
-            song = await self.download_audio(url)
-
-            try:
-                title = song['title']
-                full_file = f"{AUDIO_DIRECTORY}/{title}.mp3"
-                print("Downloaded "+title)
-                self.currentPlayingSong = title
-            except Exception as e:
-                print("Error getting information from downloaded file")
-                print(e)
-
-            try:
-                voice = await self.join_voice_channel(ctx)
-                print(f"Playing {title}")
-                await ctx.send(embed=await self.embed_song(song))
-            except Exception as e:
-                print(e)
-                print("Not in voice channel")
-                await ctx.send(f"{ctx.message.author.mention} **Must be in voice channel to use this command**")
-                return
-
-            try:
-                print("Playing audio file")
+            await self.play_queue(ctx)
+        elif url is not None:
+            async with ctx.typing():
+                player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+                ctx.voice_client.play(player, after=lambda e: self.clear_queue())
                 self.music_state = MusicState.PlayingSingle
-                voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.clear_queue())
-                voice.source = discord.PCMVolumeTransformer(voice.source)
-                voice.source.volume = float(os.environ["BOT_VOLUME"])
+                self.currentPlayingSong = player.title
                 self.bot.loop.create_task(self.update_presence())
-            except Exception as e1:
-                print("Error playing audio file")
-                print(str(e1))
+
+                await ctx.send(embed=await self.embed_song(player))
 
     @commands.command(pass_context=True, name="volume")
     async def volume(self, ctx, volume=None):
@@ -210,13 +210,11 @@ class Music(commands.Cog):
             await ctx.send(embed=await self.build_queue_embed())
             return
         elif option is not None and option != "clear":
-            await ctx.send(f"**Queueing:`{option}`**")
-            song = await self.download_audio(option)
+            song = await YTDLSource.from_url(option, loop=self.bot.loop, stream=True)
 
-            title = song['title']
-            duration = str(datetime.timedelta(seconds=int(song['duration'])))
+            title = song.title
 
-            self.queue.update({title: duration})
+            self.queue.append(song)
 
             embed_queue = await self.embed_song(song, show_queue=True, ctx=ctx)
 
@@ -244,34 +242,34 @@ class Music(commands.Cog):
             print("Must be in voice channel")
             await ctx.send("**Must be in voice channel to use this command**")
 
-
     async def update_presence(self):
         await self.bot.wait_until_ready()
         activity = discord.Activity(name=self.currentPlayingSong, type=discord.ActivityType.listening)
         # Set presence of bot
         await self.bot.change_presence(activity=activity)
 
-    def play_queue(self, ctx):
+    async def play_queue(self, ctx):
         print(len(self.queue))
         file = None
 
         try:
-            if len(self.queue) == 0 and len(os.listdir(AUDIO_DIRECTORY)) > 0:
+            if len(self.queue) == 0:
                 print("Cleaing queue @ play_queue")
                 self.clear_queue()
                 return
             else:
-                file = list(self.queue)[self.queue_index]
-                self.currentPlayingSong = file
-                full_file = f"{AUDIO_DIRECTORY}/{file}.mp3"
+                if len(self.queue) > 0:
+                    file = self.queue[0]
                 self.music_state = MusicState.PlayingQueue
 
-                voice.play(discord.FFmpegPCMAudio(full_file), after=lambda e: self.play_queue(ctx))
-                voice.source = discord.PCMVolumeTransformer(voice.source)
-                voice.source.volume = float(os.environ["BOT_VOLUME"])
+                player = await YTDLSource.from_url(file.url, loop=self.bot.loop, stream=True)
+                ctx.voice_client.play(player, after=lambda e: self.bot.loop.create_task(self.play_queue(ctx)))
+                self.currentPlayingSong = player.title
                 self.bot.loop.create_task(self.update_presence())
-                print(self.queue[file])
-                del self.queue[file]
+
+                print(f"Now Playing: {self.queue[self.queue_index].title}")
+                if self.queue.__len__() > 0:
+                    del self.queue[0]
                 return
         except Exception as e:
             print("Error playing "+self.queue[file])
@@ -294,10 +292,10 @@ class Music(commands.Cog):
             print("No music to stop!")
 
     async def embed_song(self, song, show_queue=False, ctx=None):
-        title = song['title']
-        duration = str(datetime.timedelta(seconds=int(song['duration'])))
-        thumbnail = song["thumbnail"]
-        url = f"https://www.youtube.com/watch?v={song['id']}"
+        title = song.title
+        duration = str(datetime.timedelta(seconds=int(song.duration)))
+        thumbnail = song.thumbnail
+        url = song.url
         queue_length = len(self.queue)
 
         embed = discord.Embed(title=f"**{title}**", url=url, color=0x00ff00)
@@ -316,31 +314,27 @@ class Music(commands.Cog):
 
         return embed
 
-    async def download_audio(self, url):
-        try:
-            with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
-                print("Download started")
-                result = ydl.extract_info(url, download=True)
-
-                if "entries" in result:  # Add playlist support
-                    video = result[0]
-                else:
-                    video = result  # Just Video
-
-            return video
-        except Exception as e:
-            print("Error downloading video file")
-            print(e)
+    @play.before_invoke
+    async def ensure_voice(self, ctx):
+        if ctx.voice_client is None:
+            if ctx.author.voice:
+                await ctx.author.voice.channel.connect()
+            else:
+                await ctx.send("You are not connected to a voice channel.")
+                raise commands.CommandError("Author not connected to a voice channel.")
+        elif ctx.voice_client.is_playing():
+            ctx.voice_client.stop()
 
     async def build_queue_embed(self):
         i = 1
         queue_embed = discord.Embed(title=f"**Songs in queue:** {len(self.queue)}", description="\u200b")
         if len(self.queue) > 0:
-            for song, duration in self.queue.items():
+            for song in self.queue:
+                duration = str(datetime.timedelta(seconds=int(song.duration)))
                 if i == 1:
-                    queue_embed.add_field(name=f"{i}. {song}", value=f"Duration:{duration}", inline=True)
+                    queue_embed.add_field(name=f"{i}. {song.title}", value=f"Duration:{duration}", inline=True)
                 else:
-                    queue_embed.add_field(name=f"{i}. {song}", value=f"Duration:{duration}", inline=False)
+                    queue_embed.add_field(name=f"{i}. {song.title}", value=f"Duration:{duration}", inline=False)
                 i += 1
             return queue_embed
         else:
