@@ -90,11 +90,9 @@ class Music(commands.Cog):
 
         channel = ctx.message.author.voice.channel
         voice = get(self.bot.voice_clients, guild=ctx.guild)
-        print(voice)
 
         if voice and voice.is_connected():
             await voice.disconnect()
-            await ctx.send(f"**Successfully disconnected**")
             print(f"Disconnected from {channel}")
         else:
             print("Told to leave channel, but not connected to one")
@@ -106,44 +104,39 @@ class Music(commands.Cog):
         if not can_send:
             return
 
-        await self.join_voice_channel(ctx)
-
     @commands.command()
-    async def play(self, ctx, url=None):
+    async def play(self, ctx, *,url=None):
+        if self.music_state is not MusicState.PlayingNone:
+            await ctx.send("**Already playing music!\n"
+                           "Use /queue <url> to add song to queue or /stop to stop playback**")
+            print("Already playing music")
+            return
+
         can_send = await check_can_use(ctx, "play")
 
         if not can_send:
             return
 
-        if self.music_state is not MusicState.PlayingNone:
-            await ctx.send("**Already playing music. Try /queue <url> or /stop**")
-            print("Already playing music")
-            return
-
-        if url is None and len(self.queue) > 0:
+        if url is None and len(self.queue) > 0 and self.music_state is MusicState.PlayingNone:
             self.queue_index = 0
             await self.play_queue(ctx)
-        elif url is not None:
+        elif url is not None and self.music_state is MusicState.PlayingNone:
             async with ctx.typing():
                 player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
-                ctx.voice_client.play(player, after=lambda e: self.clear_queue())
+                ctx.voice_client.play(player, after=lambda e: self.bot.loop.create_task(self.clear_queue()))
                 self.music_state = MusicState.PlayingSingle
                 self.currentPlayingSong = player.title
-                self.bot.loop.create_task(self.update_presence())
+                await self.update_presence()
 
                 await ctx.send(embed=await self.embed_song(player))
 
-    @commands.command(pass_context=True, name="volume")
-    async def volume(self, ctx, volume=None):
-        can_send = await check_can_use(ctx, "volume")
-        if not can_send:
-            return
+    @commands.command()
+    async def volume(self, ctx, volume: int):
+        if ctx.voice_client is None:
+            return await ctx.send("Not connected to a voice channel.")
 
-        if volume is None:
-            await ctx.send(f":speaker:  **Volume is: {os.environ['BOT_VOLUME']}**")
-        else:
-            os.environ["BOT_VOLUME"] = volume
-            await ctx.send(f":speaker:  **Volume set to: {volume}**")
+        ctx.voice_client.source.volume = volume / 100
+        await ctx.send(f"**Changed volume to {volume}%**")
 
     # Pause music command
     @commands.command(pass_context=True, name="pause")
@@ -202,7 +195,7 @@ class Music(commands.Cog):
             return
 
         if option == "clear" or option == "-c" and self.music_state is MusicState.PlayingNone:
-            self.clear_queue()
+            await self.clear_queue()
             await ctx.send("**Cleared Queue :wastebasket:**")
             print("Cleared music queue")
             return
@@ -223,25 +216,6 @@ class Music(commands.Cog):
             return
         await ctx.message.delete()
 
-    async def join_voice_channel(self, ctx):
-        global voice
-        try:
-            channel = ctx.message.author.voice.channel
-            voice = get(self.bot.voice_clients, guild=ctx.guild)
-
-            # Connect bot to voice channel
-            if voice and voice.is_connected():
-                await voice.move_to(channel)
-            else:
-                voice = await channel.connect()
-                print(f"Connected to {channel}\n")
-            await ctx.send(f"**Connected to {channel}**")
-            return voice
-        except Exception as e:
-            print(e)
-            print("Must be in voice channel")
-            await ctx.send("**Must be in voice channel to use this command**")
-
     async def update_presence(self):
         await self.bot.wait_until_ready()
         activity = discord.Activity(name=self.currentPlayingSong, type=discord.ActivityType.listening)
@@ -255,7 +229,7 @@ class Music(commands.Cog):
         try:
             if len(self.queue) == 0:
                 print("Cleaing queue @ play_queue")
-                self.clear_queue()
+                await self.clear_queue()
                 return
             else:
                 if len(self.queue) > 0:
@@ -315,12 +289,15 @@ class Music(commands.Cog):
         return embed
 
     @play.before_invoke
-    async def ensure_voice(self, ctx):
+    @join.before_invoke
+    async def connect_to_voice_channel(self, ctx):
         if ctx.voice_client is None:
             if ctx.author.voice:
                 await ctx.author.voice.channel.connect()
+                await ctx.send(f"**Connected to {ctx.author.voice.channel}**")
+                print(f"Connected to {ctx.author.voice.channel}")
             else:
-                await ctx.send("You are not connected to a voice channel.")
+                await ctx.send("**You are not connected to a voice channel.**")
                 raise commands.CommandError("Author not connected to a voice channel.")
         elif ctx.voice_client.is_playing():
             ctx.voice_client.stop()
@@ -341,12 +318,15 @@ class Music(commands.Cog):
             queue_embed.add_field(name="**No songs in queue**", value='\u200b')
             return queue_embed
 
-    def clear_queue(self):
+    async def clear_queue(self):
         self.queue.clear()
         for file in os.listdir(AUDIO_DIRECTORY):
             print(f"Removed {file}")
             os.remove(f"{AUDIO_DIRECTORY}/{file}")
         self.music_state = MusicState.PlayingNone
+        activity = discord.Activity(name="/help", type=discord.ActivityType.playing)
+        # Set presence of bot
+        await self.bot.change_presence(activity=activity)
 
 
 def setup(bot):
