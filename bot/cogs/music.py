@@ -246,7 +246,7 @@ class Music(commands.Cog):
                     del self.queue[0]
                 return
         except Exception as e:
-            print("Error playing "+self.queue[file])
+            print("Error playing "+self.queue[0].title)
             print(e)
 
     @commands.command(name="skip", pass_context=True)
