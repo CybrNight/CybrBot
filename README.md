@@ -10,6 +10,7 @@ Install the required libraries using the command:
 
 Hosting platforms such as Heroku should automatically do this for you on deployment.
 If you are using Heroku you will need to install an OPUS buildpack for Heroku from [here.](https://github.com/xrisk/heroku-opus "here")
+You are also going to need to install an FFMPEG buildpack from [here.](https://www.github.com/jonathangong/heroku-buildpack-ffmpeg-latest.git)
 
 For a command list run `/help` in a channel labeled `#bot-commands`. This is the default channel the bot will work in.
 
