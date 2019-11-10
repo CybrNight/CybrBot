@@ -1,9 +1,24 @@
-# CyberSauceBot
-
-A simple Discord bot that can pull "Sauce" from various websites
+#Features
+- Scraping of images and videos from various websites.
+- Playing music from websites such as SoundCloud and YouTube
+- More JPEG and deep fry images in chat
+- Full permission system for command usage
 
 # Usage
-To use the bot you can either run it locally from something like PyCharm or whatever else. You may also run it from something like Heroku
-Running locally will require replacing os.environ.get in reference.py with either your direct bot token or defining a local environment variable
+Install the required libraries using the command:
+`pip install requirements.txt`
 
-See $help
+Hosting platforms such as Heroku should automatically do this for you on deployment.
+If you are using Heroku you will need to install an OPUS buildpack for Heroku from [here.](https://github.com/xrisk/heroku-opus "here")
+
+For a command list run `/help` in a channel labeled `#bot-commands`. This is the default channel the bot will work in.
+
+Use `/register_channel <name>` to register a channel for command usage.
+Use `/register_role <name> <permission-level>` to register a role for permissions.
+
+# Libraries
+- BeautifulSoup4 for website scraping
+- PIL/Pillow for image processing (more JPEG and deep fry commands)
+- Discord.py
+- YouTube-DL
+- AIOFiles for file handling
