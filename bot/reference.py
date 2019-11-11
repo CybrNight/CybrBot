@@ -31,6 +31,7 @@ async def check_can_use(ctx, command=None):
             for role in roles_csv:
                 roles.append(role)
     except Exception as e:
+        print(e)
         print("Failed to load roles.csv")
 
     try:
@@ -43,42 +44,79 @@ async def check_can_use(ctx, command=None):
 
     try:
         with open(COMMAND_JSON, "r") as cmds:
-            cmd = json.load(cmds)
+            commands = json.load(cmds)
     except Exception as e:
         print("Failed to load command.json")
         print(e)
 
+    current_command = None
+
     can_use = False
+    global valid_channel
+    valid_channel = False
+    global valid_role
+    valid_role = False
     nsfw = None
 
     for line in channels:
         channel = line.split(',')
 
-        nsfw = channel[2]
+        for index, item in enumerate(commands["commands"]):
+            if item["name"] == command:
+                current_command = item
 
         if channel[0] == ctx.message.channel.name and int(channel[1]) == int(ctx.message.channel.id):
-            can_use = True
-            break
-        else:
-            can_use = False
+            nsfw = channel[2]
+            if current_command is not None:
+                nsfw = nsfw.strip()
+                if current_command["nsfw"] == "yes" and nsfw == "no":
+                    print("Invalid command")
+                    print(current_command["nsfw"] + " " + nsfw)
+                    valid_channel = False
+                    break
+                else:
+                    print("Valid command")
+                    print(current_command["nsfw"] + " " + nsfw)
+                    valid_channel = True
+                    break
 
-    # Check if commands exist
-    for index, item in enumerate(cmd["commands"]):
-        if item["name"] == command:
-            for role in ctx.author.roles:
-                for line in roles:
-                    words = line.split(",")
-                    if words[0] == role.name and int(words[1]) == role.id:
-                        if int(words[2]) >= int(item["permission-level"]):
-                            can_use = True
-                            break
-                    else:
-                        can_use = False
+        if ctx.message.channel.name == "bot-commands" and nsfw == "no":
+            return True
+
+    # Check if role is valid
+    role = "INVALID_CHANNEL"
+    if valid_channel:
+        print(f"Valid Channel {ctx.message.channel}")
+        for index, item in enumerate(commands["commands"]):
+            if item["name"] == command:
+                for user_role in ctx.author.roles:
+                    for line in roles:
+                        r = line.split(",")
+                        if r[0] == user_role.name and int(r[1]) == user_role.id and not valid_role:
+                            if int(r[2]) >= int(item["permission-level"]):
+                                valid_role = True
+                                break
+                            elif not valid_role:
+                                valid_role = False
+                                role = user_role
+                        elif not valid_role:
+                            valid_role = False
+                            role = user_role
+    else:
+        valid_role = False
+        role = "INVALID_CHANNEL"
 
     cmds.close()
 
-    if not can_use:
+    if not valid_role or not valid_channel:
         await ctx.message.delete()
+        can_use = False
+        if not valid_role and role is not "INVALID_CHANNEL":
+            print(f"Command {command} used by invalid role {role}")
+        if not valid_channel:
+            print(f"Command {command} used in invalid channel {ctx.message.channel}")
+    elif valid_role and valid_channel:
+        can_use = True
 
     return can_use
 

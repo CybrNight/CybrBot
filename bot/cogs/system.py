@@ -27,7 +27,7 @@ class Util(commands.Cog):
                                        f" successfully **")
 
     @commands.command(pass_context=True, name="register_channel")
-    async def register_channel(self, ctx, channel=None, nsfw=False):
+    async def register_channel(self, ctx, channel=None, nsfw="no"):
         if channel is None:
             channel = ctx.channel.name
 

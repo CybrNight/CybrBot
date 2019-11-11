@@ -7,7 +7,8 @@
       "aliases": [{
         "id":"p"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "queue",
@@ -16,7 +17,8 @@
       "aliases": [{
         "id": "q"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "volume",
@@ -25,7 +27,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "15"
+      "permission-level": "15",
+      "nsfw": "no"
     },
     {
       "name": "pause",
@@ -34,7 +37,8 @@
       "aliases": [{
         "id":"None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "resume",
@@ -43,7 +47,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "stop",
@@ -52,7 +57,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "skip",
@@ -61,7 +67,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "join",
@@ -70,7 +77,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "jpeg",
@@ -81,7 +89,8 @@
       },{
         "id": "needsmorejpeg"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "deepfry",
@@ -90,7 +99,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "leave",
@@ -99,7 +109,8 @@
       "aliases": [{
         "id": "disconnect"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "diceroll",
@@ -110,7 +121,8 @@
       },{
         "id": "rolladie"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "clear",
@@ -119,7 +131,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "15"
+      "permission-level": "15",
+      "nsfw": "no"
     },
     {
       "name": "coinflip",
@@ -130,7 +143,8 @@
       },{
         "id": "flipacoin"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "gelbooru",
@@ -142,7 +156,7 @@
         "id":"gbooru"
       }],
       "permission-level": "0",
-      "nsfw": "True"
+      "nsfw": "yes"
     },
     {
       "name":"haiku",
@@ -151,7 +165,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name":"help",
@@ -160,7 +175,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name":"info",
@@ -169,7 +185,8 @@
       "aliases": [{
         "id": "status"
       }],
-      "permission-level": "15"
+      "permission-level": "15",
+      "nsfw": "no"
     },
     {
       "name":"insult",
@@ -178,7 +195,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name":"hentaihaven",
@@ -189,7 +207,8 @@
       },{
         "id": "hentai"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "yes"
 
     },
     {
@@ -199,7 +218,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name":"pat",
@@ -212,7 +232,8 @@
       },{
         "id": "pets"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name":"ping",
@@ -221,7 +242,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name":"police",
@@ -234,7 +256,8 @@
       },{
         "id": "swat"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name":"pornhub",
@@ -245,7 +268,8 @@
       },{
         "id": "porn"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "yes"
     },
     {
       "name":"prefix",
@@ -254,7 +278,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "15"
+      "permission-level": "15",
+      "nsfw": "no"
     },
     {
       "name":"purge",
@@ -263,7 +288,8 @@
       "aliases": [{
         "id": "PURGE"
       }],
-      "permission-level": "15"
+      "permission-level": "15",
+      "nsfw": "no"
     },
     {
       "name":"rule34",
@@ -273,7 +299,7 @@
         "id": "r34"
       }],
       "permission-level": "0",
-      "nsfw": "True"
+      "nsfw": "yes"
     },
     {
       "name":"spank",
@@ -282,7 +308,8 @@
       "aliases":[{
         "id": "None"
       }],
-      "permission-level": "0"
+      "permission-level": "0",
+      "nsfw": "no"
     },
     {
       "name": "register_role",
@@ -291,7 +318,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "99"
+      "permission-level": "99",
+      "nsfw": "no"
     },
     {
       "name": "register_channel",
@@ -300,7 +328,8 @@
       "aliases": [{
         "id": "None"
       }],
-      "permission-level": "99"
+      "permission-level": "99",
+      "nsfw": "no"
     }
   ]
 }

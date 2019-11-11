@@ -42,7 +42,7 @@ class Media(commands.Cog):
 
     @commands.command(name='r34', alias=['rule34'], pass_context=True)
     async def rule34(self, ctx, *args):
-        can_send = await check_can_use(ctx, "r34")
+        can_send = await check_can_use(ctx, "rule34")
         if not can_send:
             return
 

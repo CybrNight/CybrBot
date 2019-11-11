@@ -16,6 +16,7 @@ class User(commands.Cog):
         self.shake_a = self.shake_b = self.shake_c = []
         self.haikuLines = []
         self.command_json = ""
+        self.roles = []
 
         self.bot.loop.create_task(self.initialize())
 
@@ -51,6 +52,14 @@ class User(commands.Cog):
             print("Failed to load command.json")
             print(e)
 
+        try:
+            with open(ROLES_CSV, 'r') as roles:
+                self.roles = roles.readlines()
+                roles.close()
+        except Exception as e:
+            print("Failed to load roles.csv")
+            print(e)
+
     # Haiku Generator
     @commands.command(name="haiku", pass_context=True)
     async def haiku(self, ctx):
@@ -84,7 +93,7 @@ class User(commands.Cog):
 
             if not isinstance(ctx.message.channel, discord.DMChannel):
                 for role in ctx.author.roles:
-                    for line in roles:
+                    for line in self.roles:
                         r = line.split(",")
                         if role.name == r[0]:
                             user_role = r
@@ -102,7 +111,6 @@ class User(commands.Cog):
                     help_message += f"\n{name}\n-Description: {desc}\n-Usage: {BOT_PREFIX}{usage}\n-Aliases: {aliases}\n"
 
                     if len(help_message) >= 1750:
-                        print(len(help_message))
                         await ctx.message.author.send(f"```html\n{help_message} ```")
                         help_message = ""
 
