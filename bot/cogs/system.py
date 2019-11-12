@@ -3,7 +3,7 @@ import datetime
 import csv
 
 from discord.ext import commands
-from discord.utils import get
+import discord
 
 from bot.reference import *
 import bot.reference as ref
@@ -13,18 +13,43 @@ class Util(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(pass_context=True, name="list_roles")
+    async def list_roles(self, ctx):
+        with open(ROLES_CSV, 'r') as roles_csv:
+            roles = roles_csv.readlines()
+        embed = discord.Embed(title=f"**Registered Roles For {ctx.guild}**")
+        i = 0
+        for role in roles:
+            for _role in ctx.guild.roles:
+                r = role.split(",")
+                if r[0] == _role.name and int(r[1]) == int(_role.id):
+                    print(r)
+                    if i == 0:
+                        embed.add_field(name=f"{r[0].strip()}", value=f"Permission Level: {r[2].strip()}", inline=False)
+                    else:
+                        embed.add_field(name=f"{r[0].strip()}", value=f"Permission Level: {r[2].strip()}", inline=True)
+
+        await ctx.send(embed=embed)
+
     @commands.command(pass_context=True, name="register_role")
     async def register_role(self, ctx, role=None, permission_level=5):
+        global valid_role
+        valid_role = False
         if role is not None:
             for r in ctx.guild.roles:
                 if r.name == role:
                     fields = [r.name, r.id, permission_level]
                     with open(ROLES_CSV, 'a') as roles_csv:
+                        valid_role = True
                         writer = csv.writer(roles_csv, lineterminator="\n")
                         writer.writerow(fields)
                         print(f"Registered new role {role} successfully")
                         await ctx.send(f"**Registered new role {role} with permission level {permission_level}"
                                        f" successfully **")
+
+            if not valid_role:
+                print(f"No such role {role} on server {ctx.guild}")
+                await ctx.send(f"**No role {role} on {ctx.guild}**")
 
     @commands.command(pass_context=True, name="remove_role")
     async def remove_role(self, ctx, role=None):
@@ -42,6 +67,48 @@ class Util(commands.Cog):
                             else:
                                 print(f"Removed role {_role[0]} from registry")
                                 await ctx.send(f"**Removed role {_role[0]} from registry**")
+
+    @commands.command(pass_context=True, name="list_channels")
+    async def list_channels(self, ctx):
+        with open(CHANNELS_CSV, 'r') as channels_csv:
+            channels = channels_csv.readlines()
+        embed = discord.Embed(title=f"**Registered Channels For {ctx.guild}**")
+        i = 0
+        for channel in channels:
+            for _channel in ctx.guild.channels:
+                c = channel.split(",")
+                if c[0] == _channel.name and int(c[1]) == int(_channel.id):
+                    print(c)
+                    if i == 0:
+                        embed.add_field(name=f"{c[0].strip()}", value=f"NSFW: {c[2].strip().upper()}", inline=False)
+                    else:
+                        embed.add_field(name=f"{c[0].strip()}", value=f"NSFW: {c[2].strip().upper()}", inline=True)
+
+        await ctx.send(embed=embed)
+
+    @commands.command(pass_context=True, name="register_channel")
+    async def register_channel(self, ctx, channel=None, nsfw="no"):
+        global valid_channel
+        valid_channel = False
+        if channel is None:
+            channel = ctx.channel.name
+
+        if "nsfw" in channel:
+            nsfw = "yes"
+
+        for c in ctx.guild.channels:
+            if c.name == channel:
+                fields = [c.name, c.id, nsfw]
+                with open(CHANNELS_CSV, 'a') as roles_csv:
+                    valid_channel = True
+                    writer = csv.writer(roles_csv, lineterminator="\n")
+                    writer.writerow(fields)
+                    print(f"Registered new channel {channel} successfully")
+                    await ctx.send(f"**Registered new channel {channel} successfully **")
+
+        if not valid_channel:
+            print(f"No channel {channel} on {ctx.guild}")
+            await ctx.send(f"**No channel {channel} on {ctx.guild}**")
 
     @commands.command(pass_context=True, name="remove_channel")
     async def remove_channel(self, ctx, channel=None):
@@ -63,23 +130,6 @@ class Util(commands.Cog):
                 else:
                     print(f"Removed channel {_channel[0]} from registry")
                     await ctx.send(f"**Removed channel {_channel[0]} from registry**")
-
-    @commands.command(pass_context=True, name="register_channel")
-    async def register_channel(self, ctx, channel=None, nsfw="no"):
-        if channel is None:
-            channel = ctx.channel.name
-
-        if "nsfw" in channel:
-            nsfw = "yes"
-
-        for c in ctx.guild.channels:
-            if c.name == channel:
-                fields = [c.name, c.id, nsfw]
-                with open(CHANNELS_CSV, 'a') as roles_csv:
-                    writer = csv.writer(roles_csv, lineterminator="\n")
-                    writer.writerow(fields)
-                    print(f"Registered new channel {channel} successfully")
-                    await ctx.send(f"**Registered new channel {channel} successfully **")
 
     @commands.command(pass_context=True, name="clear")
     async def clear(self, ctx, number=5):
