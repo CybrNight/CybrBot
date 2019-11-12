@@ -79,9 +79,6 @@ class User(commands.Cog):
     # Help Command
     @commands.command(name="help", pass_context=True)
     async def help(self, ctx, *args):
-        can_send = await ref.check_can_use(ctx, "help")
-        if can_send:
-            return
 
         # Open commands.json for reading
         if args.__len__() == 0:
@@ -101,6 +98,7 @@ class User(commands.Cog):
 
             # Iterate through json file and add all commands to help string
             for index, item in enumerate(self.command_json["commands"]):
+                print(user_role)
                 if int(user_role[2].strip()) >= int(item["permission-level"]):
                     aliases = []
                     for index2, alias in enumerate(item["aliases"]):
