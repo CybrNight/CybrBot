@@ -1,6 +1,7 @@
 import json
 import os
 import discord
+import asyncio
 
 
 ROLES_CSV = os.getcwd() + "/resources/csv/roles.csv"
@@ -23,6 +24,10 @@ channels = []
 
 
 async def check_can_use(ctx, command=None):
+
+    roles.clear()
+    channels.clear()
+
     if isinstance(ctx.message.channel, discord.DMChannel):
         return True
 
@@ -30,6 +35,7 @@ async def check_can_use(ctx, command=None):
         with open(ROLES_CSV, "r") as roles_csv:
             for role in roles_csv:
                 roles.append(role)
+        roles_csv.close()
     except Exception as e:
         print(e)
         print("Failed to load roles.csv")
@@ -38,6 +44,7 @@ async def check_can_use(ctx, command=None):
         with open(CHANNELS_CSV, "r") as channels_csv:
             for channel in channels_csv:
                 channels.append(channel)
+        channels_csv.close()
     except Exception as e:
         print(e)
         print("Failed to channels.csv")
@@ -71,12 +78,10 @@ async def check_can_use(ctx, command=None):
                 nsfw = nsfw.strip()
                 if current_command["nsfw"] == "yes" and nsfw == "no":
                     print("Invalid command")
-                    print(current_command["nsfw"] + " " + nsfw)
                     valid_channel = False
                     break
                 else:
                     print("Valid command")
-                    print(current_command["nsfw"] + " " + nsfw)
                     valid_channel = True
                     break
 
@@ -86,9 +91,9 @@ async def check_can_use(ctx, command=None):
     # Check if role is valid
     role = "INVALID_CHANNEL"
     if valid_channel:
-        print(f"Valid Channel {ctx.message.channel}")
+        # Find run command in commands.json
         for index, item in enumerate(commands["commands"]):
-            if item["name"] == command:
+            if item["name"] == current_command["name"]:
                 for user_role in ctx.author.roles:
                     for line in roles:
                         r = line.split(",")
@@ -99,22 +104,20 @@ async def check_can_use(ctx, command=None):
                             elif not valid_role:
                                 valid_role = False
                                 role = user_role
-                        elif not valid_role:
-                            valid_role = False
-                            role = user_role
-    else:
-        valid_role = False
-        role = "INVALID_CHANNEL"
 
     cmds.close()
 
     if not valid_role or not valid_channel:
         await ctx.message.delete()
+        error = await ctx.send(f"**{ctx.message.author.mention} You do not have permission to use "
+                               f"{current_command['name']}**")
         can_use = False
         if not valid_role and role is not "INVALID_CHANNEL":
             print(f"Command {command} used by invalid role {role}")
         if not valid_channel:
             print(f"Command {command} used in invalid channel {ctx.message.channel}")
+        await asyncio.sleep(1.5)
+        await error.delete()
     elif valid_role and valid_channel:
         can_use = True
 

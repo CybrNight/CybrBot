@@ -14,17 +14,49 @@ class Util(commands.Cog):
         self.bot = bot
 
     @commands.command(pass_context=True, name="register_role")
-    async def register_role(self, ctx, role, permission_level=5):
+    async def register_role(self, ctx, role=None, permission_level=5):
         if role is not None:
             for r in ctx.guild.roles:
                 if r.name == role:
                     fields = [r.name, r.id, permission_level]
                     with open(ROLES_CSV, 'a') as roles_csv:
-                        writer = csv.writer(roles_csv,lineterminator="\n")
+                        writer = csv.writer(roles_csv, lineterminator="\n")
                         writer.writerow(fields)
                         print(f"Registered new role {role} successfully")
                         await ctx.send(f"**Registered new role {role} with permission level {permission_level}"
                                        f" successfully **")
+
+    @commands.command(pass_context=True, name="remove_role")
+    async def remove_role(self, ctx, role=None):
+        if role is not None:
+            for r in ctx.guild.roles:
+                if r.name == role:
+                    current_role = r
+                    with open(ROLES_CSV, 'r') as roles_csv:
+                        role_list = list(csv.reader(roles_csv, lineterminator='\n'))
+                    with open(ROLES_CSV, "w") as roles_csv:
+                        writer = csv.writer(roles_csv, lineterminator='\n')
+                        for _role in role_list:
+                            if _role[0] != current_role.name or int(_role[1]) != int(current_role.id):
+                                print(_role)
+                                writer.writerow(_role)
+
+    @commands.command(pass_context=True, name="remove_channel")
+    async def remove_channel(self, ctx, channel=None):
+        if channel is None:
+            channel = ctx.message.channel
+
+        for c in ctx.guild.channels:
+            if c.name == channel.name:
+                current_channel = c
+                print(current_channel)
+                with open(CHANNELS_CSV, 'r') as channels_csv:
+                    channel_list = list(csv.reader(channels_csv, lineterminator='\n'))
+                with open(CHANNELS_CSV, "w") as channels_csv:
+                    writer = csv.writer(channels_csv, lineterminator='\n')
+                    for _channel in channel_list:
+                        if _channel[0] != current_channel.name or int(_channel[1]) != int(current_channel.id):
+                            writer.writerow(_channel)
 
     @commands.command(pass_context=True, name="register_channel")
     async def register_channel(self, ctx, channel=None, nsfw="no"):

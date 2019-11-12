@@ -80,13 +80,12 @@ class User(commands.Cog):
     @commands.command(name="help", pass_context=True)
     async def help(self, ctx, *args):
         can_send = await ref.check_can_use(ctx, "help")
-        if not can_send:
+        if can_send:
             return
 
         # Open commands.json for reading
         if args.__len__() == 0:
-            # Send message to channel where message was sent
-            bot_message = await ctx.send(f"**{ctx.author.mention} I DM'd you the command list!**")
+            # Send message to channel where message was send
             help_message = f"Here's the command list! The current prefix is '{BOT_PREFIX}'\n"
 
             user_role = "Sauce"
@@ -97,10 +96,12 @@ class User(commands.Cog):
                         r = line.split(",")
                         if role.name == r[0]:
                             user_role = r
+                            print(user_role)
+                            break
 
             # Iterate through json file and add all commands to help string
             for index, item in enumerate(self.command_json["commands"]):
-                if int(user_role[2]) >= int(item["permission-level"]):
+                if int(user_role[2].strip()) >= int(item["permission-level"]):
                     aliases = []
                     for index2, alias in enumerate(item["aliases"]):
                         aliases.append(alias["id"])
@@ -116,6 +117,7 @@ class User(commands.Cog):
 
             # Send author help text in direct message
             await ctx.message.author.send(f"```html\n{help_message} ```")
+            bot_message = await ctx.send(f"**{ctx.author.mention} I DM'd you the command list!**")
             print(f"Sent help message to {ctx.message.author}")
 
             await sleepasync(5)
