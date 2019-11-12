@@ -85,7 +85,7 @@ class User(commands.Cog):
             # Send message to channel where message was send
             help_message = f"Here's the command list! The current prefix is '{BOT_PREFIX}'\n"
 
-            user_role = "Sauce"
+            user_role = None
 
             if not isinstance(ctx.message.channel, discord.DMChannel):
                 for role in ctx.author.roles:
@@ -98,8 +98,7 @@ class User(commands.Cog):
 
             # Iterate through json file and add all commands to help string
             for index, item in enumerate(self.command_json["commands"]):
-                print(user_role)
-                if int(user_role[2].strip()) >= int(item["permission-level"]):
+                if user_role is not None and int(user_role[2].strip()) >= int(item["permission-level"]):
                     aliases = []
                     for index2, alias in enumerate(item["aliases"]):
                         aliases.append(alias["id"])

@@ -38,25 +38,31 @@ class Util(commands.Cog):
                         writer = csv.writer(roles_csv, lineterminator='\n')
                         for _role in role_list:
                             if _role[0] != current_role.name or int(_role[1]) != int(current_role.id):
-                                print(_role)
                                 writer.writerow(_role)
+                            else:
+                                print(f"Removed role {_role[0]} from registry")
+                                await ctx.send(f"**Removed role {_role[0]} from registry**")
 
     @commands.command(pass_context=True, name="remove_channel")
     async def remove_channel(self, ctx, channel=None):
+        current_channel = None
         if channel is None:
-            channel = ctx.message.channel
+            current_channel = ctx.message.channel
+        else:
+            for c in ctx.guild.channels:
+                if c.name == channel:
+                    current_channel = c
 
-        for c in ctx.guild.channels:
-            if c.name == channel.name:
-                current_channel = c
-                print(current_channel)
-                with open(CHANNELS_CSV, 'r') as channels_csv:
-                    channel_list = list(csv.reader(channels_csv, lineterminator='\n'))
-                with open(CHANNELS_CSV, "w") as channels_csv:
-                    writer = csv.writer(channels_csv, lineterminator='\n')
-                    for _channel in channel_list:
-                        if _channel[0] != current_channel.name or int(_channel[1]) != int(current_channel.id):
-                            writer.writerow(_channel)
+        with open(CHANNELS_CSV, 'r') as channels_csv:
+            channel_list = list(csv.reader(channels_csv, lineterminator='\n'))
+        with open(CHANNELS_CSV, "w") as channels_csv:
+            writer = csv.writer(channels_csv, lineterminator='\n')
+            for _channel in channel_list:
+                if _channel[0] != current_channel.name or int(_channel[1]) != int(current_channel.id):
+                    writer.writerow(_channel)
+                else:
+                    print(f"Removed channel {_channel[0]} from registry")
+                    await ctx.send(f"**Removed channel {_channel[0]} from registry**")
 
     @commands.command(pass_context=True, name="register_channel")
     async def register_channel(self, ctx, channel=None, nsfw="no"):

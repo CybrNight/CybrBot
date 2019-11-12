@@ -108,9 +108,8 @@ async def check_can_use(ctx, command=None):
     cmds.close()
 
     if not valid_role or not valid_channel:
-        await ctx.message.delete()
         error = await ctx.send(f"**{ctx.message.author.mention} You do not have permission to use "
-                               f"{current_command['name']}**")
+                               f"{command}**")
         can_use = False
         if not valid_role and role is not "INVALID_CHANNEL":
             print(f"Command {command} used by invalid role {role}")
@@ -118,6 +117,7 @@ async def check_can_use(ctx, command=None):
             print(f"Command {command} used in invalid channel {ctx.message.channel}")
         await asyncio.sleep(1.5)
         await error.delete()
+        await ctx.message.delete()
     elif valid_role and valid_channel:
         can_use = True
 
