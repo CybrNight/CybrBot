@@ -52,7 +52,8 @@ async def on_ready():
 cogs = os.listdir(cogs_dir)
 
 if __name__ == "__main__":
-    for extension in [f.replace('.py', '') for f in os.listdir(cogs_dir) if os.path.isfile(os.path.join(cogs_dir, f))]:
+    for extension in [f.replace('.py', '') for f in os.listdir(cogs_dir)
+                      if os.path.isfile(os.path.join(cogs_dir, f))]:
         try:
             bot.load_extension(f"{cogs_dir}.{extension}")
             print(f"Loaded extension: {extension}")

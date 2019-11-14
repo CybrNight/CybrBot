@@ -126,7 +126,8 @@ class DeepFry(commands.Cog):
                 print("Failed to create directory for extracting GIF")
 
             # Send fried GIF to server chat
-            await channel.send("**Fresh from the fryer!**", file=await self.assemble_gif(img_path, FRY_DIRECTORY))
+            await channel.send("**Fresh from the fryer!**",
+                               file=await self.assemble_gif(img_path, FRY_DIRECTORY))
 
             # Delete off server
             shutil.rmtree(FRY_DIRECTORY)
@@ -147,7 +148,8 @@ class DeepFry(commands.Cog):
             n_frames = 0
             while frame:
                 # Iterate through whole GIF and save each frame
-                frame.save('%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), n_frames), 'GIF', quality=1)
+                frame.save('%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), n_frames),
+                           'GIF', quality=1)
                 n_frames += 1
                 try:
                     frame.seek(n_frames)

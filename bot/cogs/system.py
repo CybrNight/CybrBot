@@ -180,7 +180,8 @@ class Util(commands.Cog):
         time = current_datetime.time()
         date = current_datetime.date()
         user = self.bot.user.display_name
-        info = await ctx.send(f"```{user} {RELEASE_VERSION}\n(C Nathan Estrada 2019\nServer Time: {time}\n"
+        info = await ctx.send(f"```{user} {RELEASE_VERSION}\n"
+                              f"(C Nathan Estrada 2019\nServer Time: {time}\n"
                               f"Server Date: {date}```")
 
         await asyncio.sleep(5)

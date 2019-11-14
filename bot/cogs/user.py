@@ -69,8 +69,11 @@ class User(commands.Cog):
 
         haiku = random.choice(self.haikuLines[0].split(",")).strip() + " " + random.choice(
             self.haikuLines[1].split(",")).strip() + "\n"
+
         haiku += random.choice(self.haikuLines[2].split(",")).strip() + " " + random.choice(
-            self.haikuLines[3].split(",")).strip() + " " + random.choice(self.haikuLines[4].split(",")).strip() + "\n"
+            self.haikuLines[3].split(",")).strip() + " " + \
+            random.choice(self.haikuLines[4].split(",")).strip() + "\n"
+
         haiku += random.choice(self.haikuLines[5].split(",")).strip() + " " + random.choice(
             self.haikuLines[6].split(",")).strip() + "\n"
 
@@ -79,7 +82,6 @@ class User(commands.Cog):
     # Help Command
     @commands.command(name="help", pass_context=True)
     async def help(self, ctx, *args):
-
         # Open commands.json for reading
         if args.__len__() == 0:
             # Send message to channel where message was send
@@ -98,7 +100,8 @@ class User(commands.Cog):
 
             # Iterate through json file and add all commands to help string
             for index, item in enumerate(self.command_json["commands"]):
-                if user_role is not None and int(user_role[2].strip()) >= int(item["permission-level"]):
+                if user_role is not None \
+                        and int(user_role[2].strip()) >= int(item["permission-level"]):
                     aliases = []
                     for index2, alias in enumerate(item["aliases"]):
                         aliases.append(alias["id"])
@@ -106,7 +109,8 @@ class User(commands.Cog):
                     name = item["name"]
                     desc = item["desc"]
                     usage = item["usage"]
-                    help_message += f"\n{name}\n-Description: {desc}\n-Usage: {BOT_PREFIX}{usage}\n-Aliases: {aliases}\n"
+                    help_message += f"\n{name}\n-Description: {desc}\n-Usage: " \
+                        f"{BOT_PREFIX}{usage}\n-Aliases: {aliases}\n"
 
                     if len(help_message) >= 1750:
                         await ctx.message.author.send(f"```html\n{help_message} ```")
@@ -134,7 +138,8 @@ class User(commands.Cog):
                         name = item["name"]
                         desc = item["desc"]
                         usage = item["usage"]
-                        help_message += f"\n{name}\n-Description: {desc}\n-Usage: {BOT_PREFIX}{usage}\n-Aliases: {alias_str}"
+                        help_message += f"\n{name}\n-Description: {desc}\n-Usage: " \
+                            f"{BOT_PREFIX}{usage}\n-Aliases: {alias_str}"
                         continue
 
                     aliases = []
@@ -142,12 +147,13 @@ class User(commands.Cog):
                     for index2, alias in enumerate(item["aliases"]):
                         if alias["id"] == arg:
                             alias_str = str(" ").join(aliases)
-                            help_message += "\n{0}\n-Description: {1}\n-Usage: {2}\n-Aliases: {3}\n".format(
-                                item["name"],
-                                item["desc"],
-                                item["usage"],
-                                alias_str)
-            # Send help info for inputed commands to channel
+                            name = item["name"]
+                            desc = item["desc"]
+                            usage = item["usage"]
+                            help_message += f"\n{name}\n-Description: {desc}\n-Usage: " \
+                                f"{usage}\n-Aliases: {alias_str}\n"
+
+            # Send help info for inputted commands to channel
             await ctx.send(f"```html\n{help_message} ```")
 
     # Shakespeare Insults
@@ -176,10 +182,10 @@ class User(commands.Cog):
 
         if args.__len__() == 0:
             await ctx.send(f"{ctx.message.author.mention} "
-                                           f"https://www.youtube.com/watch?v=-mzR1jcZ_OI")
+                           f"https://www.youtube.com/watch?v=-mzR1jcZ_OI")
         else:
             await ctx.send(f"{str(' ').join(args)}"
-                                           f"https://www.youtube.com/watch?v=-mzR1jcZ_OI")
+                           f"https://www.youtube.com/watch?v=-mzR1jcZ_OI")
 
     # Pat user command
     @commands.command(name='pat', aliases=['pats', 'pets', 'pet'], pass_context=True)

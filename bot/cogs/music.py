@@ -50,7 +50,8 @@ class YTDLSource(discord.PCMVolumeTransformer):
     @classmethod
     async def from_url(cls, url, *, loop=None, stream=False):
         loop = loop or asyncio.get_event_loop()
-        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+        data = await loop.run_in_executor(None,
+                                          lambda: ytdl.extract_info(url, download=not stream))
 
         if 'entries' in data:
             # take first item from a playlist
@@ -123,7 +124,10 @@ class Music(commands.Cog):
         elif url is not None and self.music_state is MusicState.PlayingNone:
             async with ctx.typing():
                 player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
-                ctx.voice_client.play(player, after=lambda e: self.bot.loop.create_task(self.clear_queue()))
+
+                ctx.voice_client.play(player, after=lambda e:
+                self.bot.loop.create_task(self.clear_queue()))
+
                 self.music_state = MusicState.PlayingSingle
                 self.currentPlayingSong = player.title
                 await self.update_presence()
@@ -218,7 +222,8 @@ class Music(commands.Cog):
 
     async def update_presence(self):
         await self.bot.wait_until_ready()
-        activity = discord.Activity(name=self.currentPlayingSong, type=discord.ActivityType.listening)
+        activity = discord.Activity(name=self.currentPlayingSong,
+                                    type=discord.ActivityType.listening)
         # Set presence of bot
         await self.bot.change_presence(activity=activity)
 
@@ -237,7 +242,10 @@ class Music(commands.Cog):
                 self.music_state = MusicState.PlayingQueue
 
                 player = await YTDLSource.from_url(file.url, loop=self.bot.loop, stream=True)
-                ctx.voice_client.play(player, after=lambda e: self.bot.loop.create_task(self.play_queue(ctx)))
+
+                ctx.voice_client.play(player, after=lambda e:
+                                                self.bot.loop.create_task(self.play_queue(ctx)))
+
                 self.currentPlayingSong = player.title
                 self.bot.loop.create_task(self.update_presence())
 
@@ -277,10 +285,12 @@ class Music(commands.Cog):
 
         if show_queue and ctx is not None:
             user = ctx.message.author
-            embed.add_field(name=f"**Position in queue:** {queue_length}", value="\u200b", inline=True)
+            embed.add_field(name=f"**Position in queue:** {queue_length}",
+                            value="\u200b", inline=True)
             embed.set_footer(text=f"{queue_length} song(s) in queue\n /play")
-            embed.set_author(name="Added to queue", icon_url=f"https://cdn.discordapp.com/avatars/"
-                                                             f"{user.id}/{user.avatar}.png?size=1024")
+            embed.set_author(name="Added to queue",
+                             icon_url=f"https://cdn.discordapp.com/avatars/"
+                             f"{user.id}/{user.avatar}.png?size=1024")
         else:
             embed.set_author(name="Now Playing")
 
@@ -304,14 +314,17 @@ class Music(commands.Cog):
 
     async def build_queue_embed(self):
         i = 1
-        queue_embed = discord.Embed(title=f"**Songs in queue:** {len(self.queue)}", description="\u200b")
+        queue_embed = discord.Embed(title=f"**Songs in queue:** {len(self.queue)}",
+                                    description="\u200b")
         if len(self.queue) > 0:
             for song in self.queue:
                 duration = str(datetime.timedelta(seconds=int(song.duration)))
                 if i == 1:
-                    queue_embed.add_field(name=f"{i}. {song.title}", value=f"Duration:{duration}", inline=True)
+                    queue_embed.add_field(name=f"{i}. {song.title}", value=f"Duration:{duration}",
+                                          inline=True)
                 else:
-                    queue_embed.add_field(name=f"{i}. {song.title}", value=f"Duration:{duration}", inline=False)
+                    queue_embed.add_field(name=f"{i}. {song.title}", value=f"Duration:{duration}",
+                                          inline=False)
                 i += 1
             return queue_embed
         else:
