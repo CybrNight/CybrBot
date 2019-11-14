@@ -15,6 +15,7 @@ class MusicState(Enum):
     PlayingSingle = 0
     PlayingQueue = 1
 
+
 ffmpeg_options = {
     'options': '-vn'
 }
@@ -133,8 +134,8 @@ class Music(commands.Cog):
                 player = await YTDLSource.from_url(url, loop=self.bot.loop,
                                                    stream=True)
 
-                ctx.voice_client.play(player, after=lambda e:
-                self.bot.loop.create_task(self.clear_queue()))
+                ctx.voice_client.play(player, after=lambda: self.bot.loop.
+                                      create_task(self.clear_queue()))
 
                 self.music_state = MusicState.PlayingSingle
                 self.currentPlayingSong = player.title
@@ -208,6 +209,7 @@ class Music(commands.Cog):
 
         if option == "clear" or option == "-c" \
                 and self.music_state is MusicState.PlayingNone:
+
             await self.clear_queue()
             await ctx.send("**Cleared Queue :wastebasket:**")
             print("Cleared music queue")
@@ -249,9 +251,10 @@ class Music(commands.Cog):
             else:
                 if len(self.queue) > 0:
                     file = self.queue[0]
-                self.music_state = MusicState.PlayingQueue
 
-                player = await YTDLSource.from_url(file.url, loop=self.bot.loop,
+                self.music_state = MusicState.PlayingQueue
+                player = await YTDLSource.from_url(file.url,
+                                                   loop=self.bot.loop,
                                                    stream=True)
 
                 ctx.voice_client.play(player, after=lambda e: self.bot.loop.
@@ -297,7 +300,9 @@ class Music(commands.Cog):
         if show_queue and ctx is not None:
             user = ctx.message.author
             embed.add_field(name=f"**Position in queue:** {queue_length}",
-                            value="\u200b", inline=True)
+                            value="\u200b",
+                            inline=True)
+
             embed.set_footer(text=f"{queue_length} song(s) in queue\n /play")
             embed.set_author(name="Added to queue",
                              icon_url=f"https://cdn.discordapp.com/avatars/"
@@ -305,7 +310,8 @@ class Music(commands.Cog):
         else:
             embed.set_author(name="Now Playing")
 
-        embed.add_field(name=f"**Duration:** {duration}", value=f"\u200b",
+        embed.add_field(name=f"**Duration:** {duration}",
+                        value=f"\u200b",
                         inline=False)
 
         return embed
@@ -343,14 +349,17 @@ class Music(commands.Cog):
                 i += 1
             return queue_embed
         else:
-            queue_embed.add_field(name="**No songs in queue**", value='\u200b')
+            queue_embed.add_field(name="**No songs in queue**",
+                                  value='\u200b')
             return queue_embed
 
     async def clear_queue(self):
         self.queue.clear()
+
         for file in os.listdir(AUDIO_DIRECTORY):
             print(f"Removed {file}")
             os.remove(f"{AUDIO_DIRECTORY}/{file}")
+
         self.music_state = MusicState.PlayingNone
         activity = discord.Activity(name="/help",
                                     type=discord.ActivityType.playing)

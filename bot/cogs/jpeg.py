@@ -18,8 +18,7 @@ class JPEG(commands.Cog):
         self.bot = bot
 
     @commands.command(name="morejpeg",
-                      aliases=["jpeg", "needsmorejpeg"],
-                      pass_context=True)
+                      aliases=["jpeg", "needsmorejpeg"])
     async def more_jpeg(self, ctx, url=None):
         can_send = await check_can_use(ctx, "jpeg")
         if not can_send:
@@ -54,7 +53,8 @@ class JPEG(commands.Cog):
                             try:
                                 img_path = f"{DOWNLOAD_DIRECTORY}" \
                                                f"/needs_more." + ext
-                                file = await aiofiles.open(img_path, mode="wb")
+                                file = await aiofiles.open(img_path,
+                                                           mode="wb")
                                 await file.write(await resp.read())
                                 await file.close()
                             except Exception as e:
@@ -142,10 +142,10 @@ class JPEG(commands.Cog):
             frame = Image.open(in_gif)
             nframes = 0
             while frame:
-                frame.save( '%s/%s-%s.gif' % (out_folder,
-                                              os.path.basename(in_gif),
-                                              nframes),
-                            'GIF', quality=1)
+                frame.save('%s/%s-%s.gif' % (out_folder,
+                                             os.path.basename(in_gif),
+                                             nframes),
+                           'GIF', quality=1)
                 nframes += 1
                 try:
                     frame.seek(nframes)
