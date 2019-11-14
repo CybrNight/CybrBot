@@ -72,7 +72,8 @@ async def check_can_use(ctx, command=None):
             if item["name"] == command:
                 current_command = item
 
-        if channel[0] == ctx.message.channel.name and int(channel[1]) == int(ctx.message.channel.id):
+        if channel[0] == ctx.message.channel.name \
+                and int(channel[1]) == int(ctx.message.channel.id):
             nsfw = channel[2]
             if current_command is not None:
                 nsfw = nsfw.strip()
@@ -97,7 +98,9 @@ async def check_can_use(ctx, command=None):
                 for user_role in ctx.author.roles:
                     for line in roles:
                         r = line.split(",")
-                        if r[0] == user_role.name and int(r[1]) == user_role.id and not valid_role:
+                        if r[0] == user_role.name \
+                                and int(r[1]) == user_role.id \
+                                and not valid_role:
                             if int(r[2]) >= int(item["permission-level"]):
                                 valid_role = True
                                 break
@@ -108,13 +111,15 @@ async def check_can_use(ctx, command=None):
     cmds.close()
 
     if not valid_role or not valid_channel:
-        error = await ctx.send(f"**{ctx.message.author.mention} You do not have permission to use "
+        error = await ctx.send(f"**{ctx.message.author.mention} "
+                               f"You do not have permission to use "
                                f"{command}**")
         can_use = False
         if not valid_role and role is not "INVALID_CHANNEL":
             print(f"Command {command} used by invalid role {role}")
         if not valid_channel:
-            print(f"Command {command} used in invalid channel {ctx.message.channel}")
+            print(f"Command {command} used in invalid channel "
+                  f"{ctx.message.channel}")
         await asyncio.sleep(1.5)
         await error.delete()
         await ctx.message.delete()

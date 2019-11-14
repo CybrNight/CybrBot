@@ -21,7 +21,8 @@ class Media(commands.Cog):
         em.set_image(url=img)
         return em
 
-    @commands.command(name='hentaihaven', aliases=['hh', 'hentai'], pass_context=True)
+    @commands.command(name='hentaihaven', aliases=['hh', 'hentai'],
+                      pass_context=True)
     async def hentai_haven(self, ctx, *args):
         can_send = await check_can_use(ctx, "hentaihaven")
         if not can_send:
@@ -31,7 +32,8 @@ class Media(commands.Cog):
         await ctx.channel.send(video)
         return
 
-    @commands.command(name='pornhub', aliases=['ph', 'porn'], pass_context=True)
+    @commands.command(name='pornhub', aliases=['ph', 'porn'],
+                      pass_context=True)
     async def porn_hub(self, ctx, *args):
         can_send = await check_can_use(ctx, "pornhub")
         if not can_send:
@@ -49,7 +51,8 @@ class Media(commands.Cog):
         image = await r34.image_search(str(" ").join(args))
         await ctx.channel.send(image)
 
-    @commands.command(name='gb', aliases=['gbooru', 'gelbooru'], pass_context=True)
+    @commands.command(name='gb', aliases=['gbooru', 'gelbooru'],
+                      pass_context=True)
     async def gelbooru(self, ctx, *args):
         can_send = await check_can_use(ctx, "gelbooru")
         if not can_send:

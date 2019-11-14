@@ -29,7 +29,8 @@ class RNG(commands.Cog):
         await ctx.send(f"**{response}, {ctx.message.author.mention}**")
         
     # Coin Flip Command
-    @commands.command(name="coinflip", aliases=['flipacoin', 'flipcoin'], pass_context=True)
+    @commands.command(name="coinflip", aliases=['flipacoin', 'flipcoin'],
+                      pass_context=True)
     async def coin_flip(self, ctx):
         can_send = await ref.check_can_use(ctx, "coinflip")
         if not can_send:
@@ -42,7 +43,8 @@ class RNG(commands.Cog):
         await ctx.send(f"**It's {outcome}**")
 
     # Dice Roll Command
-    @commands.command(name="diceroll", aliases=['rolldie', 'rolladie'], pass_context=True)
+    @commands.command(name="diceroll", aliases=['rolldie', 'rolladie'],
+                      pass_context=True)
     async def dice_roll(self, ctx):
         can_send = await ref.check_can_use(ctx, "diceroll")
         if not can_send:

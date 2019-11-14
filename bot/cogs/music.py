@@ -30,7 +30,8 @@ ytdl_format_options = {
             'quiet': True,
             'no_warnings': True,
             'default_search': 'auto',
-            'source_address': '0.0.0.0'  # bind to ipv4 since ipv6 addresses cause issues sometimes
+            'source_address': '0.0.0.0'  # bind to ipv4 since ipv6 addresses
+                                         # cause issues sometimes
         }
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
@@ -51,14 +52,17 @@ class YTDLSource(discord.PCMVolumeTransformer):
     async def from_url(cls, url, *, loop=None, stream=False):
         loop = loop or asyncio.get_event_loop()
         data = await loop.run_in_executor(None,
-                                          lambda: ytdl.extract_info(url, download=not stream))
+                                          lambda: ytdl.extract_info(url,
+                                                                    download=
+                                                                    not stream))
 
         if 'entries' in data:
             # take first item from a playlist
             data = data['entries'][0]
 
         filename = data['url'] if stream else ytdl.prepare_filename(data)
-        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options),
+                   data=data)
 
 
 class Music(commands.Cog):
@@ -109,7 +113,8 @@ class Music(commands.Cog):
     async def play(self, ctx, *,url=None):
         if self.music_state is not MusicState.PlayingNone:
             await ctx.send("**Already playing music!\n"
-                           "Use /queue <url> to add song to queue or /stop to stop playback**")
+                           "Use /queue <url> to add song to queue "
+                           "or /stop to stop playback**")
             print("Already playing music")
             return
 
@@ -118,12 +123,15 @@ class Music(commands.Cog):
         if not can_send:
             return
 
-        if url is None and len(self.queue) > 0 and self.music_state is MusicState.PlayingNone:
+        if url is None and len(self.queue) > 0 \
+                and self.music_state is MusicState.PlayingNone:
+
             self.queue_index = 0
             await self.play_queue(ctx)
         elif url is not None and self.music_state is MusicState.PlayingNone:
             async with ctx.typing():
-                player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+                player = await YTDLSource.from_url(url, loop=self.bot.loop,
+                                                   stream=True)
 
                 ctx.voice_client.play(player, after=lambda e:
                 self.bot.loop.create_task(self.clear_queue()))
@@ -198,7 +206,8 @@ class Music(commands.Cog):
         if not can_send:
             return
 
-        if option == "clear" or option == "-c" and self.music_state is MusicState.PlayingNone:
+        if option == "clear" or option == "-c" \
+                and self.music_state is MusicState.PlayingNone:
             await self.clear_queue()
             await ctx.send("**Cleared Queue :wastebasket:**")
             print("Cleared music queue")
@@ -207,7 +216,8 @@ class Music(commands.Cog):
             await ctx.send(embed=await self.build_queue_embed())
             return
         elif option is not None and option != "clear":
-            song = await YTDLSource.from_url(option, loop=self.bot.loop, stream=True)
+            song = await YTDLSource.from_url(option, loop=self.bot.loop,
+                                             stream=True)
 
             title = song.title
 
@@ -241,10 +251,11 @@ class Music(commands.Cog):
                     file = self.queue[0]
                 self.music_state = MusicState.PlayingQueue
 
-                player = await YTDLSource.from_url(file.url, loop=self.bot.loop, stream=True)
+                player = await YTDLSource.from_url(file.url, loop=self.bot.loop,
+                                                   stream=True)
 
-                ctx.voice_client.play(player, after=lambda e:
-                                                self.bot.loop.create_task(self.play_queue(ctx)))
+                ctx.voice_client.play(player, after=lambda e: self.bot.loop.
+                                      create_task(self.play_queue(ctx)))
 
                 self.currentPlayingSong = player.title
                 self.bot.loop.create_task(self.update_presence())
@@ -294,7 +305,8 @@ class Music(commands.Cog):
         else:
             embed.set_author(name="Now Playing")
 
-        embed.add_field(name=f"**Duration:** {duration}", value=f"\u200b", inline=False)
+        embed.add_field(name=f"**Duration:** {duration}", value=f"\u200b",
+                        inline=False)
 
         return embed
 
@@ -308,7 +320,8 @@ class Music(commands.Cog):
                 print(f"Connected to {ctx.author.voice.channel}")
             else:
                 await ctx.send("**You are not connected to a voice channel.**")
-                raise commands.CommandError("Author not connected to a voice channel.")
+                raise commands.CommandError("Author not connected "
+                                            "to a voice channel.")
         elif ctx.voice_client.is_playing():
             ctx.voice_client.stop()
 
@@ -320,10 +333,12 @@ class Music(commands.Cog):
             for song in self.queue:
                 duration = str(datetime.timedelta(seconds=int(song.duration)))
                 if i == 1:
-                    queue_embed.add_field(name=f"{i}. {song.title}", value=f"Duration:{duration}",
+                    queue_embed.add_field(name=f"{i}. {song.title}",
+                                          value=f"Duration:{duration}",
                                           inline=True)
                 else:
-                    queue_embed.add_field(name=f"{i}. {song.title}", value=f"Duration:{duration}",
+                    queue_embed.add_field(name=f"{i}. {song.title}",
+                                          value=f"Duration:{duration}",
                                           inline=False)
                 i += 1
             return queue_embed
@@ -337,7 +352,8 @@ class Music(commands.Cog):
             print(f"Removed {file}")
             os.remove(f"{AUDIO_DIRECTORY}/{file}")
         self.music_state = MusicState.PlayingNone
-        activity = discord.Activity(name="/help", type=discord.ActivityType.playing)
+        activity = discord.Activity(name="/help",
+                                    type=discord.ActivityType.playing)
         # Set presence of bot
         await self.bot.change_presence(activity=activity)
 

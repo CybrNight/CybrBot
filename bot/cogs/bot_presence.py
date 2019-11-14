@@ -15,15 +15,21 @@ class BotPresence(commands.Cog):
         self.bot.loop.create_task(self.initialize())
         self.presence_json = ""
 
+        self.playing = discord.ActivityType.playing
+        self.watching = discord.ActivityType.watching
+        self.listening = discord.ActivityType.listening
+
     async def initialize(self):
         await self.bot.wait_until_ready()
 
-        activity = discord.Activity(name="/help", type=discord.ActivityType.playing)
+        activity = discord.Activity(name="/help",
+                                    type=discord.ActivityType.playing)
         await self.bot.change_presence(activity=activity)
 
         # Load JSON of statuses
         try:
-            with open(PRESENCE_JSON, "r", encoding="utf8", errors="ignore") as cfg:
+            with open(PRESENCE_JSON, "r", encoding="utf8",
+                      errors="ignore") as cfg:
                 self.presence_json = json.load(cfg)
                 print("Loaded presence.json")
         except Exception as e:
@@ -35,21 +41,22 @@ class BotPresence(commands.Cog):
     async def force_update_presence(self):
         await self.bot.wait_until_ready()
         while not self.bot.is_closed():
-
             if Music.music_state == MusicState.PlayingNone:
                 # Pick random game/show to be watching
                 presence = random.choice(self.presence_json["presence"])
                 status = presence["status_type"]
                 name = presence["name"]
-                activity = discord.Activity(name="N/A", type=discord.ActivityType.unknown)
+                activity = discord.Activity(name="N/A",
+                                            type=discord.ActivityType.unknown)
 
                 # Generate Discord activity object based on status_type
                 if status == "listening":
-                    activity = discord.Activity(name=name, type=discord.ActivityType.listening)
+                    activity = discord.Activity(name=name, type=self.listening)
                 elif status == "watching":
-                    activity = discord.Activity(name=name, type=discord.ActivityType.watching)
+
+                    activity = discord.Activity(name=name, type=self.watching)
                 elif status == "playing":
-                    activity = discord.Activity(name=name, type=discord.ActivityType.playing)
+                    activity = discord.Activity(name=name, type=self.playing)
 
                 # Set presence of bot
                 await self.bot.change_presence(activity=activity)
@@ -65,15 +72,16 @@ class BotPresence(commands.Cog):
                 presence = random.choice(self.presence_json["presence"])
                 status = presence["status_type"]
                 name = presence["name"]
-                activity = discord.Activity(name="N/A", type=discord.ActivityType.unknown)
+                activity = discord.Activity(name="N/A",
+                                            type=discord.ActivityType.unknown)
 
                 # Generate Discord activity object based on status_type
                 if status == "listening":
-                    activity = discord.Activity(name=name, type=discord.ActivityType.listening)
+                    activity = discord.Activity(name=name, type=self.listening)
                 elif status == "watching":
-                    activity = discord.Activity(name=name, type=discord.ActivityType.watching)
+                    activity = discord.Activity(name=name, type=self.watching)
                 elif status == "playing":
-                    activity = discord.Activity(name=name, type=discord.ActivityType.playing)
+                    activity = discord.Activity(name=name, type=self.playing)
 
                 # Set presence of bot
                 await self.bot.change_presence(activity=activity)

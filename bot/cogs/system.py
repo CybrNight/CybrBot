@@ -25,9 +25,15 @@ class Util(commands.Cog):
                 if r[0] == _role.name and int(r[1]) == int(_role.id):
                     print(r)
                     if i == 0:
-                        embed.add_field(name=f"{r[0].strip()}", value=f"Permission Level: {r[2].strip()}", inline=False)
+                        embed.add_field(name=f"{r[0].strip()}",
+                                        value=f"Permission Level: "
+                                        f"{r[2].strip()}",
+                                        inline=False)
                     else:
-                        embed.add_field(name=f"{r[0].strip()}", value=f"Permission Level: {r[2].strip()}", inline=True)
+                        embed.add_field(name=f"{r[0].strip()}",
+                                        value=f"Permission Level: "
+                                        f"{r[2].strip()}",
+                                        inline=True)
 
         await ctx.send(embed=embed)
 
@@ -44,7 +50,8 @@ class Util(commands.Cog):
                         writer = csv.writer(roles_csv, lineterminator="\n")
                         writer.writerow(fields)
                         print(f"Registered new role {role} successfully")
-                        await ctx.send(f"**Registered new role {role} with permission level {permission_level}"
+                        await ctx.send(f"**Registered new role {role} with "
+                                       f"permission level {permission_level}"
                                        f" successfully **")
 
             if not valid_role:
@@ -58,15 +65,18 @@ class Util(commands.Cog):
                 if r.name == role:
                     current_role = r
                     with open(ROLES_CSV, 'r') as roles_csv:
-                        role_list = list(csv.reader(roles_csv, lineterminator='\n'))
+                        role_list = list(csv.reader(roles_csv,
+                                                    lineterminator='\n'))
                     with open(ROLES_CSV, "w") as roles_csv:
                         writer = csv.writer(roles_csv, lineterminator='\n')
                         for _role in role_list:
-                            if _role[0] != current_role.name or int(_role[1]) != int(current_role.id):
+                            if _role[0] != current_role.name \
+                                    or int(_role[1]) != int(current_role.id):
                                 writer.writerow(_role)
                             else:
                                 print(f"Removed role {_role[0]} from registry")
-                                await ctx.send(f"**Removed role {_role[0]} from registry**")
+                                await ctx.send(f"**Removed role {_role[0]} "
+                                               f"from registry**")
 
     @commands.command(pass_context=True, name="list_channels")
     async def list_channels(self, ctx):
@@ -80,9 +90,13 @@ class Util(commands.Cog):
                 if c[0] == _channel.name and int(c[1]) == int(_channel.id):
                     print(c)
                     if i == 0:
-                        embed.add_field(name=f"{c[0].strip()}", value=f"NSFW: {c[2].strip().upper()}", inline=False)
+                        embed.add_field(name=f"{c[0].strip()}",
+                                        value=f"NSFW: {c[2].strip().upper()}",
+                                        inline=False)
                     else:
-                        embed.add_field(name=f"{c[0].strip()}", value=f"NSFW: {c[2].strip().upper()}", inline=True)
+                        embed.add_field(name=f"{c[0].strip()}",
+                                        value=f"NSFW: {c[2].strip().upper()}",
+                                        inline=True)
 
         await ctx.send(embed=embed)
 
@@ -104,7 +118,8 @@ class Util(commands.Cog):
                     writer = csv.writer(roles_csv, lineterminator="\n")
                     writer.writerow(fields)
                     print(f"Registered new channel {channel} successfully")
-                    await ctx.send(f"**Registered new channel {channel} successfully **")
+                    await ctx.send(f"**Registered new channel {channel} "
+                                   f"successfully **")
 
         if not valid_channel:
             print(f"No channel {channel} on {ctx.guild}")
@@ -125,11 +140,13 @@ class Util(commands.Cog):
         with open(CHANNELS_CSV, "w") as channels_csv:
             writer = csv.writer(channels_csv, lineterminator='\n')
             for _channel in channel_list:
-                if _channel[0] != current_channel.name or int(_channel[1]) != int(current_channel.id):
+                if _channel[0] != current_channel.name \
+                        or int(_channel[1]) != int(current_channel.id):
                     writer.writerow(_channel)
                 else:
                     print(f"Removed channel {_channel[0]} from registry")
-                    await ctx.send(f"**Removed channel {_channel[0]} from registry**")
+                    await ctx.send(f"**Removed channel {_channel[0]} "
+                                   f"from registry**")
 
     @commands.command(pass_context=True, name="clear")
     async def clear(self, ctx, number=5):
@@ -138,15 +155,17 @@ class Util(commands.Cog):
             return
 
         if can_send:
-            number = int(number)  # Converting the amount of messages to delete to an integer
+            number = int(number)
             await ctx.channel.purge(limit=number)
-            temp = await ctx.send(f"**{ctx.author.mention} :white_check_mark: {number} message(s) Cleared!**")
+            temp = await ctx.send(f"**{ctx.author.mention} :white_check_mark: "
+                                  f"{number} message(s) Cleared!**")
             print(f"Cleared {number} messages from channel: {ctx.channel}")
             await asyncio.sleep(2.5)
             await temp.delete()
         else:
             print("User unable to use this command")
-            await ctx.channel.send(f"**{ctx.author.mention} You do not have permission to use this!**")
+            await ctx.channel.send(f"**{ctx.author.mention} "
+                                   f"You do not have permission to use this!**")
 
     @commands.command(pass_context=True, name="prefix")
     async def prefix(self, ctx, prefix=None):
@@ -154,7 +173,8 @@ class Util(commands.Cog):
         if not can_send:
             return
 
-        if ctx.channel.name is not "bot_commands" and "Sauce Creators" not in ctx.author.roles:
+        if ctx.channel.name is not "bot_commands" \
+                and "Sauce Creators" not in ctx.author.roles:
             return
 
         if prefix is None:

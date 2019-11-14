@@ -17,7 +17,9 @@ class JPEG(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="morejpeg", aliases=["jpeg", "needsmorejpeg"], pass_context=True)
+    @commands.command(name="morejpeg",
+                      aliases=["jpeg", "needsmorejpeg"],
+                      pass_context=True)
     async def more_jpeg(self, ctx, url=None):
         can_send = await check_can_use(ctx, "jpeg")
         if not can_send:
@@ -29,7 +31,8 @@ class JPEG(commands.Cog):
         if url is None:
             # Get link to previous image in chat
             async for x in channel.history(limit=2):
-                if x.content != "needsmorejpeg" or x.content != "needs more jpeg" \
+                if x.content != "needsmorejpeg" \
+                        or x.content != "needs more jpeg" \
                         or x.content != "morejpeg" \
                         or x.content != "more jpeg":
                     if not x.attachments:
@@ -49,7 +52,8 @@ class JPEG(commands.Cog):
                     async with session.get(img) as resp:
                         if resp.status == 200:
                             try:
-                                img_path = f"{DOWNLOAD_DIRECTORY}/needs_more." + ext
+                                img_path = f"{DOWNLOAD_DIRECTORY}" \
+                                               f"/needs_more." + ext
                                 file = await aiofiles.open(img_path, mode="wb")
                                 await file.write(await resp.read())
                                 await file.close()
@@ -61,10 +65,12 @@ class JPEG(commands.Cog):
                                 # Save as JPEG in lowest quality and send it
                                 im = Image.open(img_path)
                                 im = im.convert("RGB")
-                                im.save(f"{DOWNLOAD_DIRECTORY}/more_jpeg.jpeg", format="jpeg",
+                                im.save(f"{DOWNLOAD_DIRECTORY}/more_jpeg.jpeg",
+                                        format="jpeg",
                                         quality=1)
-                                await channel.send(file=discord.File(f"{DOWNLOAD_DIRECTORY}"
-                                                                     f"/more_jpeg.jpeg"))
+                                await channel.send(file=discord.File(
+                                    f"{DOWNLOAD_DIRECTORY}"
+                                    f"/more_jpeg.jpeg"))
                                 print("Sent image to server successfully")
                             except Exception as e:
                                 print(f"Failed to send image to sever")
@@ -77,7 +83,8 @@ class JPEG(commands.Cog):
                         print(f"Removed {img_path} and {DOWNLOAD_DIRECTORY}"
                               f"/more_jpeg.jpeg from disk")
                     except Exception as e:
-                        print(f"Failed to remove {img_path} and {DOWNLOAD_DIRECTORY}"
+                        print(f"Failed to remove {img_path} and "
+                              f"{DOWNLOAD_DIRECTORY}"
                               f"/more_jpeg.jpeg from disk")
                         print(e)
             except Exception as e:
@@ -92,7 +99,8 @@ class JPEG(commands.Cog):
                     async with session.get(img) as resp:
                         if resp.status == 200:
                             try:
-                                img_path = f"{DOWNLOAD_DIRECTORY}/needs_more.gif"
+                                img_path = \
+                                    f"{DOWNLOAD_DIRECTORY}/needs_more.gif"
                                 file = await aiofiles.open(img_path, mode="wb")
                                 await file.write(await resp.read())
                                 await file.close()
@@ -109,7 +117,9 @@ class JPEG(commands.Cog):
                 # Send modified GIF to server chat
 
                 try:
-                    await channel.send(file=await self.assemble_gif(img_path, JPEG_DIRECTORY))
+                    await channel.send(file=await self.assemble_gif(
+                        img_path, JPEG_DIRECTORY))
+
                     print("Sent converted GIF to server")
                 except Exception as e:
                     print("Failed to convert GIF and send to server!")
@@ -132,7 +142,9 @@ class JPEG(commands.Cog):
             frame = Image.open(in_gif)
             nframes = 0
             while frame:
-                frame.save( '%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), nframes),
+                frame.save( '%s/%s-%s.gif' % (out_folder,
+                                              os.path.basename(in_gif),
+                                              nframes),
                             'GIF', quality=1)
                 nframes += 1
                 try:

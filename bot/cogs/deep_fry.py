@@ -148,7 +148,9 @@ class DeepFry(commands.Cog):
             n_frames = 0
             while frame:
                 # Iterate through whole GIF and save each frame
-                frame.save('%s/%s-%s.gif' % (out_folder, os.path.basename(in_gif), n_frames),
+                frame.save('%s/%s-%s.gif' % (out_folder,
+                                             os.path.basename(in_gif),
+                                             n_frames),
                            'GIF', quality=1)
                 n_frames += 1
                 try:
@@ -162,7 +164,8 @@ class DeepFry(commands.Cog):
         # Get list of all files in download directory
         files = []
         try:
-            files = [f for f in listdir(out_folder) if isfile(join(out_folder, f))]
+            files = [f for f in listdir(out_folder)
+                     if isfile(join(out_folder, f))]
         except Exception as e:
             print(e)
             print("Failed to load individual frames")
@@ -176,9 +179,12 @@ class DeepFry(commands.Cog):
                 im = Image.open(img)
                 im = im.convert("RGB")
                 saturated = ImageEnhance.Color(im).enhance(self.saturation_val)
-                brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
-                contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
-                final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
+                brightness = ImageEnhance.Brightness(saturated).\
+                    enhance(self.brightness_val)
+                contrast = ImageEnhance.Contrast(brightness).\
+                    enhance(self.contrast_val)
+                final = ImageEnhance.Sharpness(contrast).\
+                    enhance(self.sharpness_val)
 
                 # Save final image and append to images array
                 final.save(img + ".jpeg", format="jpeg")
