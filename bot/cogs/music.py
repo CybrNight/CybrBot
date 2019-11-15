@@ -88,7 +88,7 @@ class Music(commands.Cog):
         else:
             print("OPUS already loaded")
 
-    @commands.command(pass_context=True, aliases=["disconnect"])
+    @commands.command(aliases=["disconnect"])
     async def leave(self, ctx):
         can_send = await check_can_use(ctx, "leave")
         if not can_send:
@@ -104,7 +104,7 @@ class Music(commands.Cog):
             print("Told to leave channel, but not connected to one")
 
     # Tells bot to join text channel in
-    @commands.command(pass_context=True)
+    @commands.command()
     async def join(self, ctx):
         can_send = await check_can_use(ctx, "join")
         if not can_send:
@@ -152,7 +152,7 @@ class Music(commands.Cog):
         await ctx.send(f"**Changed volume to {volume}%**")
 
     # Pause music command
-    @commands.command(pass_context=True, name="pause")
+    @commands.command(name="pause")
     async def pause(self, ctx):
         can_send = await check_can_use(ctx, "pause")
         if not can_send:
@@ -168,7 +168,7 @@ class Music(commands.Cog):
             await ctx.send(":x: **Music not playing**")
             print("Trying to pause music that does not exist")
 
-    @commands.command(pass_context=True, name='resume')
+    @commands.command(name='resume')
     async def resume(self, ctx):
         can_send = await check_can_use(ctx, "resume")
         if not can_send:
@@ -184,7 +184,7 @@ class Music(commands.Cog):
             await ctx.send("**:x: No music to resume**")
             print("Trying to resume music that is not paused")
 
-    @commands.command(pass_context=True, name="stop")
+    @commands.command(name="stop")
     async def stop(self, ctx):
         can_send = await check_can_use(ctx, "stop")
         if not can_send:
@@ -201,7 +201,7 @@ class Music(commands.Cog):
             print("No music to stop!")
         self.music_state = MusicState.PlayingNone
 
-    @commands.command(pass_context=True, name="queue", aliases=['q'])
+    @commands.command(name="queue", aliases=['q'])
     async def queue_control(self, ctx, option=None):
         can_send = await check_can_use(ctx, "queue")
         if not can_send:
@@ -271,7 +271,7 @@ class Music(commands.Cog):
             print("Error playing "+self.queue[0].title)
             print(e)
 
-    @commands.command(name="skip", pass_context=True)
+    @commands.command(name="skip")
     async def skip(self, ctx):
         can_send = await check_can_use(ctx, "skip")
         if not can_send:
@@ -321,9 +321,10 @@ class Music(commands.Cog):
     async def connect_to_voice_channel(self, ctx):
         if ctx.voice_client is None:
             if ctx.author.voice:
-                await ctx.author.voice.channel.connect()
-                await ctx.send(f"**Connected to {ctx.author.voice.channel}**")
-                print(f"Connected to {ctx.author.voice.channel}")
+                vc = ctx.author.voice.channel
+                await vc.connect()
+                await ctx.send(f"**Connected to {vc}**")
+                print(f"Connected to {vc}")
             else:
                 await ctx.send("**You are not connected to a voice channel.**")
                 raise commands.CommandError("Author not connected "

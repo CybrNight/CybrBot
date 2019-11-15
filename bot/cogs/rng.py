@@ -11,8 +11,7 @@ class RNG(commands.Cog):
 
     # Magic 8-Ball Command
     @commands.command(name='8ball',
-                      aliases=['eight_ball', 'eightball', '8-ball'],
-                      pass_context=True)
+                      aliases=['eight_ball', 'eightball', '8-ball'])
     async def eight_ball(self, ctx):
         can_send = await ref.check_can_use(ctx, "8ball")
         if not can_send:

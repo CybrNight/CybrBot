@@ -53,15 +53,15 @@ class User(commands.Cog):
             print(e)
 
         try:
-            with open(ROLES_CSV, 'r') as roles:
-                self.roles = roles.readlines()
-                roles.close()
+            with open(ROLES_CSV, 'r') as roles_csv:
+                self.roles = roles_csv.readlines()
+                roles_csv.close()
         except Exception as e:
             print("Failed to load roles.csv")
             print(e)
 
     # Haiku Generator
-    @commands.command(name="haiku", pass_context=True)
+    @commands.command(name="haiku")
     async def haiku(self, ctx):
         can_send = await ref.check_can_use(ctx, "haiku")
         if not can_send:
@@ -74,7 +74,7 @@ class User(commands.Cog):
         haiku += random.choice(self.haikuLines[2].split(",")).strip() \
                  + " " + random.choice(
             self.haikuLines[3].split(",")).strip() + " " + \
-            random.choice(self.haikuLines[4].split(",")).strip() + "\n"
+                 random.choice(self.haikuLines[4].split(",")).strip() + "\n"
 
         haiku += random.choice(self.haikuLines[5].split(",")).strip() \
                  + " " + random.choice(
@@ -83,8 +83,12 @@ class User(commands.Cog):
         await ctx.send(haiku)
 
     # Help Command
-    @commands.command(name="help", pass_context=True)
+    @commands.command(name="help")
     async def help(self, ctx, *args):
+        channel = ctx.message.channel
+        author_roles = ctx.author.roles
+        message_author = ctx.author
+
         # Open commands.json for reading
         if args.__len__() == 0:
             # Send message to channel where message was send
@@ -93,8 +97,8 @@ class User(commands.Cog):
 
             user_role = None
 
-            if not isinstance(ctx.message.channel, discord.DMChannel):
-                for role in ctx.author.roles:
+            if not isinstance(channel, discord.DMChannel):
+                for role in author_roles:
                     for line in self.roles:
                         r = line.split(",")
                         if role.name == r[0]:
@@ -118,15 +122,15 @@ class User(commands.Cog):
                         f"{BOT_PREFIX}{usage}\n-Aliases: {aliases}\n"
 
                     if len(help_message) >= 1750:
-                        await ctx.message.author.send(f"```html\n{help_message}"
-                                                      f" ```")
+                        await message_author.send(f"```html\n{help_message}"
+                                                  f" ```")
                         help_message = ""
 
             # Send author help text in direct message
-            await ctx.message.author.send(f"```html\n{help_message} ```")
-            bot_message = await ctx.send(f"**{ctx.author.mention} "
+            await message_author.send(f"```html\n{help_message} ```")
+            bot_message = await ctx.send(f"**{message_author.mention} "
                                          f"I DM'd you the command list!**")
-            print(f"Sent help message to {ctx.message.author}")
+            print(f"Sent help message to {message_author}")
 
             await sleepasync(5)
             await bot_message.delete()
@@ -166,7 +170,7 @@ class User(commands.Cog):
             await ctx.send(f"```html\n{help_message} ```")
 
     # Shakespeare Insults
-    @commands.command(name="insult", pass_context=True)
+    @commands.command(name="insult")
     async def insult(self, ctx, user=None):
         can_send = await ref.check_can_use(ctx, "insult")
         if not can_send:
@@ -183,7 +187,7 @@ class User(commands.Cog):
         insult = f"Thou {word_a} {word_b} {word_c}"
         await ctx.send(f"**{user} {insult}**")
 
-    @commands.command(name='lolicon', aliases=['loli'], pass_context=True)
+    @commands.command(name='lolicon', aliases=['loli'])
     async def lolicon(self, ctx, *args):
         can_send = await ref.check_can_use(ctx, "lolicon")
         if not can_send:
@@ -197,8 +201,7 @@ class User(commands.Cog):
                            f"https://www.youtube.com/watch?v=-mzR1jcZ_OI")
 
     # Pat user command
-    @commands.command(name='pat', aliases=['pats', 'pets', 'pet'],
-                      pass_context=True)
+    @commands.command(name='pat', aliases=['pats', 'pets', 'pet'])
     async def pat(self, ctx, *args):
         can_send = await ref.check_can_use(ctx, "pat")
         if not can_send:
@@ -211,7 +214,7 @@ class User(commands.Cog):
             await ctx.send(f"**{ctx.message.author.mention} "
                            f"\*pats\* {str(' ').join(args)}**")
 
-    @commands.command(name='ping', pass_context=True)
+    @commands.command(name='ping')
     async def ping(self, ctx, *args):
         can_send = await ref.check_can_use(ctx, "ping")
         if not can_send:
@@ -219,8 +222,7 @@ class User(commands.Cog):
 
         await ctx.send(f"**:ping_pong: Pong! {str(' ').join(args)}**")
 
-    @commands.command(name='police', aliases=['lolice', '911', 'swat'],
-                      pass_context=True)
+    @commands.command(name='police', aliases=['lolice', '911', 'swat'])
     async def police(self, ctx, *args):
         can_send = await ref.check_can_use(ctx, "police")
         if not can_send:
@@ -229,7 +231,7 @@ class User(commands.Cog):
         await ctx.send(str(" ").join(args),
                        file=discord.File(f"{IMG_DIRECTORY}/police.jpg"))
 
-    @commands.command(name="purge", aliases=["PURGE"], pass_context=True)
+    @commands.command(name="purge", aliases=["PURGE"])
     async def purge(self, ctx):
         can_send = await ref.check_can_use(ctx, "purge")
         if not can_send:
@@ -238,7 +240,7 @@ class User(commands.Cog):
         await ctx.channel.purge(limit=2)
 
     # Spanks User
-    @commands.command(pass_context=True)
+    @commands.command()
     async def spank(self, ctx, *args):
         can_send = await ref.check_can_use(ctx, "spank")
         if not can_send:

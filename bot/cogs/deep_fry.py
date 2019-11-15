@@ -25,7 +25,8 @@ class DeepFry(commands.Cog):
 
     async def initialize(self):
         await self.bot.wait_until_ready()
-        # Get saturation, brightness, contrast, and sharpness values from environ vars
+        # Get saturation, brightness, contrast,
+        # and sharpness values from environ vars
         try:
             self.saturation_val = int(os.environ["FRY_SAT"])
             self.brightness_val = int(os.environ["FRY_BRIGHT"])
@@ -35,13 +36,14 @@ class DeepFry(commands.Cog):
         # Use defaults when unable to get values from vars
         except Exception as e:
             print(e)
-            print("Unable to access environment variables for deep fry! Using default values!")
+            print("Unable to access environment variables for deep fry! "
+                  "Using default values!")
             self.saturation_val = 4
             self.brightness_val = 4
             self.contrast_val = 20
             self.sharpness_val = 300
 
-    @commands.command(name="deepfry", pass_context=True)
+    @commands.command(name="deepfry")
     async def deep_fry(self, ctx, url=None):
         channel = ctx.message.channel
 
@@ -90,15 +92,19 @@ class DeepFry(commands.Cog):
             try:
                 img = Image.open(img_path)
                 saturated = ImageEnhance.Color(img).enhance(self.saturation_val)
-                brightness = ImageEnhance.Brightness(saturated).enhance(self.brightness_val)
-                contrast = ImageEnhance.Contrast(brightness).enhance(self.contrast_val)
-                final = ImageEnhance.Sharpness(contrast).enhance(self.sharpness_val)
+                brightness = ImageEnhance.Brightness(saturated).\
+                    enhance(self.brightness_val)
+                contrast = ImageEnhance.Contrast(brightness).\
+                    enhance(self.contrast_val)
+                final = ImageEnhance.Sharpness(contrast).\
+                    enhance(self.sharpness_val)
                 final.save(img_path, format="png")
-                await channel.send("**Fresh from the fryer!**", file=discord.File(img_path))
-                print("Successfully modifiied downloaded image")
+                await channel.send("**Fresh from the fryer!**",
+                                   file=discord.File(img_path))
+                print("Successfully modified downloaded image")
             except Exception as e:
                 print(e)
-                print("Failed while modifiying image")
+                print("Failed while modifying image")
 
             # Delete file from disk
             os.remove(img_path)
@@ -118,7 +124,7 @@ class DeepFry(commands.Cog):
                 print("Failed to download GIF file from url")
 
             try:
-                # Create exraction directory
+                # Create extraction directory
                 if not os.path.isdir(FRY_DIRECTORY):
                     os.mkdir(FRY_DIRECTORY)
             except Exception as e:
@@ -127,18 +133,13 @@ class DeepFry(commands.Cog):
 
             # Send fried GIF to server chat
             await channel.send("**Fresh from the fryer!**",
-                               file=await self.assemble_gif(img_path, FRY_DIRECTORY))
+                               file=await self.assemble_gif(img_path,
+                                                            FRY_DIRECTORY))
 
             # Delete off server
             shutil.rmtree(FRY_DIRECTORY)
             os.remove(img_path)
             os.remove(f"{DOWNLOAD_DIRECTORY}/deep_fried.gif")
-
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        # Get channel and content of message for parsing
-        channel = message.channel
-        content = str(message.content).lower()
 
     async def assemble_gif(self, in_gif, out_folder):
         # Open GIF

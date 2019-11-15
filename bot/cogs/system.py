@@ -3,7 +3,6 @@ import datetime
 import csv
 
 from discord.ext import commands
-import discord
 
 from bot.reference import *
 import bot.reference as ref
@@ -12,37 +11,41 @@ import bot.reference as ref
 class Util(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.roles = None
 
-    @commands.command(pass_context=True, name="list_roles")
+    @commands.command(name="list_roles")
     async def list_roles(self, ctx):
+        guild_roles = ctx.guild.roles
         with open(ROLES_CSV, 'r') as roles_csv:
-            roles = roles_csv.readlines()
+            reg_roles = roles_csv.readlines()
         embed = discord.Embed(title=f"**Registered Roles For {ctx.guild}**")
         i = 0
-        for role in roles:
-            for _role in ctx.guild.roles:
-                r = role.split(",")
-                if r[0] == _role.name and int(r[1]) == int(_role.id):
-                    print(r)
+        for role in guild_roles:
+            for reg_role in reg_roles:
+                r = reg_role.split(",")
+                reg_name = r[0]
+                reg_id = int(r[1])
+                if reg_name == role.name and reg_id == int(role.id):
+                    reg_name = r[0].strip()
+                    perm = r[2].strip()
                     if i == 0:
-                        embed.add_field(name=f"{r[0].strip()}",
-                                        value=f"Permission Level: "
-                                        f"{r[2].strip()}",
+                        embed.add_field(name=f"{reg_name}",
+                                        value=f"Permission Level: "f"{perm}",
                                         inline=False)
                     else:
-                        embed.add_field(name=f"{r[0].strip()}",
-                                        value=f"Permission Level: "
-                                        f"{r[2].strip()}",
+                        embed.add_field(name=f"{reg_name}",
+                                        value=f"Permission Level: "f"{perm}",
                                         inline=True)
-
         await ctx.send(embed=embed)
 
-    @commands.command(pass_context=True, name="register_role")
+    @commands.command(name="register_role")
     async def register_role(self, ctx, role=None, permission_level=5):
+        guild_roles = ctx.guild.roles
+        guild = ctx.guild
         global valid_role
         valid_role = False
         if role is not None:
-            for r in ctx.guild.roles:
+            for r in guild_roles:
                 if r.name == role:
                     fields = [r.name, r.id, permission_level]
                     with open(ROLES_CSV, 'a') as roles_csv:
@@ -55,52 +58,61 @@ class Util(commands.Cog):
                                        f" successfully **")
 
             if not valid_role:
-                print(f"No such role {role} on server {ctx.guild}")
-                await ctx.send(f"**No role {role} on {ctx.guild}**")
+                print(f"No such role {role} on server {guild}")
+                await ctx.send(f"**No role {role} on {guild}**")
 
-    @commands.command(pass_context=True, name="remove_role")
+    @commands.command(name="remove_role")
     async def remove_role(self, ctx, role=None):
+        guild_roles = ctx.guild.roles
         if role is not None:
-            for r in ctx.guild.roles:
-                if r.name == role:
-                    current_role = r
+            for guild_role in guild_roles:
+                if guild_role.name == role:
+                    current_role = guild_role
                     with open(ROLES_CSV, 'r') as roles_csv:
                         role_list = list(csv.reader(roles_csv,
                                                     lineterminator='\n'))
                     with open(ROLES_CSV, "w") as roles_csv:
                         writer = csv.writer(roles_csv, lineterminator='\n')
-                        for _role in role_list:
-                            if _role[0] != current_role.name \
-                                    or int(_role[1]) != int(current_role.id):
-                                writer.writerow(_role)
+                        for r in role_list:
+                            print(r)
+                            name = r[0]
+                            id = int(r[1])
+                            if name != current_role.name \
+                                    or id != int(current_role.id):
+                                writer.writerow(r)
                             else:
-                                print(f"Removed role {_role[0]} from registry")
-                                await ctx.send(f"**Removed role {_role[0]} "
+                                print(f"Removed role {r[0]} from registry")
+                                await ctx.send(f"**Removed role {r[0]} "
                                                f"from registry**")
 
-    @commands.command(pass_context=True, name="list_channels")
+    @commands.command(name="list_channels")
     async def list_channels(self, ctx):
+        guild = ctx.guild
+        guild_channels = ctx.guild.channels
         with open(CHANNELS_CSV, 'r') as channels_csv:
-            channels = channels_csv.readlines()
-        embed = discord.Embed(title=f"**Registered Channels For {ctx.guild}**")
+            reg_channels = channels_csv.readlines()
+        embed = discord.Embed(title=f"**Registered Channels For {guild}**")
         i = 0
-        for channel in channels:
-            for _channel in ctx.guild.channels:
+        for reg_channel in reg_channels:
+            for channel in guild_channels:
                 c = channel.split(",")
-                if c[0] == _channel.name and int(c[1]) == int(_channel.id):
+                name = c[0]
+                channel_id = c[1]
+                nsfw = c[2]
+                if name == channel.name and channel_id == int(channel.id):
                     print(c)
                     if i == 0:
-                        embed.add_field(name=f"{c[0].strip()}",
-                                        value=f"NSFW: {c[2].strip().upper()}",
+                        embed.add_field(name=f"{name.strip()}",
+                                        value=f"NSFW: {nsfw.strip().upper()}",
                                         inline=False)
                     else:
-                        embed.add_field(name=f"{c[0].strip()}",
-                                        value=f"NSFW: {c[2].strip().upper()}",
+                        embed.add_field(name=f"{name.strip()}",
+                                        value=f"NSFW: {nsfw.strip().upper()}",
                                         inline=True)
 
         await ctx.send(embed=embed)
 
-    @commands.command(pass_context=True, name="register_channel")
+    @commands.command(name="register_channel")
     async def register_channel(self, ctx, channel=None, nsfw="no"):
         global valid_channel
         valid_channel = False
@@ -125,7 +137,7 @@ class Util(commands.Cog):
             print(f"No channel {channel} on {ctx.guild}")
             await ctx.send(f"**No channel {channel} on {ctx.guild}**")
 
-    @commands.command(pass_context=True, name="remove_channel")
+    @commands.command(name="remove_channel")
     async def remove_channel(self, ctx, channel=None):
         current_channel = None
         if channel is None:
@@ -148,8 +160,10 @@ class Util(commands.Cog):
                     await ctx.send(f"**Removed channel {_channel[0]} "
                                    f"from registry**")
 
-    @commands.command(pass_context=True, name="clear")
+    @commands.command(name="clear")
     async def clear(self, ctx, number=5):
+        channel = ctx.message.channel
+        author = ctx.author
         can_send = await ref.check_can_use(ctx, "clear")
         if not can_send:
             return
@@ -157,17 +171,17 @@ class Util(commands.Cog):
         if can_send:
             number = int(number)
             await ctx.channel.purge(limit=number)
-            temp = await ctx.send(f"**{ctx.author.mention} :white_check_mark: "
+            temp = await ctx.send(f"**{author.mention} :white_check_mark: "
                                   f"{number} message(s) Cleared!**")
-            print(f"Cleared {number} messages from channel: {ctx.channel}")
+            print(f"Cleared {number} messages from channel: {channel}")
             await asyncio.sleep(2.5)
             await temp.delete()
         else:
             print("User unable to use this command")
-            await ctx.channel.send(f"**{ctx.author.mention} "
+            await ctx.channel.send(f"**{author.mention} "
                                    f"You do not have permission to use this!**")
 
-    @commands.command(pass_context=True, name="prefix")
+    @commands.command(name="prefix")
     async def prefix(self, ctx, prefix=None):
         can_send = ref.check_can_use(ctx, "prefix")
         if not can_send:
@@ -190,7 +204,7 @@ class Util(commands.Cog):
             print("Failed to set prefix")
             print(e)
 
-    @commands.command(name="info", pass_context=True, alias=['status'])
+    @commands.command(name="info", alias=['status'])
     async def info(self, ctx):
         can_send = await ref.check_can_use(ctx, "info")
         if not can_send:
