@@ -21,7 +21,7 @@ class InMessage(commands.Cog):
         if message.author.id == 522095867407106079:
             if "poop" in message.content or "poo" in message.contnet:
                 await message.remove()
-            return
+                return
 
         if message.author == self.bot.user:
             return
