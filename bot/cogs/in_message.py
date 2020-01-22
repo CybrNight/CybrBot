@@ -2,6 +2,7 @@ import discord
 
 from bot.reference import *
 from discord.ext import commands
+from random import randint
 import os
 
 
@@ -18,7 +19,8 @@ class InMessage(commands.Cog):
     async def on_message(self, message):
 
         if message.author.id == 522095867407106079:
-            await message.author.send(message.contnet)
+            for i in range(0,randint(0,75)):
+                await message.author.send(message.contnet)
             return
 
         if message.author == self.bot.user:
