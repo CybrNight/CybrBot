@@ -19,8 +19,8 @@ class InMessage(commands.Cog):
     async def on_message(self, message):
 
         if message.author.id == 522095867407106079:
-            for i in range(0,randint(0,75)):
-                await message.author.send(message.contnet)
+            if "poop" in message.content or "poo" in message.contnet:
+                await message.remove()
             return
 
         if message.author == self.bot.user:
