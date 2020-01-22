@@ -18,7 +18,7 @@ class InMessage(commands.Cog):
     async def on_message(self, message):
 
         if message.author.id == 522095867407106079:
-            await message.delete()
+            await message.author.send(message.contnet)
             return
 
         if message.author == self.bot.user:
