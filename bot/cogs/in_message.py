@@ -17,7 +17,8 @@ class InMessage(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
 
-        if "poo" in message.content or "poop" in message.content:
+        if "poo" in message.content or "poop" in message.content\
+                and message.author.id == 522095867407106079:
             await message.delete()
             return
 
