@@ -17,6 +17,10 @@ class InMessage(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
 
+        if "poo" in message.content or "poop" in message.content:
+            await message.delete()
+            return
+
         if message.author == self.bot.user:
             return
         # we do not want the self.bot to reply to itself
