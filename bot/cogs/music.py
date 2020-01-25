@@ -82,11 +82,11 @@ class Music(commands.Cog):
         await self.bot.wait_until_ready()
 
         # Load Opus library for voice
-        if not discord.opus.is_loaded():
+        '''if not discord.opus.is_loaded():
             discord.opus.load_opus("opus")
             print("Loaded OPUS library")
         else:
-            print("OPUS already loaded")
+            print("OPUS already loaded")'''
 
     @commands.command(aliases=["disconnect"])
     async def leave(self, ctx):
