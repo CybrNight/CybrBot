@@ -4,7 +4,6 @@ import random
 from discord.ext import commands
 
 from bot.reference import *
-from .music import Music, MusicState
 
 
 class BotPresence(commands.Cog):
@@ -12,7 +11,7 @@ class BotPresence(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        self.bot.loop.create_task(self.initialize())
+        #self.bot.loop.create_task(self.initialize())
         self.presence_json = ""
 
         self.playing = discord.ActivityType.playing

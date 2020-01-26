@@ -81,12 +81,18 @@ class Music(commands.Cog):
     async def initialize(self):
         await self.bot.wait_until_ready()
 
-        # Load Opus library for voice
-        '''if not discord.opus.is_loaded():
-            discord.opus.load_opus("opus")
-            print("Loaded OPUS library")
-        else:
-            print("OPUS already loaded")'''
+
+    @commands.command()
+    async def stream(self, ctx, *, url):
+        """Streams from a url (same as yt, but doesn't predownload)"""
+
+        async with ctx.typing():
+            player = await YTDLSource.from_url(url, loop=self.bot.loop,
+                                               stream=True)
+            ctx.voice_client.play(player, after=lambda e:
+            print('Player error: %s' % e) if e else None)
+
+        await ctx.send('Now playing: {}'.format(player.title))
 
     @commands.command(aliases=["disconnect"])
     async def leave(self, ctx):
