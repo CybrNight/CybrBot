@@ -1,14 +1,37 @@
 {
   "name": "11eyes",
+  "aliases": [],
   "mal-id": "6682",
   "characters": [
     {
       "name": "Misuzu Kusakae",
-      "image": "https://cdn.myanimelist.net/images/characters/4/69172.jpg"
+      "images":[
+        "https://cdn.myanimelist.net/images/characters/4/69172.jpg"
+        ]
     },
     {
       "name": "Yukiko Hirohara",
-      "image": "https://akamai-origin.myanimelist.net/images/characters/9/66075.jpg"
+      "images": [
+        "https://akamai-origin.myanimelist.net/images/characters/9/66075.jpg"
+      ]
+    },
+    {
+      "name": "Yuka Minase",
+      "images": [
+        "https://cdn.myanimelist.net/images/characters/6/75974.jpg"
+      ]
+    },
+    {
+      "name": "Kukuru Tachibana",
+      "images": [
+        "https://cdn.myanimelist.net/images/characters/15/72063.jpg"
+      ]
+    },
+    {
+      "name": "Shiori Momono",
+      "images": [
+        "https://cdn.myanimelist.net/images/characters/9/74169.jpg"
+      ]
     }
   ]
 }
