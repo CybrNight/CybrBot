@@ -3,6 +3,7 @@ import random
 
 from discord.ext import commands
 
+from bot.cogs.music import Music, MusicState
 from bot.reference import *
 
 
