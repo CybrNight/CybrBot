@@ -12,7 +12,7 @@ class BotPresence(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        #self.bot.loop.create_task(self.initialize())
+        self.bot.loop.create_task(self.initialize())
         self.presence_json = ""
 
         self.playing = discord.ActivityType.playing
@@ -36,7 +36,7 @@ class BotPresence(commands.Cog):
             print("Failed to load presence.json")
             print(e)
 
-        # self.bot.loop.create_task(self.update_presence())
+        self.bot.loop.create_task(self.update_presence())
 
     async def force_update_presence(self):
         await self.bot.wait_until_ready()
