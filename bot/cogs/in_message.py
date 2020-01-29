@@ -16,25 +16,24 @@ class InMessage(commands.Cog):
         self.nepeta = f"{IMG_DIRECTORY}/nepeta.gif"
         self.nyanpasu = f"{IMG_DIRECTORY}/nyanpasu.png"
 
-        with open(WORD_BLACKLIST_JSON,"w+",
+        with open(WORD_BLACKLIST_JSON,"r",
                   encoding="utf8",errors="ignore") as json_file:
             self.blacklist = json.load(json_file)
-            json_file.close()
 
     @commands.Cog.listener()
     async def on_message(self, message):
 
         blacklist = self.blacklist["blacklist"]
-
         if "moo" in message.content:
             await message.delete()
             return
 
         if message.author.id == 522095867407106079:
+            deleted = False
             for word in blacklist:
-                if word in message.content:
+                if word in message.content and not deleted:
                     await message.delete()
-                    return
+                    deleted = True
             await self.bot.process_commands(message)
 
         if message.author == self.bot.user:
