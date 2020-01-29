@@ -24,10 +24,6 @@ class InMessage(commands.Cog):
     async def on_message(self, message):
 
         blacklist = self.blacklist["blacklist"]
-        if "moo" in message.content.lower():
-            await message.delete()
-            return
-
         if message.author.id == 522095867407106079:
             deleted = False
             for word in blacklist:
