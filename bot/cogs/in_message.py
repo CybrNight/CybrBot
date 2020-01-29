@@ -34,7 +34,7 @@ class InMessage(commands.Cog):
                 if word in message.content and not deleted:
                     await message.delete()
                     deleted = True
-            await self.bot.process_commands(message)
+            return
 
         if message.author == self.bot.user:
             return
