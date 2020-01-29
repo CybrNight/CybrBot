@@ -18,7 +18,7 @@ class InMessage(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
 
-        if message.content == "moo":
+        if "moo" in message.content:
             await message.delete()
             return
 
