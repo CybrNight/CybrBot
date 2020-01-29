@@ -18,6 +18,7 @@ PRESENCE_JSON = os.getcwd()+"/resources/json/presence.json"
 COMMAND_JSON = os.getcwd()+"/resources/json/commands.json"
 WAIFU_DIRECTORY = os.getcwd()+"/resources/json/waifu"
 WISHLIST_DIRECTORY = os.getcwd()+"/resources/csv/wishlist"
+WORD_BLACKLIST_JSON = os.getcwd()+"/resources/json/word_blacklist.json"
 
 RELEASE_VERSION = "3.0"
 
