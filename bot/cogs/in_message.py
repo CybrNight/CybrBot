@@ -24,13 +24,11 @@ class InMessage(commands.Cog):
     async def on_message(self, message):
 
         blacklist = self.blacklist["blacklist"]
-        if message.author.id == 522095867407106079:
-            deleted = False
-            for word in blacklist:
-                if word.lower() in message.content.lower() and not deleted:
-                    await message.delete()
-                    deleted = True
-            return
+        deleted = False
+        for word in blacklist:
+            if word.lower() in message.content.lower() and not deleted:
+                await message.delete();
+                deleted = True
 
         if message.author == self.bot.user:
             return
