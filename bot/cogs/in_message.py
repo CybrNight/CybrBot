@@ -40,7 +40,7 @@ class InMessage(commands.Cog):
         if content.startswith('.'):
             return
 
-        # Autism picture command
+        '''# Autism picture command
         if content.startswith("autism"):
             msg = content.split(" ")
             if len(msg) > 1:
@@ -63,7 +63,7 @@ class InMessage(commands.Cog):
 
         # Sends lewd gif
         if content.startswith("lewd"):
-            await channel.send(file=discord.File(self.nepeta))
+            await channel.send(file=discord.File(self.nepeta))'''
 
         # Sends nyanpasu picture
         if content.startswith("nyanpasu"):

@@ -58,7 +58,7 @@ class Waifu(commands.Cog):
         image = waifu["images"][0]
 
         embed = discord.Embed(title=f"**{name}**", color=0xffdd00)
-        embed.add_field(name=f"{self.waifu_json['name']}", value="\u200b")
+        embed.add_field(name=f"{self.waifu_json['name']}", value="\ u200b")
         embed.set_image(url=image)
 
         message = await ctx.send(embed=embed)
