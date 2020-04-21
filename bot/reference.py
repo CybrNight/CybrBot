@@ -27,6 +27,7 @@ channels = []
 
 
 async def check_can_use(ctx, command=None):
+    return True
 
     roles.clear()
     channels.clear()
