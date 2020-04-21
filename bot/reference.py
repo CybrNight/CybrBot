@@ -119,7 +119,7 @@ async def check_can_use(ctx, command=None):
                                f"You do not have permission to use "
                                f"{command}**")
         can_use = False
-        if not valid_role and role is not "INVALID_CHANNEL":
+        if not valid_role and role != "INVALID_CHANNEL":
             print(f"Command {command} used by invalid role {role}")
         if not valid_channel:
             print(f"Command {command} used in invalid channel "

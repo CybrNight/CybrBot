@@ -187,7 +187,7 @@ class Util(commands.Cog):
         if not can_send:
             return
 
-        if ctx.channel.name is not "bot_commands" \
+        if ctx.channel.name != "bot_commands" \
                 and "Sauce Creators" not in ctx.author.roles:
             return
 

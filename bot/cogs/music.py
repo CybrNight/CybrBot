@@ -100,14 +100,19 @@ class Music(commands.Cog):
         if not can_send:
             return
 
-        channel = ctx.message.author.voice.channel
-        voice = get(self.bot.voice_clients, guild=ctx.guild)
+        try:
+            channel = ctx.message.author.voice.channel
+            voice = get(self.bot.voice_clients, guild=ctx.guild)
 
-        if voice and voice.is_connected():
-            await voice.disconnect()
-            print(f"Disconnected from {channel}")
-        else:
-            print("Told to leave channel, but not connected to one")
+            if voice and voice.is_connected():
+                await voice.disconnect()
+                print(f"Disconnected from {channel}")
+            else:
+                print("Told to leave channel, but not connected to one")
+        except AttributeError:
+            msg = await ctx.send("**Must be in voice channel to use this command**")
+            await asyncio.sleep(0.5)
+            await msg.remove()
 
     # Tells bot to join text channel in
     @commands.command()

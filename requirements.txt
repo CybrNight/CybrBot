@@ -1,8 +1,8 @@
-discord.py[voice]==1.3.0
-beautifulsoup4==4.8.1
-bs4==0.0.1
-aiohttp==3.6.2
-Pillow==6.2.1
-aiofiles==0.4.0
-imageio==2.6.1
-youtube_dl==2020.3.24
+discord.py[voice]
+beautifulsoup4
+bs4
+aiohttp
+Pillow
+aiofiles
+imageio
+youtube_dl
