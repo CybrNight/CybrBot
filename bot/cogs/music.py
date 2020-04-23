@@ -21,19 +21,19 @@ ffmpeg_options = {
 }
 
 ytdl_format_options = {
-            'format': 'bestaudio/best',
-            'outtmpl': '{AUDIO_DIRECTORY}/%(title)s.%(ext)s',
-            'restrictfilenames': True,
-            'noplaylist': True,
-            'nocheckcertificate': True,
-            'ignoreerrors': False,
-            'logtostderr': False,
-            'quiet': True,
-            'no_warnings': True,
-            'default_search': 'auto',
-            'source_address': '0.0.0.0'  # bind to ipv4 since ipv6 addresses
-                                         # cause issues sometimes
-        }
+    'format': 'bestaudio/best',
+    'outtmpl': '{AUDIO_DIRECTORY}/%(title)s.%(ext)s',
+    'restrictfilenames': True,
+    'noplaylist': True,
+    'nocheckcertificate': True,
+    'ignoreerrors': False,
+    'logtostderr': False,
+    'quiet': True,
+    'no_warnings': True,
+    'default_search': 'auto',
+    'source_address': '0.0.0.0'  # bind to ipv4 since ipv6 addresses
+    # cause issues sometimes
+}
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
@@ -81,7 +81,6 @@ class Music(commands.Cog):
     async def initialize(self):
         await self.bot.wait_until_ready()
 
-
     @commands.command()
     async def stream(self, ctx, *, url):
         """Streams from a url (same as yt, but doesn't predownload)"""
@@ -110,7 +109,8 @@ class Music(commands.Cog):
             else:
                 print("Told to leave channel, but not connected to one")
         except AttributeError:
-            msg = await ctx.send("**Must be in voice channel to use this command**")
+            msg = await ctx.send(
+                "**Must be in voice channel to use this command**")
             await asyncio.sleep(0.5)
             await msg.remove()
 
@@ -122,15 +122,11 @@ class Music(commands.Cog):
             return
 
     @commands.command()
-    async def play(self, ctx, *,url=None):
-        if self.music_state is not MusicState.PlayingNone:
-            await ctx.send("**Already playing music!\n"
-                           "Use /queue <url> to add song to queue "
-                           "or /stop to stop playback**")
-            print("Already playing music")
-            return
-
+    async def play(self, ctx, *, url=None):
         can_send = await check_can_use(ctx, "play")
+
+        if self.music_state is MusicState.PlayingNone:
+            await self.connect_to_voice_channel(ctx)
 
         if not can_send:
             return
@@ -140,19 +136,28 @@ class Music(commands.Cog):
 
             self.queue_index = 0
             await self.play_queue(ctx)
-        elif url is not None and self.music_state is MusicState.PlayingNone:
-            async with ctx.typing():
-                player = await YTDLSource.from_url(url, loop=self.bot.loop,
-                                                   stream=True)
+        elif url is not None:
+            if self.music_state is MusicState.PlayingNone:
 
-                ctx.voice_client.play(player, after=lambda: self.bot.loop.
-                                      create_task(self.clear_queue()))
+                async with ctx.typing():
+                    await self.queue_song(ctx, url)
+                    await self.play_queue(ctx)
+            else:
+                async with ctx.typing():
+                    await self.queue_song(ctx, url)
 
-                self.music_state = MusicState.PlayingSingle
-                self.currentPlayingSong = player.title
-                await self.update_presence()
+    async def queue_song(self, ctx, source):
+        song = await YTDLSource.from_url(source, loop=self.bot.loop,
+                                         stream=True)
 
-                await ctx.send(embed=await self.embed_song(player))
+        title = song.title
+
+        self.queue.append(song)
+
+        embed_queue = await self.embed_song(song, show_queue=True, ctx=ctx)
+
+        await ctx.send(embed=embed_queue)
+        print(f"Added {title} to song queue")
 
     @commands.command()
     async def volume(self, ctx, volume: int):
@@ -229,17 +234,7 @@ class Music(commands.Cog):
             await ctx.send(embed=await self.build_queue_embed())
             return
         elif option is not None and option != "clear":
-            song = await YTDLSource.from_url(option, loop=self.bot.loop,
-                                             stream=True)
-
-            title = song.title
-
-            self.queue.append(song)
-
-            embed_queue = await self.embed_song(song, show_queue=True, ctx=ctx)
-
-            await ctx.send(embed=embed_queue)
-            print(f"Added {title} to song queue")
+            await self.queue_song(ctx, option)
             return
         await ctx.message.delete()
 
@@ -279,7 +274,7 @@ class Music(commands.Cog):
                     del self.queue[0]
                 return
         except Exception as e:
-            print("Error playing "+self.queue[0].title)
+            print("Error playing " + self.queue[0].title)
             print(e)
 
     @commands.command(name="skip")
@@ -317,7 +312,7 @@ class Music(commands.Cog):
             embed.set_footer(text=f"{queue_length} song(s) in queue\n /play")
             embed.set_author(name="Added to queue",
                              icon_url=f"https://cdn.discordapp.com/avatars/"
-                             f"{user.id}/{user.avatar}.png?size=1024")
+                                      f"{user.id}/{user.avatar}.png?size=1024")
         else:
             embed.set_author(name="Now Playing")
 
@@ -327,7 +322,6 @@ class Music(commands.Cog):
 
         return embed
 
-    @play.before_invoke
     @join.before_invoke
     async def connect_to_voice_channel(self, ctx):
         if ctx.voice_client is None:
@@ -345,8 +339,9 @@ class Music(commands.Cog):
 
     async def build_queue_embed(self):
         i = 1
-        queue_embed = discord.Embed(title=f"**Songs in queue:** {len(self.queue)}",
-                                    description="\u200b")
+        queue_embed = discord.Embed(
+            title=f"**Songs in queue:** {len(self.queue)}",
+            description="\u200b")
         if len(self.queue) > 0:
             for song in self.queue:
                 duration = str(datetime.timedelta(seconds=int(song.duration)))
