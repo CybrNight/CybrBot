@@ -81,18 +81,6 @@ class Music(commands.Cog):
     async def initialize(self):
         await self.bot.wait_until_ready()
 
-    @commands.command()
-    async def stream(self, ctx, *, url):
-        """Streams from a url (same as yt, but doesn't predownload)"""
-
-        async with ctx.typing():
-            player = await YTDLSource.from_url(url, loop=self.bot.loop,
-                                               stream=True)
-            ctx.voice_client.play(player, after=lambda e:
-            print('Player error: %s' % e) if e else None)
-
-        await ctx.send('Now playing: {}'.format(player.title))
-
     @commands.command(aliases=["disconnect"])
     async def leave(self, ctx):
         can_send = await check_can_use(ctx, "leave")
@@ -266,10 +254,10 @@ class Music(commands.Cog):
                 ctx.voice_client.play(player, after=lambda e: self.bot.loop.
                                       create_task(self.play_queue(ctx)))
 
-                self.currentPlayingSong = player.title
+                self.currentPlayingSong = self.queue[self.queue_index].title
                 self.bot.loop.create_task(self.update_presence())
 
-                print(f"Now Playing: {self.queue[self.queue_index].title}")
+                print(f"Now Playing: {self.currentPlayingSong}")
                 if self.queue.__len__() > 0:
                     del self.queue[0]
                 return
