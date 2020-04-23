@@ -10,10 +10,10 @@ from bot.reference import *
 from enum import Enum
 
 
-class MusicState(Enum):
-    PlayingNone = -1
-    PlayingSingle = 0
-    PlayingQueue = 1
+class BotStatus(Enum):
+    Connected = 0
+    Playing = 1
+    Disconnected = -1
 
 
 ffmpeg_options = {
@@ -69,7 +69,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
 class Music(commands.Cog):
     global voice
     currentPlayingSong = ""
-    music_state = MusicState.PlayingNone
+    bot_status = BotStatus.Disconnected
 
     def __init__(self, bot):
         self.bot = bot
@@ -94,6 +94,7 @@ class Music(commands.Cog):
             if voice and voice.is_connected():
                 await voice.disconnect()
                 print(f"Disconnected from {channel}")
+                self.bot_status = BotStatus.Disconnected
             else:
                 print("Told to leave channel, but not connected to one")
         except AttributeError:
@@ -105,6 +106,7 @@ class Music(commands.Cog):
     # Tells bot to join text channel in
     @commands.command()
     async def join(self, ctx):
+        self.bot_status = BotStatus.Connected
         can_send = await check_can_use(ctx, "join")
         if not can_send:
             return
@@ -113,24 +115,24 @@ class Music(commands.Cog):
     async def play(self, ctx, *, url=None):
         can_send = await check_can_use(ctx, "play")
 
-        if self.music_state is MusicState.PlayingNone:
-            await self.connect_to_voice_channel(ctx)
-
         if not can_send:
             return
 
+        if self.bot_status is BotStatus.Disconnected:
+            await self.connect_to_voice_channel(ctx)
+
         if url is None and len(self.queue) > 0 \
-                and self.music_state is MusicState.PlayingNone:
+                and self.bot_status is BotStatus.Connected:
 
             self.queue_index = 0
             await self.play_queue(ctx)
         elif url is not None:
-            if self.music_state is MusicState.PlayingNone:
+            if self.bot_status is BotStatus.Connected:
 
                 async with ctx.typing():
                     await self.queue_song(ctx, url)
                     await self.play_queue(ctx)
-            else:
+            elif self.bot_status is BotStatus.Playing:
                 async with ctx.typing():
                     await self.queue_song(ctx, url)
 
@@ -203,7 +205,7 @@ class Music(commands.Cog):
         else:
             await ctx.send(":x: **Music not playing**")
             print("No music to stop!")
-        self.music_state = MusicState.PlayingNone
+        self.bot_status = BotStatus.Connected
 
     @commands.command(name="queue", aliases=['q'])
     async def queue_control(self, ctx, option=None):
@@ -212,7 +214,7 @@ class Music(commands.Cog):
             return
 
         if option == "clear" or option == "-c" \
-                and self.music_state is MusicState.PlayingNone:
+                and self.bot_status is BotStatus.Connected:
 
             await self.clear_queue()
             await ctx.send("**Cleared Queue :wastebasket:**")
@@ -246,7 +248,7 @@ class Music(commands.Cog):
                 if len(self.queue) > 0:
                     file = self.queue[0]
 
-                self.music_state = MusicState.PlayingQueue
+                self.bot_status = BotStatus.Playing
                 player = await YTDLSource.from_url(file.url,
                                                    loop=self.bot.loop,
                                                    stream=True)
@@ -317,6 +319,7 @@ class Music(commands.Cog):
                 vc = ctx.author.voice.channel
                 await vc.connect()
                 await ctx.send(f"**Connected to {vc}**")
+                self.bot_status = BotStatus.Connected
                 print(f"Connected to {vc}")
             else:
                 await ctx.send("**You are not connected to a voice channel.**")
@@ -355,7 +358,7 @@ class Music(commands.Cog):
             print(f"Removed {file}")
             os.remove(f"{AUDIO_DIRECTORY}/{file}")
 
-        self.music_state = MusicState.PlayingNone
+        self.bot_status = BotStatus.Connected
         activity = discord.Activity(name="/help",
                                     type=discord.ActivityType.playing)
         # Set presence of bot

@@ -3,7 +3,7 @@ import random
 
 from discord.ext import commands
 
-from bot.cogs.music import Music, MusicState
+from bot.cogs.music import Music, BotStatus
 from bot.reference import *
 
 
@@ -41,7 +41,7 @@ class BotPresence(commands.Cog):
     async def force_update_presence(self):
         await self.bot.wait_until_ready()
         while not self.bot.is_closed():
-            if Music.music_state == MusicState.PlayingNone:
+            if Music.bot_status == BotStatus.Connected:
                 # Pick random game/show to be watching
                 presence = random.choice(self.presence_json["presence"])
                 status = presence["status_type"]
@@ -67,7 +67,7 @@ class BotPresence(commands.Cog):
         await self.bot.wait_until_ready()
         while not self.bot.is_closed():
 
-            if Music.music_state == MusicState.PlayingNone:
+            if Music.bot_status == BotStatus.Connected:
                 # Pick random game/show to be watching
                 presence = random.choice(self.presence_json["presence"])
                 status = presence["status_type"]
