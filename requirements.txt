@@ -5,4 +5,4 @@ aiohttp
 Pillow
 aiofiles
 imageio
-youtube_dl==2020.3.24
+youtube_dl
