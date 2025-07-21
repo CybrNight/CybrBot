@@ -1,5 +1,5 @@
 # Features
-- Scraping of images and videos from various websites.
+- Scraping of images from various websites.
 - Playing music from websites such as SoundCloud and YouTube
 - More JPEG and deep fry images in chat
 - Full permission system for command usage
