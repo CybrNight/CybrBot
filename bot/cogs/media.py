@@ -30,16 +30,7 @@ class Media(commands.Cog):
         video = await hh.category_search(str(" ").join(args))
         await ctx.channel.send(video)
         return
-
-    @commands.command(name='pornhub', aliases=['ph', 'porn'])
-    async def porn_hub(self, ctx, *args):
-        can_send = await check_can_use(ctx, "pornhub")
-        if not can_send:
-            return
-
-        video = await ph.video_search(str(" ").join(args))
-        await ctx.channel.send(video)
-
+        
     @commands.command(name='r34', alias=['rule34'])
     async def rule34(self, ctx, *args):
         can_send = await check_can_use(ctx, "rule34")
